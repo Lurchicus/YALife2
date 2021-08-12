@@ -5,7 +5,9 @@ using System.Windows.Forms;
 namespace YALife
 {
     /// <summary>
-    /// Yet Another Life Program (based on Conway's Game of Life)
+    /// Yet Another Life Program (based on Conway's Game of Life) by Dan Rhea
+    /// I wrote this to try out WinForms on the VS 2022 Preview. I popped this
+    /// into my GitHub repository (public)
     /// </summary>
     public partial class YALife : Form
     {
@@ -45,7 +47,7 @@ namespace YALife
         }
 
         /// <summary>
-        /// Start loading the UI and kick off a time to finish initializing things
+        /// Start loading the UI and kick off a timer to finish initializing things
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -99,7 +101,7 @@ namespace YALife
         }
 
         /// <summary>
-        /// If we switch between a wrapping or bounded universe, reset everything
+        /// If we switch between a wrapping or bounded universe
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -227,6 +229,9 @@ namespace YALife
             IInitPercent = (int)TxPercent.Value;
             ILife = new int[IWBlocks, IHBlocks];
             ISave = new int[IWBlocks, IHBlocks];
+            
+            // Initialize the life array randomly based on a desired starting
+            // percentage of live cells
             for (int IW = 0; IW < IWBlocks; IW++)
             {
                 for (int IH = 0; IH < IHBlocks; IH++)
@@ -258,7 +263,7 @@ namespace YALife
         }
 
         /// <summary>
-        /// Creates and returns a new bitmap
+        /// Creates and returns a freash new bitmap
         /// </summary>
         /// <returns>Bitmap</returns>
         private Bitmap MakePaper()
@@ -285,7 +290,7 @@ namespace YALife
         /// <summary>
         /// Scan the "life" array and use it to generate a bitmap. An array element 
         /// can be scaled from 1 pixel per array element to 16 pixels per array
-        /// element.
+        /// element. This gives us an ersatz zoom (and it was a fun challange)
         /// </summary>
         private void DrawLife()
         {
@@ -352,14 +357,17 @@ namespace YALife
             if (ILife == null) return;
             if (ISave == null) return;
 
+            // Update the pass counter in the UI
             TxPass.Text = IPass.ToString();
 
+            // Zero out the detail counters
             IBirth = 0;
             ILive = 0;
             ILonely = 0;
             ICrowd = 0;
             IEmpty = 0;
 
+            // Clear out the save array
             for (int CurW = 0; CurW < IWBlocks; CurW++)
             {
                 for (int CurH = 0; CurH < IHBlocks; CurH++)
@@ -538,6 +546,7 @@ namespace YALife
             }
 
             // Copy the cell info from the "save" array to the "life" array
+            // and collect raw alive/empty counts
             IsLiving = 0;
             IsEmpty = 0;
             for (int CurW = 0; CurW < IWBlocks; CurW++)
@@ -555,9 +564,11 @@ namespace YALife
                     }
                 }
             }
+
             // Show living and empty cells
             TxIsLiving.Text = IsLiving.ToString();
             TxIsEmpty.Text = IsEmpty.ToString();
+            
             // Show details
             TxBirth.Text = IBirth.ToString();
             TxLive.Text = ILive.ToString();
@@ -565,6 +576,7 @@ namespace YALife
             TxCrowd.Text = ICrowd.ToString();
             TxEmpty.Text = IEmpty.ToString();
 
+            // Draw the new bitmap
             DrawLife();
         }
     }
