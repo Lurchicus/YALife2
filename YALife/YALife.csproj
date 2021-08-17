@@ -6,8 +6,16 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>YALife.Program</StartupObject>
-    <FileVersion>1.0.2.0</FileVersion>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Dan Rhea 2021</Copyright>
+    <Description>Yet Another (Conway's Game of) Life using .NET 6 Win Forms</Description>
+    <Authors>Dan Rhea</Authors>
+    <PackageProjectUrl>https://github.com/Lurchicus/YALife</PackageProjectUrl>
+    <PackageIcon>TGOL.ico</PackageIcon>
+    <RepositoryUrl>https://github.com/Lurchicus/YALife</RepositoryUrl>
+    <ApplicationIcon>C:\Users\danrh\Source\Repos\YALife\YALife\TGOL.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,5 +25,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TGOL.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TGOL.ico">
+      <Pack>True</Pack>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

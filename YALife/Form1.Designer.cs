@@ -31,6 +31,7 @@ namespace YALife
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label LBirth;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
             this.Frame = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LEmpty = new System.Windows.Forms.Label();
@@ -88,9 +89,9 @@ namespace YALife
             // 
             this.Frame.BackColor = System.Drawing.SystemColors.Control;
             this.Frame.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Frame.Location = new System.Drawing.Point(219, 0);
+            this.Frame.Location = new System.Drawing.Point(222, 0);
             this.Frame.Name = "Frame";
-            this.Frame.Size = new System.Drawing.Size(617, 555);
+            this.Frame.Size = new System.Drawing.Size(805, 570);
             this.Frame.TabIndex = 0;
             this.Frame.TabStop = false;
             this.Frame.SizeChanged += new System.EventHandler(this.Image_SizeChanged);
@@ -136,7 +137,7 @@ namespace YALife
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(216, 555);
+            this.panel1.Size = new System.Drawing.Size(216, 570);
             this.panel1.TabIndex = 1;
             // 
             // LEmpty
@@ -305,7 +306,7 @@ namespace YALife
             this.TxLog.Name = "TxLog";
             this.TxLog.ReadOnly = true;
             this.TxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TxLog.Size = new System.Drawing.Size(210, 60);
+            this.TxLog.Size = new System.Drawing.Size(210, 75);
             this.TxLog.TabIndex = 15;
             // 
             // BStop
@@ -494,9 +495,11 @@ namespace YALife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(836, 555);
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.ClientSize = new System.Drawing.Size(1027, 570);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Frame);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "YALife";
             this.Text = "YALife";
             this.Load += new System.EventHandler(this.Form1_Load);
