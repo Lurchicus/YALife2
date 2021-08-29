@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using static YALife.YALife;
 
 namespace YALife
 {
@@ -28,14 +29,13 @@ namespace YALife
         int IsLiving;
         int IsEmpty;
         int IPass;
-        int IWPad;
-        int IHPad;
         int IInitPercent;
         int ITop;
         int ILeft;
         int[,]? ILife;
         int[,]? ISave;
         Bitmap? Paper;
+        List<Gradient> ArrGB = new List<Gradient>();
         readonly Random RNG = new();
 
         /// <summary>
@@ -67,6 +67,21 @@ namespace YALife
         private void Timer_Tick(object sender, EventArgs e)
         {
             Timer.Enabled = false;
+            // Initialize the gradient 
+            int A = 255;
+            int R = 64+32;
+            int G = 96+32;
+            int B = 128+32;
+            //Color C = Color.FromArgb(A, R, G, B);
+            for (int Shade=0; Shade<256; Shade++)
+            {
+                Color C = Color.FromArgb(A, R, G, B);
+                Gradient CMap = new Gradient { Alpha = A, aRGB = C, Red = R, Green = G, Blue = B };
+                ArrGB.Add(CMap);
+                if (++R > 255) { R = 64 + 32; }
+                if (++G > 255) { G = 64 + 32; }
+                if (++B > 255) { B = 64 + 32; }
+            }
             Reset();
         }
 
@@ -205,10 +220,6 @@ namespace YALife
             TxHBlocks.Text = IHBlocks.ToString();
             TxWBlocks.Text = IWBlocks.ToString();
 
-            // Calculate padding
-            IWPad = 0; // (IWPixels - (IWBlocks * IBlockSize)); // / 2;
-            IHPad = 0; // (IHPixels - (IHBlocks * IBlockSize)); // / 2;
-
             // Manage "Frame" size
             Frame.Top = ITop;
             Frame.Left = ILeft;
@@ -287,63 +298,6 @@ namespace YALife
             }
         }
 
-        /// <summary>
-        /// Scan the "life" array and use it to generate a bitmap. An array element 
-        /// can be scaled from 1 pixel per array element to 16 pixels per array
-        /// element. This gives us an ersatz zoom (and it was a fun challange)
-        /// </summary>
-        private void DrawLife()
-        {
-            int IWOffSet;
-            int IHOffset;
-            int IW;
-            int IH;
-
-            if (ILife == null) return;
-            if (Paper == null) return;
-
-            CleanPaper(Paper);
-
-            // Step through the array
-            for (int Wid = 0; Wid < IWBlocks; Wid++)
-            {
-                for (int Hei = 0; Hei < IHBlocks; Hei++)
-                {
-                    IWOffSet = Wid * IBlockSize;
-                    IHOffset = Hei * IBlockSize;
-
-                    // Create a block of 1 to 16 pixels for each array element
-                    for (int W = 0; W < IBlockSize; W++)
-                    {
-                        for (int H = 0; H < IBlockSize; H++)
-                        {
-                            IW = W + IWOffSet + IWPad;
-                            IH = H + IHOffset + IHPad;
-
-                            if (IW < Paper.Width && IH < Paper.Height)
-                            {
-                                if (ILife[Wid, Hei] == 1)
-                                {
-                                    Paper.SetPixel(IW, IH, Color.Yellow);
-                                }
-                                else
-                                {
-                                    Paper.SetPixel(IW, IH, Color.Black);
-                                }
-                            }
-                            else
-                            {
-                                TxLog.AppendText("Ovfl Err: IW:" + IW.ToString() + " IH:" + IH.ToString() + "\r\n");
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Show the new bitmap
-            Frame.Image = Paper;
-            Application.DoEvents();
-        }
 
         /// <summary>
         /// Apply Conway's Life rules to the "life" array. Supports a 
@@ -393,53 +347,53 @@ namespace YALife
                         W = CurW;
                         H = CurH - 1;
                         if (H < 0) { H = IHBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // NE:  W+1     H-1
                         W = CurW + 1;
                         H = CurH - 1;
                         if (W == IWBlocks) { W = 0; }
                         if (H < 0) { H = IHBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // E:   W+1     H
                         W = CurW + 1;
                         H = CurH;
                         if (W == IWBlocks) { W = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // SE:  W+1     H+1
                         W = CurW + 1;
                         H = CurH + 1;
                         if (W == IWBlocks) { W = 0; }
                         if (H == IHBlocks) { H = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // S:   W       H+1
                         W = CurW;
                         H = CurH + 1;
                         if (H == IHBlocks) { H = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // SW:  W-1     H+1
                         W = CurW - 1;
                         H = CurH + 1;
                         if (W < 0) { W = IWBlocks - 1; }
                         if (H == IHBlocks) { H = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // W:   W-1     H
                         W = CurW - 1;
                         H = CurH;
                         if (W < 0) { W = IWBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // NW:  W-1     H-1
                         W = CurW - 1;
                         H = CurH - 1;
                         if (W < 0) { W = IWBlocks - 1; }
                         if (H < 0) { H = IHBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
                     }
                     else
                     {
@@ -451,56 +405,56 @@ namespace YALife
                         W = CurW;
                         H = CurH - 1;
                         if (H < 0) { H = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // NE:  W+1     H-1
                         W = CurW + 1;
                         H = CurH - 1;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (H < 0) { H = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // E:   W+1     H
                         W = CurW + 1;
                         H = CurH;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // SE:  W+1     H+1
                         W = CurW + 1;
                         H = CurH + 1;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (H == IHBlocks) { H = IHBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // S:   W       H+1
                         W = CurW;
                         H = CurH + 1;
                         if (H == IHBlocks) { H = IHBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // SW:  W-1     H+1
                         W = CurW - 1;
                         H = CurH + 1;
                         if (W < 0) { W = 0; }
                         if (H == IHBlocks) { H = IHBlocks - 1; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // W:   W-1     H
                         W = CurW - 1;
                         H = CurH;
                         if (W < 0) { W = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
 
                         // NW:  W-1     H-1
                         W = CurW - 1;
                         H = CurH - 1;
                         if (W < 0) { W = 0; }
                         if (H < 0) { H = 0; }
-                        if (ILife[W, H] == 1) { Friends++; }
+                        if (ILife[W, H] >= 1) { Friends++; }
                     }
 
-                    if (ILife[CurW, CurH] == 1)
+                    if (ILife[CurW, CurH] >= 1)
                     {
                         // Live cell rules
                         switch (Friends)
@@ -510,11 +464,21 @@ namespace YALife
                                 ILonely++;
                                 break;
                             case 2:
-                                ISave[CurW, CurH] = 1;  // Happy life
+                                ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
+                                if (ILife[CurW, CurH] >= 255)
+                                {
+                                    ISave[CurW, CurH] = 1;
+                                    ILife[CurW, CurH] = 1;
+                                }
                                 ILive++;
                                 break;
                             case 3:
-                                ISave[CurW, CurH] = 1;  // Ha ha ha ha, stay'n alive, stay'n alive...
+                                ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
+                                if (ILife[CurW, CurH] >= 255)
+                                {
+                                    ISave[CurW, CurH] = 1;
+                                    ILife[CurW, CurH] = 1;
+                                }
                                 ILive++;
                                 break;
                             case > 3:
@@ -534,6 +498,11 @@ namespace YALife
                                 break;
                             case 3:
                                 ISave[CurW, CurH] = 1;  // Birth!
+                                if (ILife[CurW, CurH] >= 255)
+                                {
+                                    ISave[CurW, CurH] = 255;
+                                    ILife[CurW, CurH] = 255;
+                                }
                                 IBirth++;
                                 break;
                             case > 3:
@@ -549,12 +518,17 @@ namespace YALife
             // and collect raw alive/empty counts
             IsLiving = 0;
             IsEmpty = 0;
+            int Floof = 0;
             for (int CurW = 0; CurW < IWBlocks; CurW++)
             {
                 for (int CurH = 0; CurH < IHBlocks; CurH++)
                 {
                     ILife[CurW, CurH] = ISave[CurW, CurH];
-                    if (ILife[CurW, CurH] == 1)
+                    //if (ILife[CurW, CurH] > 1)
+                    //{
+                    //    Floof++;
+                    //}
+                    if (ILife[CurW, CurH] >= 1)
                     {
                         IsLiving++;
                     }
@@ -578,6 +552,84 @@ namespace YALife
 
             // Draw the new bitmap
             DrawLife();
+        }
+
+        /// <summary>
+        /// Scan the "life" array and use it to generate a bitmap. An array element 
+        /// can be scaled from 1 pixel per array element to 16 pixels per array
+        /// element. This gives us an ersatz zoom (and it was a fun challange)
+        /// </summary>
+        private void DrawLife()
+        {
+            int IWOffSet;
+            int IHOffset;
+            int IW;
+            int IH;
+            int G1 = 0;
+
+            if (ILife == null) return;
+            if (Paper == null) return;
+
+            CleanPaper(Paper);
+
+            // Step through the array
+            for (int Wid = 0; Wid < IWBlocks; Wid++)
+            {
+                for (int Hei = 0; Hei < IHBlocks; Hei++)
+                {
+                    IWOffSet = Wid * IBlockSize;
+                    IHOffset = Hei * IBlockSize;
+
+                    // Create a block of 1 to 16 pixels for each array element
+                    for (int W = 0; W < IBlockSize; W++)
+                    {
+                        for (int H = 0; H < IBlockSize; H++)
+                        {
+                            IW = W + IWOffSet;
+                            IH = H + IHOffset;
+
+                            if (IW < Paper.Width && IH < Paper.Height)
+                            {
+                                if (ILife[Wid, Hei] >= 1)
+                                {
+                                    int Cndx = ILife[Wid, Hei];
+                                    //if (Cndx > 1)
+                                    //{
+                                    //    G1++;
+                                    //}
+                                    Color Clr = ArrGB[Cndx].aRGB;
+                                    Paper.SetPixel(IW, IH, Clr);
+                                    //Paper.SetPixel(IW, IH, ArrGB[ILife[Wid, Hei]].aRGB);
+                                }
+                                else
+                                {
+                                    Paper.SetPixel(IW, IH, Color.Black);
+                                }
+                            }
+                            else
+                            {
+                                TxLog.AppendText("Ovfl Err: IW:" + IW.ToString() + " IH:" + IH.ToString() + "\r\n");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Show the new bitmap
+            Frame.Image = Paper;
+            Application.DoEvents();
+        }
+
+        /// <summary>
+        /// Class to hold color definitions and make up a gradient Color Map in a List objecy
+        /// </summary>
+        public class Gradient
+        {
+            public int Alpha;   // Alpha channel value
+            public int Red;     // Red channel
+            public int Green;   // Green channel
+            public int Blue;    // Blue channel
+            public Color aRGB;  // ARGB color
         }
     }
 }

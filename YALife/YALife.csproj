@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>YALife.Program</StartupObject>
-    <FileVersion>1.0.3.0</FileVersion>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Dan Rhea 2021</Copyright>
     <Description>Yet Another (Conway's Game of) Life using .NET 6 Win Forms</Description>
@@ -16,6 +16,7 @@
     <PackageIcon>TGOL.ico</PackageIcon>
     <RepositoryUrl>https://github.com/Lurchicus/YALife</RepositoryUrl>
     <ApplicationIcon>C:\Users\danrh\Source\Repos\YALife\YALife\TGOL.ico</ApplicationIcon>
+    <PackageReleaseNotes>Added a gradient to color persistant cells with. Next I need to make a better gradient as this one is kind of boring.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
