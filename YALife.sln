@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YALife", "YALife\YALife.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08350CBD-EA0B-497A-A682-EEA6AD6B9DEA}"
 	ProjectSection(SolutionItems) = preProject
+		Gradient.cs = Gradient.cs
 		YALife\TGOL.ico = YALife\TGOL.ico
 	EndProjectSection
 EndProject

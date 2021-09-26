@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using static YALife.YALife;
+
 
 namespace YALife
 {
@@ -9,34 +10,37 @@ namespace YALife
     /// Yet Another Life Program (based on Conway's Game of Life) by Dan Rhea
     /// I wrote this to try out WinForms on the VS 2022 Preview. I popped this
     /// into my GitHub repository (public)
+    /// 
+    /// 1.0.6.0 09/25/2021 DWR Implemented pixel coloring (continous cycle)
+    /// 
     /// </summary>
     public partial class YALife : Form
     {
-        bool BWrap;
-        bool StopIt;
-        bool Stopped;
-        bool Resetting;
-        int IHPixels;
-        int IWPixels;
-        int IHBlocks;
-        int IWBlocks;
-        int IBlockSize;
-        int IBirth;
-        int ILive;
-        int ILonely;
-        int ICrowd;
-        int IEmpty;
-        int IsLiving;
-        int IsEmpty;
-        int IPass;
-        int IInitPercent;
-        int ITop;
-        int ILeft;
-        int[,]? ILife;
-        int[,]? ISave;
-        Bitmap? Paper;
-        List<Gradient> ArrGB = new List<Gradient>();
+        bool BWrap;         // Wrap around or bounded universe
+        bool StopIt;        // Stop flag
+        bool Stopped;       // Stop state
+        bool Resetting;     // Reseting flag (used for debounce)
+        int IHPixels;       // Height in pixels
+        int IWPixels;       // Width in pixels
+        int IHBlocks;       // Height in blocks
+        int IWBlocks;       // Width in blocks
+        int IBlockSize;     // Pixels in block
+        int IBirth;         // Count of births in pass
+        int ILive;          // Count of "stay alives" in pass
+        int ILonely;        // Count of lonely deaths in pass
+        int ICrowd;         // Count of crowded deaths in pass
+        int IEmpty;         // Count of "Stay empty" cases in a pass
+        int IsLiving;       // Count of all living cells
+        int IsEmpty;        // Count of all empty cells
+        int IPass;          // Pass counter
+        int IInitPercent;   // Initial live percentage
+        int ITop;           // Tracks the top of the image frame
+        int ILeft;          // Tracls the left of the image frame
+        int[,]? ILife;      // Life matrix
+        int[,]? ISave;      // Save matrix
+        Bitmap? Paper;      // Bitmap to draw on
         readonly Random RNG = new();
+        ColorHeatMap CMap = new ColorHeatMap(); 
 
         /// <summary>
         /// YALife constructor
@@ -67,21 +71,26 @@ namespace YALife
         private void Timer_Tick(object sender, EventArgs e)
         {
             Timer.Enabled = false;
+
             // Initialize the gradient 
-            int A = 255;
-            int R = 64+32;
-            int G = 96+32;
-            int B = 128+32;
-            //Color C = Color.FromArgb(A, R, G, B);
-            for (int Shade=0; Shade<256; Shade++)
-            {
-                Color C = Color.FromArgb(A, R, G, B);
-                Gradient CMap = new Gradient { Alpha = A, aRGB = C, Red = R, Green = G, Blue = B };
-                ArrGB.Add(CMap);
-                if (++R > 255) { R = 64 + 32; }
-                if (++G > 255) { G = 64 + 32; }
-                if (++B > 255) { B = 64 + 32; }
-            }
+            //int A = 255;
+            //int R = 64 + 32;
+            //int G = 96 + 32;
+            //int B = 128 + 32;
+
+            //for (int Shade=0; Shade<256; Shade++)
+            //{
+            //    Color C = Color.FromArgb(A, R, G, B);
+            //    Gradient CMap = new Gradient { Alpha = A, aRGB = C, Red = R, Green = G, Blue = B };
+            //    ArrGB.Add(CMap);
+            //    R++; //RNG.Next(1, 2);
+            //    if (R > 255) { R = 96; }
+            //    G++; //RNG.Next(1, 2);
+            //    if (G > 255) { G = 96; }
+            //    B++; //RNG.Next(1, 2);
+            //    if (B > 255) { B = 96; }
+            //}
+
             Reset();
         }
 
@@ -343,52 +352,52 @@ namespace YALife
                         // Look around the current array element to determine
                         // our fate
 
-                        // N:   W       H-1
+                        // North:   W       H-1
                         W = CurW;
                         H = CurH - 1;
                         if (H < 0) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // NE:  W+1     H-1
+                        // Northeast:  W+1     H-1
                         W = CurW + 1;
                         H = CurH - 1;
                         if (W == IWBlocks) { W = 0; }
                         if (H < 0) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // E:   W+1     H
+                        // East:   W+1     H
                         W = CurW + 1;
                         H = CurH;
                         if (W == IWBlocks) { W = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // SE:  W+1     H+1
+                        // Southeast:  W+1     H+1
                         W = CurW + 1;
                         H = CurH + 1;
                         if (W == IWBlocks) { W = 0; }
                         if (H == IHBlocks) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // S:   W       H+1
+                        // South:   W       H+1
                         W = CurW;
                         H = CurH + 1;
                         if (H == IHBlocks) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // SW:  W-1     H+1
+                        // Southwest:  W-1     H+1
                         W = CurW - 1;
                         H = CurH + 1;
                         if (W < 0) { W = IWBlocks - 1; }
                         if (H == IHBlocks) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // W:   W-1     H
+                        // West:   W-1     H
                         W = CurW - 1;
                         H = CurH;
                         if (W < 0) { W = IWBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // NW:  W-1     H-1
+                        // Northwest:  W-1     H-1
                         W = CurW - 1;
                         H = CurH - 1;
                         if (W < 0) { W = IWBlocks - 1; }
@@ -401,52 +410,52 @@ namespace YALife
                         // Look around the current array element to determine
                         // our fate
 
-                        // N:   W       H-1
+                        // North:   W       H-1
                         W = CurW;
                         H = CurH - 1;
                         if (H < 0) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // NE:  W+1     H-1
+                        // Northeast:  W+1     H-1
                         W = CurW + 1;
                         H = CurH - 1;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (H < 0) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // E:   W+1     H
+                        // East:   W+1     H
                         W = CurW + 1;
                         H = CurH;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // SE:  W+1     H+1
+                        // Southeast:  W+1     H+1
                         W = CurW + 1;
                         H = CurH + 1;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (H == IHBlocks) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // S:   W       H+1
+                        // South:   W       H+1
                         W = CurW;
                         H = CurH + 1;
                         if (H == IHBlocks) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // SW:  W-1     H+1
+                        // Southwest:  W-1     H+1
                         W = CurW - 1;
                         H = CurH + 1;
                         if (W < 0) { W = 0; }
                         if (H == IHBlocks) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // W:   W-1     H
+                        // West:   W-1     H
                         W = CurW - 1;
                         H = CurH;
                         if (W < 0) { W = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // NW:  W-1     H-1
+                        // Northwest:  W-1     H-1
                         W = CurW - 1;
                         H = CurH - 1;
                         if (W < 0) { W = 0; }
@@ -456,14 +465,16 @@ namespace YALife
 
                     if (ILife[CurW, CurH] >= 1)
                     {
-                        // Live cell rules
+                        // Live cell rules (current cell is alive)
                         switch (Friends)
                         {
                             case < 2:
-                                ISave[CurW, CurH] = 0;  // Lonely death
+                                // We have one or less neibours so we are too loney to live
+                                ISave[CurW, CurH] = 0;
                                 ILonely++;
                                 break;
                             case 2:
+                                // We have two neibours, happy, we live on
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
@@ -473,6 +484,7 @@ namespace YALife
                                 ILive++;
                                 break;
                             case 3:
+                                // We have three neibours, happy, we survive another pass
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
@@ -482,31 +494,35 @@ namespace YALife
                                 ILive++;
                                 break;
                             case > 3:
-                                ISave[CurW, CurH] = 0;  // Crowded death
+                                // We have more than three neibours, too many, we die
+                                ISave[CurW, CurH] = 0; 
                                 ICrowd++;
                                 break;
                         }
                     }
                     else
                     {
-                        // Empty cell rules
+                        // Empty cell rules (current cell is empty)
                         switch (Friends)
                         {
                             case < 3:
-                                ISave[CurW, CurH] = 0;  // Stay empty
+                                // Less than three neibours, we stay empty
+                                ISave[CurW, CurH] = 0; 
                                 IEmpty++;
                                 break;
                             case 3:
-                                ISave[CurW, CurH] = 1;  // Birth!
+                                // Three neibours! Birth!
+                                ISave[CurW, CurH] = 1;
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = 255;
-                                    ILife[CurW, CurH] = 255;
+                                    ISave[CurW, CurH] = 1;
+                                    ILife[CurW, CurH] = 1;
                                 }
                                 IBirth++;
                                 break;
                             case > 3:
-                                ISave[CurW, CurH] = 0;  // Stay empty
+                                // More than three neibours, stay empty
+                                ISave[CurW, CurH] = 0;
                                 IEmpty++;
                                 break;
                         }
@@ -518,16 +534,11 @@ namespace YALife
             // and collect raw alive/empty counts
             IsLiving = 0;
             IsEmpty = 0;
-            int Floof = 0;
             for (int CurW = 0; CurW < IWBlocks; CurW++)
             {
                 for (int CurH = 0; CurH < IHBlocks; CurH++)
                 {
                     ILife[CurW, CurH] = ISave[CurW, CurH];
-                    //if (ILife[CurW, CurH] > 1)
-                    //{
-                    //    Floof++;
-                    //}
                     if (ILife[CurW, CurH] >= 1)
                     {
                         IsLiving++;
@@ -565,7 +576,6 @@ namespace YALife
             int IHOffset;
             int IW;
             int IH;
-            int G1 = 0;
 
             if (ILife == null) return;
             if (Paper == null) return;
@@ -592,12 +602,9 @@ namespace YALife
                             {
                                 if (ILife[Wid, Hei] >= 1)
                                 {
-                                    int Cndx = ILife[Wid, Hei];
-                                    //if (Cndx > 1)
-                                    //{
-                                    //    G1++;
-                                    //}
-                                    Color Clr = ArrGB[Cndx].aRGB;
+                                    Double Cndx = (double)ILife[Wid, Hei];
+                                    if (Cndx > 255) { Cndx = 255; }
+                                    Color Clr = CMap.GetColorForValue(Cndx, (double)256);
                                     Paper.SetPixel(IW, IH, Clr);
                                     //Paper.SetPixel(IW, IH, ArrGB[ILife[Wid, Hei]].aRGB);
                                 }
@@ -618,18 +625,6 @@ namespace YALife
             // Show the new bitmap
             Frame.Image = Paper;
             Application.DoEvents();
-        }
-
-        /// <summary>
-        /// Class to hold color definitions and make up a gradient Color Map in a List objecy
-        /// </summary>
-        public class Gradient
-        {
-            public int Alpha;   // Alpha channel value
-            public int Red;     // Red channel
-            public int Green;   // Green channel
-            public int Blue;    // Blue channel
-            public Color aRGB;  // ARGB color
         }
     }
 }

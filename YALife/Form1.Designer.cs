@@ -81,9 +81,9 @@ namespace YALife
             LBirth.AutoSize = true;
             LBirth.Location = new System.Drawing.Point(3, 292);
             LBirth.Name = "LBirth";
-            LBirth.Size = new System.Drawing.Size(37, 15);
+            LBirth.Size = new System.Drawing.Size(85, 15);
             LBirth.TabIndex = 31;
-            LBirth.Text = "Births";
+            LBirth.Text = "Births this pass";
             // 
             // Frame
             // 
@@ -145,79 +145,84 @@ namespace YALife
             this.LEmpty.AutoSize = true;
             this.LEmpty.Location = new System.Drawing.Point(3, 408);
             this.LEmpty.Name = "LEmpty";
-            this.LEmpty.Size = new System.Drawing.Size(66, 15);
+            this.LEmpty.Size = new System.Drawing.Size(127, 15);
             this.LEmpty.TabIndex = 35;
-            this.LEmpty.Text = "Stay Empty";
+            this.LEmpty.Text = "Stayed empty this pass";
             // 
             // LCrowd
             // 
             this.LCrowd.AutoSize = true;
             this.LCrowd.Location = new System.Drawing.Point(3, 379);
             this.LCrowd.Name = "LCrowd";
-            this.LCrowd.Size = new System.Drawing.Size(62, 15);
+            this.LCrowd.Size = new System.Drawing.Size(128, 15);
             this.LCrowd.TabIndex = 34;
-            this.LCrowd.Text = "Die Crowd";
+            this.LCrowd.Text = "Died crowded this pass";
             // 
             // LLonely
             // 
             this.LLonely.AutoSize = true;
             this.LLonely.Location = new System.Drawing.Point(3, 350);
             this.LLonely.Name = "LLonely";
-            this.LLonely.Size = new System.Drawing.Size(62, 15);
+            this.LLonely.Size = new System.Drawing.Size(114, 15);
             this.LLonely.TabIndex = 33;
-            this.LLonely.Text = "Die Lonely";
+            this.LLonely.Text = "Died lonely this pass";
             // 
             // LAlive
             // 
             this.LAlive.AutoSize = true;
             this.LAlive.Location = new System.Drawing.Point(3, 321);
             this.LAlive.Name = "LAlive";
-            this.LAlive.Size = new System.Drawing.Size(58, 15);
+            this.LAlive.Size = new System.Drawing.Size(117, 15);
             this.LAlive.TabIndex = 32;
-            this.LAlive.Text = "Stay Alive";
+            this.LAlive.Text = "Stayed alive this pass";
             // 
             // TxEmpty
             // 
-            this.TxEmpty.Location = new System.Drawing.Point(77, 405);
+            this.TxEmpty.BackColor = System.Drawing.Color.Gold;
+            this.TxEmpty.Location = new System.Drawing.Point(133, 405);
             this.TxEmpty.Name = "TxEmpty";
             this.TxEmpty.ReadOnly = true;
-            this.TxEmpty.Size = new System.Drawing.Size(136, 23);
+            this.TxEmpty.Size = new System.Drawing.Size(80, 23);
             this.TxEmpty.TabIndex = 30;
             this.TxEmpty.Text = "0";
             // 
             // TxCrowd
             // 
-            this.TxCrowd.Location = new System.Drawing.Point(77, 376);
+            this.TxCrowd.BackColor = System.Drawing.Color.LightSalmon;
+            this.TxCrowd.Location = new System.Drawing.Point(133, 376);
             this.TxCrowd.Name = "TxCrowd";
             this.TxCrowd.ReadOnly = true;
-            this.TxCrowd.Size = new System.Drawing.Size(136, 23);
+            this.TxCrowd.Size = new System.Drawing.Size(80, 23);
             this.TxCrowd.TabIndex = 29;
             this.TxCrowd.Text = "0";
             // 
             // TxLonely
             // 
-            this.TxLonely.Location = new System.Drawing.Point(77, 347);
+            this.TxLonely.BackColor = System.Drawing.Color.LightSalmon;
+            this.TxLonely.Location = new System.Drawing.Point(133, 347);
             this.TxLonely.Name = "TxLonely";
             this.TxLonely.ReadOnly = true;
-            this.TxLonely.Size = new System.Drawing.Size(136, 23);
+            this.TxLonely.Size = new System.Drawing.Size(80, 23);
             this.TxLonely.TabIndex = 28;
             this.TxLonely.Text = "0";
             // 
             // TxLive
             // 
-            this.TxLive.Location = new System.Drawing.Point(77, 318);
+            this.TxLive.BackColor = System.Drawing.Color.PaleGreen;
+            this.TxLive.Location = new System.Drawing.Point(133, 318);
             this.TxLive.Name = "TxLive";
             this.TxLive.ReadOnly = true;
-            this.TxLive.Size = new System.Drawing.Size(136, 23);
+            this.TxLive.Size = new System.Drawing.Size(80, 23);
             this.TxLive.TabIndex = 27;
             this.TxLive.Text = "0";
             // 
             // TxBirth
             // 
-            this.TxBirth.Location = new System.Drawing.Point(77, 289);
+            this.TxBirth.BackColor = System.Drawing.Color.PaleGreen;
+            this.TxBirth.Location = new System.Drawing.Point(133, 289);
             this.TxBirth.Name = "TxBirth";
             this.TxBirth.ReadOnly = true;
-            this.TxBirth.Size = new System.Drawing.Size(136, 23);
+            this.TxBirth.Size = new System.Drawing.Size(80, 23);
             this.TxBirth.TabIndex = 26;
             this.TxBirth.Text = "0";
             // 
@@ -226,16 +231,17 @@ namespace YALife
             this.LIsEmpty.AutoSize = true;
             this.LIsEmpty.Location = new System.Drawing.Point(3, 263);
             this.LIsEmpty.Name = "LIsEmpty";
-            this.LIsEmpty.Size = new System.Drawing.Size(52, 15);
+            this.LIsEmpty.Size = new System.Drawing.Size(97, 15);
             this.LIsEmpty.TabIndex = 25;
-            this.LIsEmpty.Text = "Is Empty";
+            this.LIsEmpty.Text = "Total Empty Cells";
             // 
             // TxIsEmpty
             // 
-            this.TxIsEmpty.Location = new System.Drawing.Point(77, 260);
+            this.TxIsEmpty.BackColor = System.Drawing.Color.LightSalmon;
+            this.TxIsEmpty.Location = new System.Drawing.Point(133, 260);
             this.TxIsEmpty.Name = "TxIsEmpty";
             this.TxIsEmpty.ReadOnly = true;
-            this.TxIsEmpty.Size = new System.Drawing.Size(136, 23);
+            this.TxIsEmpty.Size = new System.Drawing.Size(80, 23);
             this.TxIsEmpty.TabIndex = 24;
             this.TxIsEmpty.Text = "0";
             // 
@@ -244,16 +250,17 @@ namespace YALife
             this.LIsLiving.AutoSize = true;
             this.LIsLiving.Location = new System.Drawing.Point(3, 234);
             this.LIsLiving.Name = "LIsLiving";
-            this.LIsLiving.Size = new System.Drawing.Size(50, 15);
+            this.LIsLiving.Size = new System.Drawing.Size(95, 15);
             this.LIsLiving.TabIndex = 23;
-            this.LIsLiving.Text = "Is Living";
+            this.LIsLiving.Text = "Total Living Cells";
             // 
             // TxIsLiving
             // 
-            this.TxIsLiving.Location = new System.Drawing.Point(77, 231);
+            this.TxIsLiving.BackColor = System.Drawing.Color.PaleGreen;
+            this.TxIsLiving.Location = new System.Drawing.Point(133, 231);
             this.TxIsLiving.Name = "TxIsLiving";
             this.TxIsLiving.ReadOnly = true;
-            this.TxIsLiving.Size = new System.Drawing.Size(136, 23);
+            this.TxIsLiving.Size = new System.Drawing.Size(80, 23);
             this.TxIsLiving.TabIndex = 22;
             this.TxIsLiving.Text = "0";
             // 
@@ -268,10 +275,11 @@ namespace YALife
             // 
             // TxPass
             // 
-            this.TxPass.Location = new System.Drawing.Point(77, 202);
+            this.TxPass.BackColor = System.Drawing.Color.Gold;
+            this.TxPass.Location = new System.Drawing.Point(133, 202);
             this.TxPass.Name = "TxPass";
             this.TxPass.ReadOnly = true;
-            this.TxPass.Size = new System.Drawing.Size(136, 23);
+            this.TxPass.Size = new System.Drawing.Size(80, 23);
             this.TxPass.TabIndex = 20;
             this.TxPass.Text = "0";
             // 
@@ -333,17 +341,17 @@ namespace YALife
             // 
             // TxPercent
             // 
-            this.TxPercent.Location = new System.Drawing.Point(77, 32);
+            this.TxPercent.Location = new System.Drawing.Point(133, 32);
             this.TxPercent.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.TxPercent.Name = "TxPercent";
-            this.TxPercent.Size = new System.Drawing.Size(136, 23);
+            this.TxPercent.Size = new System.Drawing.Size(80, 23);
             this.TxPercent.TabIndex = 14;
             this.TxPercent.Value = new decimal(new int[] {
-            75,
+            25,
             0,
             0,
             0});
@@ -365,25 +373,26 @@ namespace YALife
             this.LInitPercent.AutoSize = true;
             this.LInitPercent.Location = new System.Drawing.Point(3, 35);
             this.LInitPercent.Name = "LInitPercent";
-            this.LInitPercent.Size = new System.Drawing.Size(67, 15);
+            this.LInitPercent.Size = new System.Drawing.Size(98, 15);
             this.LInitPercent.TabIndex = 12;
-            this.LInitPercent.Text = "Init Percent";
+            this.LInitPercent.Text = "Initial Percentage";
             // 
             // LWBlocks
             // 
             this.LWBlocks.AutoSize = true;
             this.LWBlocks.Location = new System.Drawing.Point(3, 122);
             this.LWBlocks.Name = "LWBlocks";
-            this.LWBlocks.Size = new System.Drawing.Size(55, 15);
+            this.LWBlocks.Size = new System.Drawing.Size(89, 15);
             this.LWBlocks.TabIndex = 10;
-            this.LWBlocks.Text = "W Blocks";
+            this.LWBlocks.Text = "Width in Blocks";
             // 
             // TxWBlocks
             // 
-            this.TxWBlocks.Location = new System.Drawing.Point(77, 119);
+            this.TxWBlocks.BackColor = System.Drawing.Color.Gold;
+            this.TxWBlocks.Location = new System.Drawing.Point(133, 119);
             this.TxWBlocks.Name = "TxWBlocks";
             this.TxWBlocks.ReadOnly = true;
-            this.TxWBlocks.Size = new System.Drawing.Size(136, 23);
+            this.TxWBlocks.Size = new System.Drawing.Size(80, 23);
             this.TxWBlocks.TabIndex = 9;
             this.TxWBlocks.Text = "0";
             // 
@@ -392,16 +401,17 @@ namespace YALife
             this.LHBlocks.AutoSize = true;
             this.LHBlocks.Location = new System.Drawing.Point(3, 151);
             this.LHBlocks.Name = "LHBlocks";
-            this.LHBlocks.Size = new System.Drawing.Size(53, 15);
+            this.LHBlocks.Size = new System.Drawing.Size(93, 15);
             this.LHBlocks.TabIndex = 8;
-            this.LHBlocks.Text = "H Blocks";
+            this.LHBlocks.Text = "Height in Blocks";
             // 
             // TxHBlocks
             // 
-            this.TxHBlocks.Location = new System.Drawing.Point(77, 148);
+            this.TxHBlocks.BackColor = System.Drawing.Color.Gold;
+            this.TxHBlocks.Location = new System.Drawing.Point(133, 148);
             this.TxHBlocks.Name = "TxHBlocks";
             this.TxHBlocks.ReadOnly = true;
-            this.TxHBlocks.Size = new System.Drawing.Size(136, 23);
+            this.TxHBlocks.Size = new System.Drawing.Size(83, 23);
             this.TxHBlocks.TabIndex = 7;
             this.TxHBlocks.Text = "0";
             // 
@@ -410,7 +420,7 @@ namespace YALife
             this.CkWrap.AutoSize = true;
             this.CkWrap.Checked = true;
             this.CkWrap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CkWrap.Location = new System.Drawing.Point(77, 177);
+            this.CkWrap.Location = new System.Drawing.Point(134, 177);
             this.CkWrap.Name = "CkWrap";
             this.CkWrap.Size = new System.Drawing.Size(54, 19);
             this.CkWrap.TabIndex = 6;
@@ -423,16 +433,17 @@ namespace YALife
             this.LWPixels.AutoSize = true;
             this.LWPixels.Location = new System.Drawing.Point(3, 64);
             this.LWPixels.Name = "LWPixels";
-            this.LWPixels.Size = new System.Drawing.Size(51, 15);
+            this.LWPixels.Size = new System.Drawing.Size(85, 15);
             this.LWPixels.TabIndex = 5;
-            this.LWPixels.Text = "W Pixels";
+            this.LWPixels.Text = "Width in Pixels";
             // 
             // TxWPixels
             // 
-            this.TxWPixels.Location = new System.Drawing.Point(77, 61);
+            this.TxWPixels.BackColor = System.Drawing.Color.Yellow;
+            this.TxWPixels.Location = new System.Drawing.Point(133, 61);
             this.TxWPixels.Name = "TxWPixels";
             this.TxWPixels.ReadOnly = true;
-            this.TxWPixels.Size = new System.Drawing.Size(136, 23);
+            this.TxWPixels.Size = new System.Drawing.Size(80, 23);
             this.TxWPixels.TabIndex = 4;
             this.TxWPixels.Text = "0";
             // 
@@ -441,16 +452,17 @@ namespace YALife
             this.LHPixels.AutoSize = true;
             this.LHPixels.Location = new System.Drawing.Point(3, 93);
             this.LHPixels.Name = "LHPixels";
-            this.LHPixels.Size = new System.Drawing.Size(49, 15);
+            this.LHPixels.Size = new System.Drawing.Size(89, 15);
             this.LHPixels.TabIndex = 3;
-            this.LHPixels.Text = "H Pixels";
+            this.LHPixels.Text = "Height in Pixels";
             // 
             // TxHPixels
             // 
-            this.TxHPixels.Location = new System.Drawing.Point(77, 90);
+            this.TxHPixels.BackColor = System.Drawing.Color.Yellow;
+            this.TxHPixels.Location = new System.Drawing.Point(133, 90);
             this.TxHPixels.Name = "TxHPixels";
             this.TxHPixels.ReadOnly = true;
-            this.TxHPixels.Size = new System.Drawing.Size(136, 23);
+            this.TxHPixels.Size = new System.Drawing.Size(80, 23);
             this.TxHPixels.TabIndex = 2;
             this.TxHPixels.Text = "0";
             // 
@@ -465,7 +477,7 @@ namespace YALife
             // 
             // NBlockSize
             // 
-            this.NBlockSize.Location = new System.Drawing.Point(77, 3);
+            this.NBlockSize.Location = new System.Drawing.Point(133, 3);
             this.NBlockSize.Maximum = new decimal(new int[] {
             16,
             0,
@@ -477,7 +489,7 @@ namespace YALife
             0,
             0});
             this.NBlockSize.Name = "NBlockSize";
-            this.NBlockSize.Size = new System.Drawing.Size(136, 23);
+            this.NBlockSize.Size = new System.Drawing.Size(80, 23);
             this.NBlockSize.TabIndex = 0;
             this.NBlockSize.Value = new decimal(new int[] {
             1,
