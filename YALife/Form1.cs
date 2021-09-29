@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
 
 namespace YALife
 {
@@ -11,7 +9,17 @@ namespace YALife
     /// I wrote this to try out WinForms on the VS 2022 Preview. I popped this
     /// into my GitHub repository (public)
     /// 
-    /// 1.0.6.0 09/25/2021 DWR Implemented pixel coloring (continous cycle)
+    /// 1.0.1.0 08/12/2021 DWR Initial version
+    /// 1.0.2.0 08/12/2021 DWR Code and comments cleanup pass 1
+    /// 1.0.3.0 08/24/2021 DWR Code and comments cleanup pass 2 (not checked in)
+    /// 1.0.4.0 08/29/2021 DWR Added a color gradient to color persistant cells. The
+    ///                        gradient is pretty bland. Need something better.
+    /// 1.0.5.0 09/10/2021 DWR Tweak pixel coloring, some cleanup (not checked in)
+    /// 1.0.6.0 09/25/2021 DWR Implemented pixel coloring (continous cycle). This new
+    ///                        method is from Davide Dolla on StackOverflow and works
+    ///                        exactly the way I want.
+    /// 1.0.7.0 09/28/2021 DWR Added a checkbox to control if persistance colors cycle
+    ///                        only once or continously.
     /// 
     /// </summary>
     public partial class YALife : Form
@@ -20,15 +28,16 @@ namespace YALife
         bool StopIt;        // Stop flag
         bool Stopped;       // Stop state
         bool Resetting;     // Reseting flag (used for debounce)
+        bool Once;          // Cycle colors once or continiously
         int IHPixels;       // Height in pixels
         int IWPixels;       // Width in pixels
         int IHBlocks;       // Height in blocks
         int IWBlocks;       // Width in blocks
         int IBlockSize;     // Pixels in block
-        int IBirth;         // Count of births in pass
-        int ILive;          // Count of "stay alives" in pass
-        int ILonely;        // Count of lonely deaths in pass
-        int ICrowd;         // Count of crowded deaths in pass
+        int IBirth;         // Count of births in a pass
+        int ILive;          // Count of "stay alives" in a pass
+        int ILonely;        // Count of lonely deaths in a pass
+        int ICrowd;         // Count of crowded deaths in a pass
         int IEmpty;         // Count of "Stay empty" cases in a pass
         int IsLiving;       // Count of all living cells
         int IsEmpty;        // Count of all empty cells
@@ -71,26 +80,6 @@ namespace YALife
         private void Timer_Tick(object sender, EventArgs e)
         {
             Timer.Enabled = false;
-
-            // Initialize the gradient 
-            //int A = 255;
-            //int R = 64 + 32;
-            //int G = 96 + 32;
-            //int B = 128 + 32;
-
-            //for (int Shade=0; Shade<256; Shade++)
-            //{
-            //    Color C = Color.FromArgb(A, R, G, B);
-            //    Gradient CMap = new Gradient { Alpha = A, aRGB = C, Red = R, Green = G, Blue = B };
-            //    ArrGB.Add(CMap);
-            //    R++; //RNG.Next(1, 2);
-            //    if (R > 255) { R = 96; }
-            //    G++; //RNG.Next(1, 2);
-            //    if (G > 255) { G = 96; }
-            //    B++; //RNG.Next(1, 2);
-            //    if (B > 255) { B = 96; }
-            //}
-
             Reset();
         }
 
@@ -138,6 +127,24 @@ namespace YALife
             else
             {
                 BWrap = false;
+            }
+        }
+
+        /// <summary>
+        /// Switch the once flag if needed... lets us change it while the program
+        /// is running
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CkOnce_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CkOnce.Checked)
+            {
+                Once = true;
+            }
+            else
+            {
+                Once = false;
             }
         }
 
@@ -276,6 +283,7 @@ namespace YALife
             Stopped = true;
             IPass = 1;
             BWrap = (CkWrap.Checked);
+            Once = (CkOnce.Checked);
             BRun.Focus();
 
             Application.DoEvents();
@@ -478,8 +486,8 @@ namespace YALife
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = 1;
-                                    ILife[CurW, CurH] = 1;
+                                    ISave[CurW, CurH] = (Once) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Once) ? 255 : 1;
                                 }
                                 ILive++;
                                 break;
@@ -488,8 +496,8 @@ namespace YALife
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = 1;
-                                    ILife[CurW, CurH] = 1;
+                                    ISave[CurW, CurH] = (Once) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Once) ? 255 : 1;
                                 }
                                 ILive++;
                                 break;
@@ -515,8 +523,8 @@ namespace YALife
                                 ISave[CurW, CurH] = 1;
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = 1;
-                                    ILife[CurW, CurH] = 1;
+                                    ISave[CurW, CurH] = (Once) ? 255: 1;
+                                    ILife[CurW, CurH] = (Once) ? 255 : 1;
                                 }
                                 IBirth++;
                                 break;
@@ -606,7 +614,6 @@ namespace YALife
                                     if (Cndx > 255) { Cndx = 255; }
                                     Color Clr = CMap.GetColorForValue(Cndx, (double)256);
                                     Paper.SetPixel(IW, IH, Clr);
-                                    //Paper.SetPixel(IW, IH, ArrGB[ILife[Wid, Hei]].aRGB);
                                 }
                                 else
                                 {
