@@ -20,6 +20,9 @@ namespace YALife
     ///                        exactly the way I want.
     /// 1.0.7.0 09/28/2021 DWR Added a checkbox to control if persistance colors cycle
     ///                        only once or continously.
+    /// 1.0.8.0 10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
+    ///                        - Expanded some of the more important comments.
+    /// 
     /// 
     /// </summary>
     public partial class YALife : Form
@@ -47,9 +50,10 @@ namespace YALife
         int ILeft;          // Tracls the left of the image frame
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
-        Bitmap? Paper;      // Bitmap to draw on
-        readonly Random RNG = new();
-        ColorHeatMap CMap = new ColorHeatMap(); 
+
+        Bitmap? Paper;                          // Bitmap to draw on
+        readonly Random RNG = new();      // Object to pull RNG values
+        ColorHeatMap CMap = new ColorHeatMap(); // Color map for ColorHeatMap class
 
         /// <summary>
         /// YALife constructor
@@ -79,6 +83,7 @@ namespace YALife
         /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
+            // Stop the load delay timer and finish init (Reset())
             Timer.Enabled = false;
             Reset();
         }
@@ -167,6 +172,7 @@ namespace YALife
         {
             Stopped = false;
             StopIt = false;
+            // Focus the Stop button
             BStop.Focus();
             while (!Stopped)
             {
@@ -187,6 +193,7 @@ namespace YALife
             {
                 StopIt = true;
             }
+            // Focus the reset button but don't actually reset
             BReset.Focus();
         }
 
@@ -227,6 +234,13 @@ namespace YALife
             TxHPixels.Text = IHPixels.ToString();
             TxWPixels.Text = IWPixels.ToString();
 
+            // BlockSize is very important to how I designed this program. It is
+            // in effect a zoom, as it allow the cells/locations displayed to be
+            // larger than a single pixel. I'm allowing a block size of up to 16
+            // but that can be increased by changing the maximum size set in 
+            // NBlockSize. If it's too big you will eventually get exceptions
+            // in DrawLife(). 
+            //
             // Get the requested block size
             IBlockSize = (int)NBlockSize.Value;
 
@@ -243,7 +257,8 @@ namespace YALife
             Frame.Height = this.ClientSize.Height;
             Application.DoEvents();
 
-            // Clear and recreate bitmap
+            // Clear and recreate bitmap (I just call it paper
+            // because I can)
             if (Frame.Image != null)
             {
                 Frame.Image.Dispose();
@@ -252,7 +267,8 @@ namespace YALife
             CleanPaper(Paper);
             Frame.Image = Paper;
 
-            // Clear and recreate life array (init to 0)
+            // Recreate life array (init to 0) and get the 
+            // initial population percentage.
             IInitPercent = (int)TxPercent.Value;
             ILife = new int[IWBlocks, IHBlocks];
             ISave = new int[IWBlocks, IHBlocks];
@@ -286,6 +302,7 @@ namespace YALife
             Once = (CkOnce.Checked);
             BRun.Focus();
 
+            // Update the UI
             Application.DoEvents();
             Resetting = false;
         }
@@ -317,8 +334,8 @@ namespace YALife
 
 
         /// <summary>
-        /// Apply Conway's Life rules to the "life" array. Supports a 
-        /// bounded and wrap around universe.
+        /// Apply Conway's Life rules to the "life" array. Supports an 
+        /// unbounded and wrap-around universe.
         /// </summary>
         private void DoLife()
         {
@@ -347,7 +364,8 @@ namespace YALife
                 }
             }
 
-            // Scan through the "life" array
+            // Scan through the "life" array (taking the block size into
+            // account as well)
             for (int CurW = 0; CurW < IWBlocks; CurW++)
             {
                 for (int CurH = 0; CurH < IHBlocks; CurH++)
@@ -356,56 +374,57 @@ namespace YALife
 
                     if (BWrap)
                     {
-                        // Wrap around universe
+                        // Wrap around universe: Things that hit an edge reappear
+                        // on the oppisite side.
                         // Look around the current array element to determine
-                        // our fate
+                        // the future of the current location.
 
-                        // North:   W       H-1
+                        // North: Width, Height-1
                         W = CurW;
                         H = CurH - 1;
                         if (H < 0) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Northeast:  W+1     H-1
+                        // Northeast: Width+1, Height-1
                         W = CurW + 1;
                         H = CurH - 1;
                         if (W == IWBlocks) { W = 0; }
                         if (H < 0) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // East:   W+1     H
+                        // East: Width+1, Height
                         W = CurW + 1;
                         H = CurH;
                         if (W == IWBlocks) { W = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Southeast:  W+1     H+1
+                        // Southeast: Width+1, Height+1
                         W = CurW + 1;
                         H = CurH + 1;
                         if (W == IWBlocks) { W = 0; }
                         if (H == IHBlocks) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // South:   W       H+1
+                        // South: Width, Height+1
                         W = CurW;
                         H = CurH + 1;
                         if (H == IHBlocks) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Southwest:  W-1     H+1
+                        // Southwest: Width-1, Height+1
                         W = CurW - 1;
                         H = CurH + 1;
                         if (W < 0) { W = IWBlocks - 1; }
                         if (H == IHBlocks) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // West:   W-1     H
+                        // West: Width-1, Height
                         W = CurW - 1;
                         H = CurH;
                         if (W < 0) { W = IWBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Northwest:  W-1     H-1
+                        // Northwest: Width-1, Height-1
                         W = CurW - 1;
                         H = CurH - 1;
                         if (W < 0) { W = IWBlocks - 1; }
@@ -414,56 +433,58 @@ namespace YALife
                     }
                     else
                     {
-                        // Bounded universe
+                        // Unbound universe: Things that hit the edge, keep going 
+                        // (well actually they stop at the edge, but in theory
+                        // they could keep going).
                         // Look around the current array element to determine
-                        // our fate
+                        // what happens to this location.
 
-                        // North:   W       H-1
+                        // North: Width, Height-1
                         W = CurW;
                         H = CurH - 1;
                         if (H < 0) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Northeast:  W+1     H-1
+                        // Northeast: Width+1, Height-1
                         W = CurW + 1;
                         H = CurH - 1;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (H < 0) { H = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // East:   W+1     H
+                        // East: Width+1, Height
                         W = CurW + 1;
                         H = CurH;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Southeast:  W+1     H+1
+                        // Southeast: Width+1, Height+1
                         W = CurW + 1;
                         H = CurH + 1;
                         if (W == IWBlocks) { W = IWBlocks - 1; }
                         if (H == IHBlocks) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // South:   W       H+1
+                        // South: Width, Height+1
                         W = CurW;
                         H = CurH + 1;
                         if (H == IHBlocks) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Southwest:  W-1     H+1
+                        // Southwest: Width-1, Height+1
                         W = CurW - 1;
                         H = CurH + 1;
                         if (W < 0) { W = 0; }
                         if (H == IHBlocks) { H = IHBlocks - 1; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // West:   W-1     H
+                        // West: Width-1, Height
                         W = CurW - 1;
                         H = CurH;
                         if (W < 0) { W = 0; }
                         if (ILife[W, H] >= 1) { Friends++; }
 
-                        // Northwest:  W-1     H-1
+                        // Northwest: Width-1, Height-1
                         W = CurW - 1;
                         H = CurH - 1;
                         if (W < 0) { W = 0; }
@@ -477,7 +498,7 @@ namespace YALife
                         switch (Friends)
                         {
                             case < 2:
-                                // We have one or less neibours so we are too loney to live
+                                // We have one or less neibours so we are too loney to live (/sadface)
                                 ISave[CurW, CurH] = 0;
                                 ILonely++;
                                 break;
@@ -502,7 +523,7 @@ namespace YALife
                                 ILive++;
                                 break;
                             case > 3:
-                                // We have more than three neibours, too many, we die
+                                // We have more than three neibours, too many, we die (overpopulation)
                                 ISave[CurW, CurH] = 0; 
                                 ICrowd++;
                                 break;
@@ -523,7 +544,7 @@ namespace YALife
                                 ISave[CurW, CurH] = 1;
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = (Once) ? 255: 1;
+                                    ISave[CurW, CurH] = (Once) ? 255 : 1;
                                     ILife[CurW, CurH] = (Once) ? 255 : 1;
                                 }
                                 IBirth++;
@@ -610,6 +631,15 @@ namespace YALife
                             {
                                 if (ILife[Wid, Hei] >= 1)
                                 {
+                                    // Cndx contains a value from 1 to 255 that is actually the number
+                                    // of passes this cell/location has survived. We take this value
+                                    // and use it to map into a gradient/color map and we use this
+                                    // 'color' as the color we paint the cell/location. It's not really
+                                    // usefull for the program but it takes what is effectively a 
+                                    // binary display (alive or empty) abd adds some interest by letting
+                                    // us know which cells are persistant and which are not.
+                                    // Note that the "rules" part of DoLife() sets and resets (or clamps)
+                                    // the value in the cell (FYI: Cndx is color index). 
                                     Double Cndx = (double)ILife[Wid, Hei];
                                     if (Cndx > 255) { Cndx = 255; }
                                     Color Clr = CMap.GetColorForValue(Cndx, (double)256);
@@ -617,11 +647,13 @@ namespace YALife
                                 }
                                 else
                                 {
+                                    // Empty is always black
                                     Paper.SetPixel(IW, IH, Color.Black);
                                 }
                             }
                             else
                             {
+                                // Log if we overflow our bitmap. I may change this to just throw an exception later.
                                 TxLog.AppendText("Ovfl Err: IW:" + IW.ToString() + " IH:" + IH.ToString() + "\r\n");
                             }
                         }
@@ -629,7 +661,7 @@ namespace YALife
                 }
             }
 
-            // Show the new bitmap
+            // Show the new bitmap and update the UI
             Frame.Image = Paper;
             Application.DoEvents();
         }
