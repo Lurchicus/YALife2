@@ -9,20 +9,38 @@ namespace YALife
     /// I wrote this to try out WinForms on the VS 2022 Preview. I popped this
     /// into my GitHub repository (public)
     /// 
-    /// 1.0.1.0 08/12/2021 DWR Initial version
-    /// 1.0.2.0 08/12/2021 DWR Code and comments cleanup pass 1
-    /// 1.0.3.0 08/24/2021 DWR Code and comments cleanup pass 2 (not checked in)
-    /// 1.0.4.0 08/29/2021 DWR Added a color gradient to color persistant cells. The
-    ///                        gradient is pretty bland. Need something better.
-    /// 1.0.5.0 09/10/2021 DWR Tweak pixel coloring, some cleanup (not checked in)
-    /// 1.0.6.0 09/25/2021 DWR Implemented pixel coloring (continous cycle). This new
+    /// 1.0.1.0  08/12/2021 DWR Initial version
+    /// 1.0.2.0  08/12/2021 DWR Code and comments cleanup pass 1
+    /// 1.0.3.0  08/24/2021 DWR Code and comments cleanup pass 2 (not checked in)
+    /// 1.0.4.0  08/29/2021 DWR Added a color gradient to color persistant cells. The
+    ///                         gradient is pretty bland. Need something better.
+    /// 1.0.5.0  09/10/2021 DWR Tweak pixel coloring, some cleanup (not checked in)
+    /// 1.0.6.0  09/25/2021 DWR Implemented pixel coloring (continous cycle). This new
     ///                        method is from Davide Dolla on StackOverflow and works
     ///                        exactly the way I want.
-    /// 1.0.7.0 09/28/2021 DWR Added a checkbox to control if persistance colors cycle
-    ///                        only once or continously.
-    /// 1.0.8.0 10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
-    ///                        - Expanded some of the more important comments.
-    /// 1.0.9.0 10/16/2021 DWR Added comments to the ColorHeatMap class (Gradient.cs)
+    /// 1.0.7.0  09/28/2021 DWR Added a checkbox to control if persistance colors cycle
+    ///                         only once or continously.
+    /// 1.0.8.0  10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
+    ///                         - Expanded some of the more important comments.
+    /// 1.0.9.0  10/16/2021 DWR Added comments to the ColorHeatMap class (Gradient.cs)
+    /// 1.0.10.0 10/16/2021 DWR First compile using VS 2022 RC 1
+    /// 
+    /// ToDo:
+    /// 
+    /// 1. Create a splash screen that uses a Blender created image of a Glider (match
+    ///    the one on the TGOL icon). Keep it simple though.
+    /// 2. Create a "License" button on the UI panel that will open a new form that 
+    ///    shows the gnu_gpl3.txt file. The other formal GPL3 stuff will be on the 
+    ///    splash screen.
+    /// 3. A faster way to draw to the screen besides individual pixels. I'll have to
+    ///    research what's possible but still practical for a hobbiest project like 
+    ///    this one.
+    /// 4. Create a way to import a predefined "life" pattern. If there is a standard
+    ///    for this already I'll use that, otherwise I'll create one... maybe a text
+    ///    or json formatted file giving the X/Y coordinates of the starting live
+    ///    cell locations... we can then single step or run them. A form to edit 
+    ///    these files would be nice as well. Possibly a combination of a text editor
+    ///    and a gui interface (mouse editing) of the predefined patterns.
     /// 
     /// </summary>
     public partial class YALife : Form
