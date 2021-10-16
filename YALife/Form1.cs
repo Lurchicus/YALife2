@@ -22,7 +22,7 @@ namespace YALife
     ///                        only once or continously.
     /// 1.0.8.0 10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
     ///                        - Expanded some of the more important comments.
-    /// 
+    /// 1.0.9.0 10/16/2021 DWR Added comments to the ColorHeatMap class (Gradient.cs)
     /// 
     /// </summary>
     public partial class YALife : Form
@@ -636,7 +636,7 @@ namespace YALife
                                     // and use it to map into a gradient/color map and we use this
                                     // 'color' as the color we paint the cell/location. It's not really
                                     // usefull for the program but it takes what is effectively a 
-                                    // binary display (alive or empty) abd adds some interest by letting
+                                    // binary display (alive or empty) and adds some interest by letting
                                     // us know which cells are persistant and which are not.
                                     // Note that the "rules" part of DoLife() sets and resets (or clamps)
                                     // the value in the cell (FYI: Cndx is color index). 
