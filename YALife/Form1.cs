@@ -16,26 +16,29 @@ namespace YALife
     ///                         gradient is pretty bland. Need something better.
     /// 1.0.5.0  09/10/2021 DWR Tweak pixel coloring, some cleanup (not checked in)
     /// 1.0.6.0  09/25/2021 DWR Implemented pixel coloring (continous cycle). This new
-    ///                        method is from Davide Dolla on StackOverflow and works
-    ///                        exactly the way I want.
+    ///                         method is from Davide Dolla on StackOverflow and works
+    ///                         exactly the way I want.
     /// 1.0.7.0  09/28/2021 DWR Added a checkbox to control if persistance colors cycle
     ///                         only once or continously.
     /// 1.0.8.0  10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
     ///                         - Expanded some of the more important comments.
     /// 1.0.9.0  10/16/2021 DWR Added comments to the ColorHeatMap class (Gradient.cs)
     /// 1.0.10.0 10/16/2021 DWR First compile using VS 2022 RC 1
+    /// 1.0.11.0 10/19/2021 DWR Added a file reader form to display the license and a 
+    ///                         button on the UI panel to load the reader form with the
+    ///                         GPL 3 license.
+    /// 1.0.12.0 10/25/2021 DWR Added a pass timer to show how ling (in seconds) it takes
+    ///                         to get through both DoLife() and DrawLife().
+    ///                         - Added an about/spalsh screen (preliminary).
     /// 
     /// ToDo:
     /// 
-    /// 1. Create a splash screen that uses a Blender created image of a Glider (match
-    ///    the one on the TGOL icon). Keep it simple though.
-    /// 2. Create a "License" button on the UI panel that will open a new form that 
-    ///    shows the gnu_gpl3.txt file. The other formal GPL3 stuff will be on the 
-    ///    splash screen.
-    /// 3. A faster way to draw to the screen besides individual pixels. I'll have to
+    /// 1. A faster way to draw to the screen besides individual setpixels. I'll have to
     ///    research what's possible but still practical for a hobbiest project like 
-    ///    this one.
-    /// 4. Create a way to import a predefined "life" pattern. If there is a standard
+    ///    this one. (I.E. Not buying something like LeadTools for a fun project that
+    ///    will never make any money, and isn't intended to... the value is in what I
+    ///    learn in using the new Visual Studios 2022 RC 1 and .NET 6 RC 1)
+    /// 2. Create a way to import a predefined "life" pattern. If there is a standard
     ///    for this already I'll use that, otherwise I'll create one... maybe a text
     ///    or json formatted file giving the X/Y coordinates of the starting live
     ///    cell locations... we can then single step or run them. A form to edit 
@@ -50,11 +53,15 @@ namespace YALife
         bool Stopped;       // Stop state
         bool Resetting;     // Reseting flag (used for debounce)
         bool Once;          // Cycle colors once or continiously
+        int ITop;           // Tracks the top of the image frame
+        int ILeft;          // Tracls the left of the image frame
+        int IInitPercent;   // Initial live percentage
         int IHPixels;       // Height in pixels
         int IWPixels;       // Width in pixels
         int IHBlocks;       // Height in blocks
         int IWBlocks;       // Width in blocks
         int IBlockSize;     // Pixels in block
+        int IPass;          // Pass counter
         int IBirth;         // Count of births in a pass
         int ILive;          // Count of "stay alives" in a pass
         int ILonely;        // Count of lonely deaths in a pass
@@ -62,16 +69,16 @@ namespace YALife
         int IEmpty;         // Count of "Stay empty" cases in a pass
         int IsLiving;       // Count of all living cells
         int IsEmpty;        // Count of all empty cells
-        int IPass;          // Pass counter
-        int IInitPercent;   // Initial live percentage
-        int ITop;           // Tracks the top of the image frame
-        int ILeft;          // Tracls the left of the image frame
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
+        DateTime StartMS;   // Start timer
+        DateTime StopMS;    // End timer
+        TimeSpan ElapsedMS; // Elapsed timer
 
-        Bitmap? Paper;                          // Bitmap to draw on
-        readonly Random RNG = new();      // Object to pull RNG values
-        ColorHeatMap CMap = new ColorHeatMap(); // Color map for ColorHeatMap class
+        Bitmap? Paper;                        // Bitmap to draw on
+        readonly Random RNG = new();    // Object to pull RNG values
+        ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
+        readonly string LicenseFile = "gnu_gpl3.txt";   // GPL 3 license file
 
         /// <summary>
         /// YALife constructor
@@ -103,6 +110,8 @@ namespace YALife
         {
             // Stop the load delay timer and finish init (Reset())
             Timer.Enabled = false;
+            Splash SplashScreen = new(6000, Width, Height, Top, Left);
+            SplashScreen.ShowDialog();
             Reset();
         }
 
@@ -182,6 +191,17 @@ namespace YALife
         }
 
         /// <summary>
+        /// Display the license to the user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BLicense_Click(object sender, EventArgs e)
+        {
+            FileReader ReaderForm = new(LicenseFile, Width, Height, Top, Left);
+            ReaderForm.ShowDialog();
+        }
+
+        /// <summary>
         /// Start running until stopped
         /// </summary>
         /// <param name="sender"></param>
@@ -235,6 +255,17 @@ namespace YALife
             BStep.Focus();
             IPass++;
             DoLife();
+        }
+
+        /// <summary>
+        /// Show the about/splash screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BAbout_Click(object sender, EventArgs e)
+        {
+            Splash SplashScreen = new(0, Width, Height, Top, Left);
+            SplashScreen.ShowDialog();
         }
 
         /// <summary>
@@ -350,13 +381,13 @@ namespace YALife
             }
         }
 
-
         /// <summary>
         /// Apply Conway's Life rules to the "life" array. Supports an 
         /// unbounded and wrap-around universe.
         /// </summary>
         private void DoLife()
         {
+            StartMS = DateTime.Now;
             int W;
             int H;
 
@@ -681,6 +712,10 @@ namespace YALife
 
             // Show the new bitmap and update the UI
             Frame.Image = Paper;
+            StopMS = DateTime.Now;
+            ElapsedMS = StopMS - StartMS;
+            //TxLog.AppendText("Pass: " + IPass.ToString() + " | " + ElapsedMS.TotalSeconds + "s\r\n");
+            txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString(); 
             Application.DoEvents();
         }
     }
