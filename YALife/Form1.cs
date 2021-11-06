@@ -30,14 +30,24 @@ namespace YALife
     /// 1.0.12.0 10/25/2021 DWR Added a pass timer to show how ling (in seconds) it takes
     ///                         to get through both DoLife() and DrawLife().
     ///                         - Added an about/spalsh screen (preliminary).
+    /// 1.0.13.0 11/05/2021 DWR Removed the reset debounce as it blocked a proper response 
+    ///                         to screen size changes. With the debounce, it was seeing and
+    ///                         responding to the vertical changes but not the horizontal.
+    ///                         - Set frame (holds the bitmap) to a minimum of 1, 1 so we 
+    ///                         never try to create a 0x0 bitmap when minimized. For now 
+    ///                         coming back from a minimize forces a reset. In the future, 
+    ///                         if I can detect a minimize and restore, I could try to 
+    ///                         save the bitmap where the size of Frame doesn't affect it 
+    ///                         and restore it when we un-minimize the form. 
     /// 
     /// ToDo:
     /// 
-    /// 1. A faster way to draw to the screen besides individual setpixels. I'll have to
-    ///    research what's possible but still practical for a hobbiest project like 
-    ///    this one. (I.E. Not buying something like LeadTools for a fun project that
+    /// 1. A faster way to draw to the screen besides individual setpixels calls. 
+    ///    I'll have to research what's possible but still practical for a hobbiest 
+    ///    project like this one. 
+    ///    I.E. Not buying something like LeadTools for a fun project that
     ///    will never make any money, and isn't intended to... the value is in what I
-    ///    learn in using the new Visual Studios 2022 RC 1 and .NET 6 RC 1)
+    ///    learn in using the new Visual Studios 2022 RC 1 and .NET 6 RC 1.
     /// 2. Create a way to import a predefined "life" pattern. If there is a standard
     ///    for this already I'll use that, otherwise I'll create one... maybe a text
     ///    or json formatted file giving the X/Y coordinates of the starting live
@@ -51,7 +61,6 @@ namespace YALife
         bool BWrap;         // Wrap around or bounded universe
         bool StopIt;        // Stop flag
         bool Stopped;       // Stop state
-        bool Resetting;     // Reseting flag (used for debounce)
         bool Once;          // Cycle colors once or continiously
         int ITop;           // Tracks the top of the image frame
         int ILeft;          // Tracls the left of the image frame
@@ -210,7 +219,6 @@ namespace YALife
         {
             Stopped = false;
             StopIt = false;
-            // Focus the Stop button
             BStop.Focus();
             while (!Stopped)
             {
@@ -233,6 +241,23 @@ namespace YALife
             }
             // Focus the reset button but don't actually reset
             BReset.Focus();
+        }
+
+        /// <summary>
+        /// Detect a minimize
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void YALife_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                if (!Stopped && !StopIt)
+                {
+                    StopIt = true;
+                }
+                Reset();
+            }
         }
 
         /// <summary>
@@ -273,10 +298,6 @@ namespace YALife
         /// </summary>
         private void Reset()
         {
-            // Debounce reset
-            if (Resetting) { return; }
-            Resetting = true;
-
             // Get and report pixels we can draw in
             IHPixels = Frame.Height;
             IWPixels = Frame.Width;
@@ -286,9 +307,9 @@ namespace YALife
             // BlockSize is very important to how I designed this program. It is
             // in effect a zoom, as it allow the cells/locations displayed to be
             // larger than a single pixel. I'm allowing a block size of up to 16
-            // but that can be increased by changing the maximum size set in 
-            // NBlockSize. If it's too big you will eventually get exceptions
-            // in DrawLife(). 
+            // (that can be increased by changing the maximum size set in 
+            // NBlockSize). If block size too big you will eventually get 
+            // exceptions in DrawLife(). 
             //
             // Get the requested block size
             IBlockSize = (int)NBlockSize.Value;
@@ -312,6 +333,7 @@ namespace YALife
             {
                 Frame.Image.Dispose();
             }
+            //if (Mini) { return; }
             Paper = MakePaper();
             CleanPaper(Paper);
             Frame.Image = Paper;
@@ -353,7 +375,6 @@ namespace YALife
 
             // Update the UI
             Application.DoEvents();
-            Resetting = false;
         }
 
         /// <summary>
@@ -371,6 +392,7 @@ namespace YALife
         /// <param name="RefPaper">A bitmap</param>
         private static void CleanPaper(Bitmap RefPaper)
         {
+            if (RefPaper == null) { return; }  
             //TxLog.AppendText("Paper: " + RefPaper.Width.ToString() + "x" + RefPaper.Height.ToString()+"\r\n");
             for (int Wid = 0; Wid < RefPaper.Width; Wid++)
             {

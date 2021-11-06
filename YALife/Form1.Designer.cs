@@ -34,6 +34,9 @@ namespace YALife
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
             this.Frame = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.BAbout = new System.Windows.Forms.Button();
+            this.txtPassTimer = new System.Windows.Forms.TextBox();
+            this.LabPassTimer = new System.Windows.Forms.Label();
             this.BLicense = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -73,9 +76,6 @@ namespace YALife
             this.LBlockSize = new System.Windows.Forms.Label();
             this.NBlockSize = new System.Windows.Forms.NumericUpDown();
             this.Timer = new System.Windows.Forms.Timer(this.components);
-            this.LabPassTimer = new System.Windows.Forms.Label();
-            this.txtPassTimer = new System.Windows.Forms.TextBox();
-            this.BAbout = new System.Windows.Forms.Button();
             LBirth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Frame)).BeginInit();
             this.panel1.SuspendLayout();
@@ -97,6 +97,7 @@ namespace YALife
             this.Frame.BackColor = System.Drawing.SystemColors.Control;
             this.Frame.Dock = System.Windows.Forms.DockStyle.Right;
             this.Frame.Location = new System.Drawing.Point(222, 0);
+            this.Frame.MinimumSize = new System.Drawing.Size(1, 1);
             this.Frame.Name = "Frame";
             this.Frame.Size = new System.Drawing.Size(805, 636);
             this.Frame.TabIndex = 0;
@@ -153,6 +154,36 @@ namespace YALife
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(216, 636);
             this.panel1.TabIndex = 1;
+            // 
+            // BAbout
+            // 
+            this.BAbout.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.BAbout.Location = new System.Drawing.Point(142, 515);
+            this.BAbout.Name = "BAbout";
+            this.BAbout.Size = new System.Drawing.Size(55, 23);
+            this.BAbout.TabIndex = 42;
+            this.BAbout.Text = "About";
+            this.BAbout.UseVisualStyleBackColor = false;
+            this.BAbout.Click += new System.EventHandler(this.BAbout_Click);
+            // 
+            // txtPassTimer
+            // 
+            this.txtPassTimer.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.txtPassTimer.Location = new System.Drawing.Point(133, 457);
+            this.txtPassTimer.Name = "txtPassTimer";
+            this.txtPassTimer.ReadOnly = true;
+            this.txtPassTimer.Size = new System.Drawing.Size(80, 23);
+            this.txtPassTimer.TabIndex = 41;
+            this.txtPassTimer.Text = "0";
+            // 
+            // LabPassTimer
+            // 
+            this.LabPassTimer.AutoSize = true;
+            this.LabPassTimer.Location = new System.Drawing.Point(5, 460);
+            this.LabPassTimer.Name = "LabPassTimer";
+            this.LabPassTimer.Size = new System.Drawing.Size(92, 15);
+            this.LabPassTimer.TabIndex = 40;
+            this.LabPassTimer.Text = "Pass timer (sec.)";
             // 
             // BLicense
             // 
@@ -559,36 +590,6 @@ namespace YALife
             this.Timer.Interval = 600;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
-            // LabPassTimer
-            // 
-            this.LabPassTimer.AutoSize = true;
-            this.LabPassTimer.Location = new System.Drawing.Point(5, 460);
-            this.LabPassTimer.Name = "LabPassTimer";
-            this.LabPassTimer.Size = new System.Drawing.Size(92, 15);
-            this.LabPassTimer.TabIndex = 40;
-            this.LabPassTimer.Text = "Pass timer (sec.)";
-            // 
-            // txtPassTimer
-            // 
-            this.txtPassTimer.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.txtPassTimer.Location = new System.Drawing.Point(133, 457);
-            this.txtPassTimer.Name = "txtPassTimer";
-            this.txtPassTimer.ReadOnly = true;
-            this.txtPassTimer.Size = new System.Drawing.Size(80, 23);
-            this.txtPassTimer.TabIndex = 41;
-            this.txtPassTimer.Text = "0";
-            // 
-            // BAbout
-            // 
-            this.BAbout.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BAbout.Location = new System.Drawing.Point(142, 515);
-            this.BAbout.Name = "BAbout";
-            this.BAbout.Size = new System.Drawing.Size(55, 23);
-            this.BAbout.TabIndex = 42;
-            this.BAbout.Text = "About";
-            this.BAbout.UseVisualStyleBackColor = false;
-            this.BAbout.Click += new System.EventHandler(this.BAbout_Click);
-            // 
             // YALife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -601,6 +602,7 @@ namespace YALife
             this.Name = "YALife";
             this.Text = "YALife";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.SizeChanged += new System.EventHandler(this.YALife_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.Frame)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
