@@ -39,6 +39,11 @@ namespace YALife
     ///                         if I can detect a minimize and restore, I could try to 
     ///                         save the bitmap where the size of Frame doesn't affect it 
     ///                         and restore it when we un-minimize the form. 
+    /// 1.0.14.0 11/07/2021 DWR Tweaked the log background.
+    /// 1.0.15.0 11/09/2021 DWR The initial CleanPaper() in DrawLife() was a total waste of 
+    ///                         time. Since we repaint the whole bitmap anyway, clearing it 
+    ///                         first is not needed. Found using the performance profiler. 
+    ///                         Also this version is one the release version of VS 2022.
     /// 
     /// ToDo:
     /// 
@@ -398,7 +403,7 @@ namespace YALife
             {
                 for (int Hei = 0; Hei < RefPaper.Height; Hei++)
                 {
-                    RefPaper.SetPixel(Wid, Hei, Color.White);
+                    RefPaper.SetPixel(Wid, Hei, Color.Black);
                 }
             }
         }
@@ -680,7 +685,9 @@ namespace YALife
             if (ILife == null) return;
             if (Paper == null) return;
 
-            CleanPaper(Paper);
+            // This clear was a total waste of time. Since we repaint the whole
+            // bitmap anyway, clearing it first is not needed. 
+            //CleanPaper(Paper);
 
             // Step through the array
             for (int Wid = 0; Wid < IWBlocks; Wid++)
@@ -710,7 +717,7 @@ namespace YALife
                                     // binary display (alive or empty) and adds some interest by letting
                                     // us know which cells are persistant and which are not.
                                     // Note that the "rules" part of DoLife() sets and resets (or clamps)
-                                    // the value in the cell (FYI: Cndx is color index). 
+                                    // the value in the cell (FYI: Cndx is color index).
                                     Double Cndx = (double)ILife[Wid, Hei];
                                     if (Cndx > 255) { Cndx = 255; }
                                     Color Clr = CMap.GetColorForValue(Cndx, (double)256);
