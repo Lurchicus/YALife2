@@ -70,6 +70,8 @@
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Splash";
             this.Text = "YALife";
             this.Load += new System.EventHandler(this.Splash_Load);

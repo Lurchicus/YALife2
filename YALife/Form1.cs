@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace YALife
@@ -43,17 +44,21 @@ namespace YALife
     /// 1.0.15.0 11/09/2021 DWR The initial CleanPaper() in DrawLife() was a total waste of 
     ///                         time. Since we repaint the whole bitmap anyway, clearing it 
     ///                         first is not needed. Found using the performance profiler. 
-    ///                         Also this version is one the release version of VS 2022.
+    ///                         Also this version is on the release version of VS 2022.
+    /// 1.0.16.0 11/09/2021 DWR Added a "N0" format to add a thousands seperator for most
+    ///                         of the text boxes. Also added the culture parameter (I
+    ///                         used currrent, so it's based on how the current windows
+    ///                         config is set).
+    ///                         - Removed minimize and maximize from the splash screen.\
+    ///                         - Implemented DirectBitmap which greatly improved my draw
+    ///                         times. More optimizations by moving the bitmap create and
+    ///                         dispose into the reset logic so we only recreate the 
+    ///                         bitmap if we change size or the blocksize (or click Stop
+    ///                         or Reset).
     /// 
     /// ToDo:
     /// 
-    /// 1. A faster way to draw to the screen besides individual setpixels calls. 
-    ///    I'll have to research what's possible but still practical for a hobbiest 
-    ///    project like this one. 
-    ///    I.E. Not buying something like LeadTools for a fun project that
-    ///    will never make any money, and isn't intended to... the value is in what I
-    ///    learn in using the new Visual Studios 2022 RC 1 and .NET 6 RC 1.
-    /// 2. Create a way to import a predefined "life" pattern. If there is a standard
+    /// 1. Create a way to import a predefined "life" pattern. If there is a standard
     ///    for this already I'll use that, otherwise I'll create one... maybe a text
     ///    or json formatted file giving the X/Y coordinates of the starting live
     ///    cell locations... we can then single step or run them. A form to edit 
@@ -89,10 +94,13 @@ namespace YALife
         DateTime StopMS;    // End timer
         TimeSpan ElapsedMS; // Elapsed timer
 
-        Bitmap? Paper;                        // Bitmap to draw on
+        //Bitmap? Paper;                        // Bitmap to draw on
+        DirectBitmap Paper = new DirectBitmap(1, 1);
         readonly Random RNG = new();    // Object to pull RNG values
         ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
         readonly string LicenseFile = "gnu_gpl3.txt";   // GPL 3 license file
+        readonly string NumSpec = "N0";
+        CultureInfo Culture = CultureInfo.CurrentCulture;
 
         /// <summary>
         /// YALife constructor
@@ -272,6 +280,7 @@ namespace YALife
         /// <param name="e"></param>
         private void BExit_Click(object sender, EventArgs e)
         {
+            Paper.Dispose();
             Application.Exit();
         }
 
@@ -306,8 +315,8 @@ namespace YALife
             // Get and report pixels we can draw in
             IHPixels = Frame.Height;
             IWPixels = Frame.Width;
-            TxHPixels.Text = IHPixels.ToString();
-            TxWPixels.Text = IWPixels.ToString();
+            TxHPixels.Text = IHPixels.ToString(NumSpec, Culture);
+            TxWPixels.Text = IWPixels.ToString(NumSpec, Culture);
 
             // BlockSize is very important to how I designed this program. It is
             // in effect a zoom, as it allow the cells/locations displayed to be
@@ -322,26 +331,24 @@ namespace YALife
             // Calculate and report block size
             IHBlocks = IHPixels / IBlockSize;
             IWBlocks = IWPixels / IBlockSize;
-            TxHBlocks.Text = IHBlocks.ToString();
-            TxWBlocks.Text = IWBlocks.ToString();
+            TxHBlocks.Text = IHBlocks.ToString(NumSpec, Culture);
+            TxWBlocks.Text = IWBlocks.ToString(NumSpec, Culture);
 
             // Manage "Frame" size
             Frame.Top = ITop;
             Frame.Left = ILeft;
             Frame.Width = this.ClientSize.Width - ILeft;
             Frame.Height = this.ClientSize.Height;
-            Application.DoEvents();
-
-            // Clear and recreate bitmap (I just call it paper
-            // because I can)
+            
+            // Clear and prepare for a fresh bitmap
             if (Frame.Image != null)
             {
                 Frame.Image.Dispose();
             }
-            //if (Mini) { return; }
-            Paper = MakePaper();
-            CleanPaper(Paper);
-            Frame.Image = Paper;
+
+            // Only recreate the bitmap on a reset
+            Paper.Dispose();
+            Paper = new DirectBitmap(IWPixels, IHPixels);
 
             // Recreate life array (init to 0) and get the 
             // initial population percentage.
@@ -369,8 +376,6 @@ namespace YALife
             }
             DrawLife();
 
-            //TxLog.Visible = false;
-            //TxLog.AppendText("ILife: " + IWBlocks.ToString() + "x" + IHBlocks.ToString() + "\r\n");
             StopIt = false;
             Stopped = true;
             IPass = 1;
@@ -384,6 +389,7 @@ namespace YALife
 
         /// <summary>
         /// Creates and returns a freash new bitmap
+        /// *** No longer used ***
         /// </summary>
         /// <returns>Bitmap</returns>
         private Bitmap MakePaper()
@@ -393,12 +399,13 @@ namespace YALife
 
         /// <summary>
         /// Sets all the pixels in the supplied bitmap to white
+        /// *** No longer used ***
         /// </summary>
         /// <param name="RefPaper">A bitmap</param>
         private static void CleanPaper(Bitmap RefPaper)
         {
             if (RefPaper == null) { return; }  
-            //TxLog.AppendText("Paper: " + RefPaper.Width.ToString() + "x" + RefPaper.Height.ToString()+"\r\n");
+            // o/~ I see a bitmap and I want to paint it black... o/~
             for (int Wid = 0; Wid < RefPaper.Width; Wid++)
             {
                 for (int Hei = 0; Hei < RefPaper.Height; Hei++)
@@ -422,7 +429,7 @@ namespace YALife
             if (ISave == null) return;
 
             // Update the pass counter in the UI
-            TxPass.Text = IPass.ToString();
+            TxPass.Text = IPass.ToString(NumSpec, Culture);
 
             // Zero out the detail counters
             IBirth = 0;
@@ -656,15 +663,15 @@ namespace YALife
             }
 
             // Show living and empty cells
-            TxIsLiving.Text = IsLiving.ToString();
-            TxIsEmpty.Text = IsEmpty.ToString();
+            TxIsLiving.Text = IsLiving.ToString(NumSpec, Culture);
+            TxIsEmpty.Text = IsEmpty.ToString(NumSpec, Culture);
             
             // Show details
-            TxBirth.Text = IBirth.ToString();
-            TxLive.Text = ILive.ToString();
-            TxLonely.Text = ILonely.ToString();
-            TxCrowd.Text = ICrowd.ToString();
-            TxEmpty.Text = IEmpty.ToString();
+            TxBirth.Text = IBirth.ToString(NumSpec, Culture);
+            TxLive.Text = ILive.ToString(NumSpec, Culture);
+            TxLonely.Text = ILonely.ToString(NumSpec, Culture);
+            TxCrowd.Text = ICrowd.ToString(NumSpec, Culture);
+            TxEmpty.Text = IEmpty.ToString(NumSpec, Culture);
 
             // Draw the new bitmap
             DrawLife();
@@ -681,13 +688,10 @@ namespace YALife
             int IHOffset;
             int IW;
             int IH;
+            Color Clr;
+            Double Cndx;
 
             if (ILife == null) return;
-            if (Paper == null) return;
-
-            // This clear was a total waste of time. Since we repaint the whole
-            // bitmap anyway, clearing it first is not needed. 
-            //CleanPaper(Paper);
 
             // Step through the array
             for (int Wid = 0; Wid < IWBlocks; Wid++)
@@ -718,16 +722,16 @@ namespace YALife
                                     // us know which cells are persistant and which are not.
                                     // Note that the "rules" part of DoLife() sets and resets (or clamps)
                                     // the value in the cell (FYI: Cndx is color index).
-                                    Double Cndx = (double)ILife[Wid, Hei];
+                                    Cndx = (double)ILife[Wid, Hei];
                                     if (Cndx > 255) { Cndx = 255; }
-                                    Color Clr = CMap.GetColorForValue(Cndx, (double)256);
-                                    Paper.SetPixel(IW, IH, Clr);
+                                    Clr = CMap.GetColorForValue(Cndx, (double)256);
                                 }
                                 else
                                 {
                                     // Empty is always black
-                                    Paper.SetPixel(IW, IH, Color.Black);
+                                    Clr = Color.Black;
                                 }
+                                Paper.SetPixel(IW, IH, Clr);
                             }
                             else
                             {
@@ -739,12 +743,11 @@ namespace YALife
                 }
             }
 
-            // Show the new bitmap and update the UI
-            Frame.Image = Paper;
+            // Show the updated bitmap and update the UI
+            Frame.Image = Paper.Bitmap;
             StopMS = DateTime.Now;
             ElapsedMS = StopMS - StartMS;
-            //TxLog.AppendText("Pass: " + IPass.ToString() + " | " + ElapsedMS.TotalSeconds + "s\r\n");
-            txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString(); 
+            txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString("N4", Culture); 
             Application.DoEvents();
         }
     }
