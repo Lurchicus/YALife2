@@ -559,9 +559,9 @@ namespace YALife
             this.LBlockSize.AutoSize = true;
             this.LBlockSize.Location = new System.Drawing.Point(3, 5);
             this.LBlockSize.Name = "LBlockSize";
-            this.LBlockSize.Size = new System.Drawing.Size(58, 15);
+            this.LBlockSize.Size = new System.Drawing.Size(99, 15);
             this.LBlockSize.TabIndex = 1;
-            this.LBlockSize.Text = "Block size";
+            this.LBlockSize.Text = "Block size (zoom)";
             // 
             // NBlockSize
             // 

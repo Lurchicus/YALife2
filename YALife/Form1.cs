@@ -55,6 +55,7 @@ namespace YALife
     ///                         dispose into the reset logic so we only recreate the 
     ///                         bitmap if we change size or the blocksize (or click Stop
     ///                         or Reset).
+    /// 1.0.17.0 11/20/2021 DWR Added "(zoom)" to block size label text. 
     /// 
     /// ToDo:
     /// 
