@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
@@ -9,6 +10,9 @@ namespace YALife
     /// Yet Another Life Program (based on Conway's Game of Life) by Dan Rhea
     /// I wrote this to try out WinForms on the VS 2022 Preview. I popped this
     /// into my GitHub repository (public)
+    /// 
+    /// I was saddened to learn that we lost Mr. Conway to Covid-19 complications
+    /// April 11th of 2020.
     /// 
     /// 1.0.1.0  08/12/2021 DWR Initial version
     /// 1.0.2.0  08/12/2021 DWR Code and comments cleanup pass 1
@@ -55,10 +59,12 @@ namespace YALife
     ///                         dispose into the reset logic so we only recreate the 
     ///                         bitmap if we change size or the blocksize (or click Stop
     ///                         or Reset).
-    /// 1.0.17.0 11/20/2021 DWR Added "(zoom)" to block size label text. 
+    /// 1.0.17.0 11/20/2021 DWR Added "(zoom)" to block size label text.
+    /// 1.0.18.0 11/26/2021 DWR Added a "mode" dropdown that will control color cycling
+    ///                         or a single non cycling color.
+    ///                         - Removed no longer used functions, methods and events.
     /// 
     /// ToDo:
-    /// 
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
     ///    for this already I'll use that, otherwise I'll create one... maybe a text
     ///    or json formatted file giving the X/Y coordinates of the starting live
@@ -89,13 +95,13 @@ namespace YALife
         int IEmpty;         // Count of "Stay empty" cases in a pass
         int IsLiving;       // Count of all living cells
         int IsEmpty;        // Count of all empty cells
+        int Mode;           // Color cycle mode
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
         DateTime StartMS;   // Start timer
         DateTime StopMS;    // End timer
         TimeSpan ElapsedMS; // Elapsed timer
 
-        //Bitmap? Paper;                        // Bitmap to draw on
         DirectBitmap Paper = new DirectBitmap(1, 1);
         readonly Random RNG = new();    // Object to pull RNG values
         ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
@@ -121,6 +127,11 @@ namespace YALife
             // Give the form a bit of time to draw
             ITop = Frame.Top;
             ILeft = Frame.Left;
+            // Init and load and bind the color mode drop down list
+            ColorMode colorMode = new ColorMode();
+            DDMode.DataSource = colorMode.ModeList();
+            DDMode.DisplayMember = "ModeInfo";
+            DDMode.ValueMember = "ModeValue";
             Timer.Enabled = true;
         }
 
@@ -182,24 +193,6 @@ namespace YALife
             else
             {
                 BWrap = false;
-            }
-        }
-
-        /// <summary>
-        /// Switch the once flag if needed... lets us change it while the program
-        /// is running
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CkOnce_CheckedChanged(object sender, EventArgs e)
-        {
-            if (CkOnce.Checked)
-            {
-                Once = true;
-            }
-            else
-            {
-                Once = false;
             }
         }
 
@@ -308,6 +301,12 @@ namespace YALife
             SplashScreen.ShowDialog();
         }
 
+        private void DDMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Mode = DDMode.SelectedIndex;
+            Reset();
+        }
+
         /// <summary>
         /// Reset and reinitialize the variables and the working "life" array
         /// </summary>
@@ -340,7 +339,7 @@ namespace YALife
             Frame.Left = ILeft;
             Frame.Width = this.ClientSize.Width - ILeft;
             Frame.Height = this.ClientSize.Height;
-            
+
             // Clear and prepare for a fresh bitmap
             if (Frame.Image != null)
             {
@@ -356,7 +355,7 @@ namespace YALife
             IInitPercent = (int)TxPercent.Value;
             ILife = new int[IWBlocks, IHBlocks];
             ISave = new int[IWBlocks, IHBlocks];
-            
+
             // Initialize the life array randomly based on a desired starting
             // percentage of live cells
             for (int IW = 0; IW < IWBlocks; IW++)
@@ -381,39 +380,11 @@ namespace YALife
             Stopped = true;
             IPass = 1;
             BWrap = (CkWrap.Checked);
-            Once = (CkOnce.Checked);
+            //Once = (CkOnce.Checked);
             BRun.Focus();
 
             // Update the UI
             Application.DoEvents();
-        }
-
-        /// <summary>
-        /// Creates and returns a freash new bitmap
-        /// *** No longer used ***
-        /// </summary>
-        /// <returns>Bitmap</returns>
-        private Bitmap MakePaper()
-        {
-            return new Bitmap(IWPixels, IHPixels, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-        }
-
-        /// <summary>
-        /// Sets all the pixels in the supplied bitmap to white
-        /// *** No longer used ***
-        /// </summary>
-        /// <param name="RefPaper">A bitmap</param>
-        private static void CleanPaper(Bitmap RefPaper)
-        {
-            if (RefPaper == null) { return; }  
-            // o/~ I see a bitmap and I want to paint it black... o/~
-            for (int Wid = 0; Wid < RefPaper.Width; Wid++)
-            {
-                for (int Hei = 0; Hei < RefPaper.Height; Hei++)
-                {
-                    RefPaper.SetPixel(Wid, Hei, Color.Black);
-                }
-            }
         }
 
         /// <summary>
@@ -591,8 +562,8 @@ namespace YALife
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = (Once) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Once) ? 255 : 1;
+                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
                                 }
                                 ILive++;
                                 break;
@@ -601,14 +572,14 @@ namespace YALife
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = (Once) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Once) ? 255 : 1;
+                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
                                 }
                                 ILive++;
                                 break;
                             case > 3:
                                 // We have more than three neibours, too many, we die (overpopulation)
-                                ISave[CurW, CurH] = 0; 
+                                ISave[CurW, CurH] = 0;
                                 ICrowd++;
                                 break;
                         }
@@ -620,7 +591,7 @@ namespace YALife
                         {
                             case < 3:
                                 // Less than three neibours, we stay empty
-                                ISave[CurW, CurH] = 0; 
+                                ISave[CurW, CurH] = 0;
                                 IEmpty++;
                                 break;
                             case 3:
@@ -628,8 +599,8 @@ namespace YALife
                                 ISave[CurW, CurH] = 1;
                                 if (ILife[CurW, CurH] >= 255)
                                 {
-                                    ISave[CurW, CurH] = (Once) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Once) ? 255 : 1;
+                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
                                 }
                                 IBirth++;
                                 break;
@@ -666,7 +637,7 @@ namespace YALife
             // Show living and empty cells
             TxIsLiving.Text = IsLiving.ToString(NumSpec, Culture);
             TxIsEmpty.Text = IsEmpty.ToString(NumSpec, Culture);
-            
+
             // Show details
             TxBirth.Text = IBirth.ToString(NumSpec, Culture);
             TxLive.Text = ILive.ToString(NumSpec, Culture);
@@ -723,9 +694,16 @@ namespace YALife
                                     // us know which cells are persistant and which are not.
                                     // Note that the "rules" part of DoLife() sets and resets (or clamps)
                                     // the value in the cell (FYI: Cndx is color index).
-                                    Cndx = (double)ILife[Wid, Hei];
-                                    if (Cndx > 255) { Cndx = 255; }
-                                    Clr = CMap.GetColorForValue(Cndx, (double)256);
+                                    if (Mode == 1 || Mode == 2)
+                                    {
+                                        Cndx = (double)ILife[Wid, Hei];
+                                        if (Cndx > 255) { Cndx = 255; }
+                                        Clr = CMap.GetColorForValue(Cndx, (double)256);
+                                    } 
+                                    else
+                                    {
+                                        Clr = Color.Yellow;
+                                    }
                                 }
                                 else
                                 {
@@ -748,8 +726,38 @@ namespace YALife
             Frame.Image = Paper.Bitmap;
             StopMS = DateTime.Now;
             ElapsedMS = StopMS - StartMS;
-            txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString("N4", Culture); 
+            txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString("N4", Culture);
             Application.DoEvents();
+        }
+    }
+
+    /// <summary>
+    /// Create a list of color modes to bind to a drop down list
+    /// </summary>
+    public class ColorMode
+    {
+        /// <summary>
+        /// Unique value for each mode
+        /// </summary>
+        public string ?ModeValue { get; set; } 
+        /// <summary>
+        /// A description of the mode for the drop down
+        /// </summary>
+        public string ?ModeInfo { get; set; }
+
+        /// <summary>
+        /// Create our list of color modes
+        /// </summary>
+        /// <returns>List of ColorMode</returns>
+        public List<ColorMode> ModeList()
+        {
+            return new List<ColorMode>
+            {
+                new ColorMode{ ModeValue = "", ModeInfo = "Select" },
+                new ColorMode{ ModeValue = "1", ModeInfo = "Cycle once" },
+                new ColorMode{ ModeValue = "2", ModeInfo = "Cycle many" },
+                new ColorMode{ ModeValue = "3", ModeInfo = "Color: Yellow" }
+            };
         }
     }
 }

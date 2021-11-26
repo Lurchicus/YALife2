@@ -34,13 +34,13 @@ namespace YALife
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
             this.Frame = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.DDMode = new System.Windows.Forms.ComboBox();
             this.BAbout = new System.Windows.Forms.Button();
             this.txtPassTimer = new System.Windows.Forms.TextBox();
             this.LabPassTimer = new System.Windows.Forms.Label();
             this.BLicense = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.CkOnce = new System.Windows.Forms.CheckBox();
             this.LEmpty = new System.Windows.Forms.Label();
             this.LCrowd = new System.Windows.Forms.Label();
             this.LLonely = new System.Windows.Forms.Label();
@@ -107,13 +107,13 @@ namespace YALife
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.panel1.Controls.Add(this.DDMode);
             this.panel1.Controls.Add(this.BAbout);
             this.panel1.Controls.Add(this.txtPassTimer);
             this.panel1.Controls.Add(this.LabPassTimer);
             this.panel1.Controls.Add(this.BLicense);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.CkOnce);
             this.panel1.Controls.Add(this.LEmpty);
             this.panel1.Controls.Add(this.LCrowd);
             this.panel1.Controls.Add(this.LLonely);
@@ -154,6 +154,15 @@ namespace YALife
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(216, 636);
             this.panel1.TabIndex = 1;
+            // 
+            // DDMode
+            // 
+            this.DDMode.FormattingEnabled = true;
+            this.DDMode.Location = new System.Drawing.Point(133, 200);
+            this.DDMode.Name = "DDMode";
+            this.DDMode.Size = new System.Drawing.Size(83, 23);
+            this.DDMode.TabIndex = 2;
+            this.DDMode.SelectedIndexChanged += new System.EventHandler(this.DDMode_SelectedIndexChanged);
             // 
             // BAbout
             // 
@@ -201,9 +210,9 @@ namespace YALife
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(5, 203);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 15);
+            this.label2.Size = new System.Drawing.Size(100, 15);
             this.label2.TabIndex = 38;
-            this.label2.Text = "Cycle colors";
+            this.label2.Text = "Color cycle mode";
             // 
             // label1
             // 
@@ -213,19 +222,6 @@ namespace YALife
             this.label1.Size = new System.Drawing.Size(101, 15);
             this.label1.TabIndex = 37;
             this.label1.Text = "Universe: Open or";
-            // 
-            // CkOnce
-            // 
-            this.CkOnce.AutoSize = true;
-            this.CkOnce.Checked = true;
-            this.CkOnce.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CkOnce.Location = new System.Drawing.Point(133, 202);
-            this.CkOnce.Name = "CkOnce";
-            this.CkOnce.Size = new System.Drawing.Size(54, 19);
-            this.CkOnce.TabIndex = 36;
-            this.CkOnce.Text = "Once";
-            this.CkOnce.UseVisualStyleBackColor = true;
-            this.CkOnce.CheckedChanged += new System.EventHandler(this.CkOnce_CheckedChanged);
             // 
             // LEmpty
             // 
@@ -654,11 +650,11 @@ namespace YALife
         private System.Windows.Forms.Label LAlive;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox CkOnce;
         private System.Windows.Forms.Button BLicense;
         private System.Windows.Forms.Button BAbout;
         private System.Windows.Forms.TextBox txtPassTimer;
         private System.Windows.Forms.Label LabPassTimer;
+        private System.Windows.Forms.ComboBox DDMode;
     }
 }
 
