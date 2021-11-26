@@ -63,6 +63,9 @@ namespace YALife
     /// 1.0.18.0 11/26/2021 DWR Added a "mode" dropdown that will control color cycling
     ///                         or a single non cycling color.
     ///                         - Removed no longer used functions, methods and events.
+    /// 1.0.19.0 11/26/2021 DWR More optmizations (don't clear the new life array first
+    ///                         since we are setting every element anyway). Found a 
+    ///                         couple case statements that could be optimized too.
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
@@ -78,7 +81,6 @@ namespace YALife
         bool BWrap;         // Wrap around or bounded universe
         bool StopIt;        // Stop flag
         bool Stopped;       // Stop state
-        bool Once;          // Cycle colors once or continiously
         int ITop;           // Tracks the top of the image frame
         int ILeft;          // Tracls the left of the image frame
         int IInitPercent;   // Initial live percentage
@@ -301,6 +303,11 @@ namespace YALife
             SplashScreen.ShowDialog();
         }
 
+        /// <summary>
+        /// Grab the selected color mode and force a reset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DDMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             Mode = DDMode.SelectedIndex;
@@ -380,7 +387,6 @@ namespace YALife
             Stopped = true;
             IPass = 1;
             BWrap = (CkWrap.Checked);
-            //Once = (CkOnce.Checked);
             BRun.Focus();
 
             // Update the UI
@@ -409,15 +415,6 @@ namespace YALife
             ILonely = 0;
             ICrowd = 0;
             IEmpty = 0;
-
-            // Clear out the save array
-            for (int CurW = 0; CurW < IWBlocks; CurW++)
-            {
-                for (int CurH = 0; CurH < IHBlocks; CurH++)
-                {
-                    ISave[CurW, CurH] = 0;
-                }
-            }
 
             // Scan through the "life" array (taking the block size into
             // account as well)
@@ -558,17 +555,8 @@ namespace YALife
                                 ILonely++;
                                 break;
                             case 2:
-                                // We have two neibours, happy, we live on
-                                ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
-                                if (ILife[CurW, CurH] >= 255)
-                                {
-                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                }
-                                ILive++;
-                                break;
                             case 3:
-                                // We have three neibours, happy, we survive another pass
+                                // We have two neibours, happy, we live on
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
@@ -591,6 +579,8 @@ namespace YALife
                         {
                             case < 3:
                                 // Less than three neibours, we stay empty
+                            case > 3:
+                                // More than three neibours, stay empty
                                 ISave[CurW, CurH] = 0;
                                 IEmpty++;
                                 break;
@@ -603,11 +593,6 @@ namespace YALife
                                     ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
                                 }
                                 IBirth++;
-                                break;
-                            case > 3:
-                                // More than three neibours, stay empty
-                                ISave[CurW, CurH] = 0;
-                                IEmpty++;
                                 break;
                         }
                     }
@@ -702,6 +687,8 @@ namespace YALife
                                     } 
                                     else
                                     {
+                                        // A cool side effect of making this a simple else, this will
+                                        // be the default if a mode is not yet selected. I like it!
                                         Clr = Color.Yellow;
                                     }
                                 }
