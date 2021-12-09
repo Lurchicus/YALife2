@@ -53,7 +53,7 @@ namespace YALife
     ///                         of the text boxes. Also added the culture parameter (I
     ///                         used currrent, so it's based on how the current windows
     ///                         config is set).
-    ///                         - Removed minimize and maximize from the splash screen.\
+    ///                         - Removed minimize and maximize from the splash screen.
     ///                         - Implemented DirectBitmap which greatly improved my draw
     ///                         times. More optimizations by moving the bitmap create and
     ///                         dispose into the reset logic so we only recreate the 
@@ -66,6 +66,9 @@ namespace YALife
     /// 1.0.19.0 11/26/2021 DWR More optmizations (don't clear the new life array first
     ///                         since we are setting every element anyway). Found a 
     ///                         couple case statements that could be optimized too.
+    /// 1.0.20.0 12/08/2021 DWR Did some refactoring in DoLife with the code that 
+    ///                         checks for any friends living around us. It's simplified
+    ///                         in DoLife but the new 8 functions are a bit jank for now.
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
@@ -98,6 +101,7 @@ namespace YALife
         int IsLiving;       // Count of all living cells
         int IsEmpty;        // Count of all empty cells
         int Mode;           // Color cycle mode
+        int Friends;        // Nearby friends
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
         DateTime StartMS;   // Start timer
@@ -393,6 +397,94 @@ namespace YALife
             Application.DoEvents();
         }
 
+        private void North(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife == null) { return; }
+
+            // North: Width, Height-1
+            int W = CurW;
+            int H = CurH - 1;
+            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; }}
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void NorthEast(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife == null) { return; }
+
+            // Northeast: Width+1, Height-1
+            int W = CurW + 1;
+            int H = CurH - 1;
+            if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
+            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void East(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife == null) { return; }
+
+            // East: Width+1, Height
+            int W = CurW + 1;
+            int H = CurH;
+            if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void SouthEast(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife==null) { return; } 
+            
+            // Southeast: Width+1, Height+1
+            int W = CurW + 1;
+            int H = CurH + 1;
+            if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
+            if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void South(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife==null) { return; }    
+            // South: Width, Height+1
+            int W = CurW;
+            int H = CurH + 1;
+            if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void SouthWest(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife==null) { return; }    
+            // Southwest: Width-1, Height+1
+            int W = CurW - 1;
+            int H = CurH + 1;
+            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
+            if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void NorthWest(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife == null) { return; }
+            // Northwest: Width-1, Height-1
+            int W = CurW - 1;
+            int H = CurH - 1;
+            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
+            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        private void West(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife == null) { return; }
+            // West: Width-1, Height
+            int W = CurW - 1;
+            int H = CurH;
+            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
         /// <summary>
         /// Apply Conway's Life rules to the "life" array. Supports an 
         /// unbounded and wrap-around universe.
@@ -400,8 +492,6 @@ namespace YALife
         private void DoLife()
         {
             StartMS = DateTime.Now;
-            int W;
-            int H;
 
             if (ILife == null) return;
             if (ISave == null) return;
@@ -422,7 +512,7 @@ namespace YALife
             {
                 for (int CurH = 0; CurH < IHBlocks; CurH++)
                 {
-                    int Friends = 0;
+                    Friends = 0;
 
                     if (BWrap)
                     {
@@ -430,58 +520,14 @@ namespace YALife
                         // on the oppisite side.
                         // Look around the current array element to determine
                         // the future of the current location.
-
-                        // North: Width, Height-1
-                        W = CurW;
-                        H = CurH - 1;
-                        if (H < 0) { H = IHBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Northeast: Width+1, Height-1
-                        W = CurW + 1;
-                        H = CurH - 1;
-                        if (W == IWBlocks) { W = 0; }
-                        if (H < 0) { H = IHBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // East: Width+1, Height
-                        W = CurW + 1;
-                        H = CurH;
-                        if (W == IWBlocks) { W = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Southeast: Width+1, Height+1
-                        W = CurW + 1;
-                        H = CurH + 1;
-                        if (W == IWBlocks) { W = 0; }
-                        if (H == IHBlocks) { H = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // South: Width, Height+1
-                        W = CurW;
-                        H = CurH + 1;
-                        if (H == IHBlocks) { H = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Southwest: Width-1, Height+1
-                        W = CurW - 1;
-                        H = CurH + 1;
-                        if (W < 0) { W = IWBlocks - 1; }
-                        if (H == IHBlocks) { H = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // West: Width-1, Height
-                        W = CurW - 1;
-                        H = CurH;
-                        if (W < 0) { W = IWBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Northwest: Width-1, Height-1
-                        W = CurW - 1;
-                        H = CurH - 1;
-                        if (W < 0) { W = IWBlocks - 1; }
-                        if (H < 0) { H = IHBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
+                        North(CurW, CurH, true);
+                        NorthEast(CurW, CurH, true);
+                        East(CurW, CurH, true);
+                        SouthEast(CurW, CurH, true); 
+                        South(CurW, CurH, true); 
+                        SouthWest(CurW, CurH, true);   
+                        West(CurW, CurH, true);
+                        NorthWest(CurW, CurH, true);
                     }
                     else
                     {
@@ -490,58 +536,14 @@ namespace YALife
                         // they could keep going).
                         // Look around the current array element to determine
                         // what happens to this location.
-
-                        // North: Width, Height-1
-                        W = CurW;
-                        H = CurH - 1;
-                        if (H < 0) { H = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Northeast: Width+1, Height-1
-                        W = CurW + 1;
-                        H = CurH - 1;
-                        if (W == IWBlocks) { W = IWBlocks - 1; }
-                        if (H < 0) { H = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // East: Width+1, Height
-                        W = CurW + 1;
-                        H = CurH;
-                        if (W == IWBlocks) { W = IWBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Southeast: Width+1, Height+1
-                        W = CurW + 1;
-                        H = CurH + 1;
-                        if (W == IWBlocks) { W = IWBlocks - 1; }
-                        if (H == IHBlocks) { H = IHBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // South: Width, Height+1
-                        W = CurW;
-                        H = CurH + 1;
-                        if (H == IHBlocks) { H = IHBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Southwest: Width-1, Height+1
-                        W = CurW - 1;
-                        H = CurH + 1;
-                        if (W < 0) { W = 0; }
-                        if (H == IHBlocks) { H = IHBlocks - 1; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // West: Width-1, Height
-                        W = CurW - 1;
-                        H = CurH;
-                        if (W < 0) { W = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
-
-                        // Northwest: Width-1, Height-1
-                        W = CurW - 1;
-                        H = CurH - 1;
-                        if (W < 0) { W = 0; }
-                        if (H < 0) { H = 0; }
-                        if (ILife[W, H] >= 1) { Friends++; }
+                        North(CurW, CurH, false);
+                        NorthEast(CurW, CurH, false);   
+                        East(CurW, CurH, false);    
+                        SouthEast(CurW, CurH, false);   
+                        South(CurW, CurH, false);  
+                        SouthWest(CurW, CurH, false);   
+                        West(CurW, CurH, false);
+                        NorthWest(CurW, CurH, false); 
                     }
 
                     if (ILife[CurW, CurH] >= 1)
