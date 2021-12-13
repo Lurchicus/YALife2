@@ -69,6 +69,7 @@ namespace YALife
     /// 1.0.20.0 12/08/2021 DWR Did some refactoring in DoLife with the code that 
     ///                         checks for any friends living around us. It's simplified
     ///                         in DoLife but the new 8 functions are a bit jank for now.
+    /// 1.0.21.0 12/12/2021 DWR More comment and code tweaking.
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
@@ -397,6 +398,12 @@ namespace YALife
             Application.DoEvents();
         }
 
+        /// <summary>
+        /// Check North
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void North(int CurW, int CurH, bool Wrap)
         {
             if (ILife == null) { return; }
@@ -408,6 +415,12 @@ namespace YALife
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
+        /// <summary>
+        /// Check NorthEast
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void NorthEast(int CurW, int CurH, bool Wrap)
         {
             if (ILife == null) { return; }
@@ -420,6 +433,12 @@ namespace YALife
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
+        /// <summary>
+        /// Check East
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void East(int CurW, int CurH, bool Wrap)
         {
             if (ILife == null) { return; }
@@ -431,6 +450,12 @@ namespace YALife
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
+        /// <summary>
+        /// Check SouthEast
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void SouthEast(int CurW, int CurH, bool Wrap)
         {
             if (ILife==null) { return; } 
@@ -443,6 +468,12 @@ namespace YALife
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
+        /// <summary>
+        /// Check South
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void South(int CurW, int CurH, bool Wrap)
         {
             if (ILife==null) { return; }    
@@ -453,6 +484,12 @@ namespace YALife
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
+        /// <summary>
+        /// Check SouthWest
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void SouthWest(int CurW, int CurH, bool Wrap)
         {
             if (ILife==null) { return; }    
@@ -464,6 +501,28 @@ namespace YALife
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
+        /// <summary>
+        /// Check West
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
+        private void West(int CurW, int CurH, bool Wrap)
+        {
+            if (ILife == null) { return; }
+            // West: Width-1, Height
+            int W = CurW - 1;
+            int H = CurH;
+            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
+            if (ILife[W, H] >= 1) { Friends++; }
+        }
+
+        /// <summary>
+        /// Check NorthWest
+        /// </summary>
+        /// <param name="CurW">Current width position (X)</param>
+        /// <param name="CurH">Cuyrrent height position (Y)</param>
+        /// <param name="Wrap">Edge wrap mode</param>
         private void NorthWest(int CurW, int CurH, bool Wrap)
         {
             if (ILife == null) { return; }
@@ -472,16 +531,6 @@ namespace YALife
             int H = CurH - 1;
             if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
             if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
-            if (ILife[W, H] >= 1) { Friends++; }
-        }
-
-        private void West(int CurW, int CurH, bool Wrap)
-        {
-            if (ILife == null) { return; }
-            // West: Width-1, Height
-            int W = CurW - 1;
-            int H = CurH;
-            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
             if (ILife[W, H] >= 1) { Friends++; }
         }
 
@@ -520,14 +569,14 @@ namespace YALife
                         // on the oppisite side.
                         // Look around the current array element to determine
                         // the future of the current location.
-                        North(CurW, CurH, true);
-                        NorthEast(CurW, CurH, true);
-                        East(CurW, CurH, true);
-                        SouthEast(CurW, CurH, true); 
-                        South(CurW, CurH, true); 
-                        SouthWest(CurW, CurH, true);   
-                        West(CurW, CurH, true);
-                        NorthWest(CurW, CurH, true);
+                        North(CurW, CurH, BWrap);
+                        NorthEast(CurW, CurH, BWrap);
+                        East(CurW, CurH, BWrap);
+                        SouthEast(CurW, CurH, BWrap); 
+                        South(CurW, CurH, BWrap); 
+                        SouthWest(CurW, CurH, BWrap);   
+                        West(CurW, CurH, BWrap);
+                        NorthWest(CurW, CurH, BWrap);
                     }
                     else
                     {
@@ -536,14 +585,14 @@ namespace YALife
                         // they could keep going).
                         // Look around the current array element to determine
                         // what happens to this location.
-                        North(CurW, CurH, false);
-                        NorthEast(CurW, CurH, false);   
-                        East(CurW, CurH, false);    
-                        SouthEast(CurW, CurH, false);   
-                        South(CurW, CurH, false);  
-                        SouthWest(CurW, CurH, false);   
-                        West(CurW, CurH, false);
-                        NorthWest(CurW, CurH, false); 
+                        North(CurW, CurH, BWrap);
+                        NorthEast(CurW, CurH, BWrap);   
+                        East(CurW, CurH, BWrap);    
+                        SouthEast(CurW, CurH, BWrap);   
+                        South(CurW, CurH, BWrap);  
+                        SouthWest(CurW, CurH, BWrap);   
+                        West(CurW, CurH, BWrap);
+                        NorthWest(CurW, CurH, BWrap); 
                     }
 
                     if (ILife[CurW, CurH] >= 1)
@@ -625,7 +674,7 @@ namespace YALife
             TxIsLiving.Text = IsLiving.ToString(NumSpec, Culture);
             TxIsEmpty.Text = IsEmpty.ToString(NumSpec, Culture);
 
-            // Show details
+            // Show detail stats
             TxBirth.Text = IBirth.ToString(NumSpec, Culture);
             TxLive.Text = ILive.ToString(NumSpec, Culture);
             TxLonely.Text = ILonely.ToString(NumSpec, Culture);
