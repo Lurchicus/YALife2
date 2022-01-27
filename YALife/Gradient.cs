@@ -6,10 +6,13 @@ namespace YALife
 {
     /// <summary>
     /// Define two or more key colors (ColorsOfMap) then we
-    /// calculate and return ARGB values between these key colors.
-    /// This was written by Davide Dolla and was shared on StackOverflow 
-    /// (https://stackoverflow.com/questions/17821828/calculating-heat-map-colours)
-    /// Added my own comments to make sure I understand how this class works.
+    /// calculate and return ARGB values between these key colors creating a 
+    /// dynamic color gradient.
+    /// 
+    /// ColorHeatMap class by Davide Dolla (https://stackoverflow.com/users/1332133/davide-dolla)
+    /// and shared on (https://stackoverflow.com/questions/17821828/calculating-heat-map-colours)
+    /// 
+    /// I added my own comments to make sure I understand how this class works.
     /// </summary>
     public class ColorHeatMap
     {

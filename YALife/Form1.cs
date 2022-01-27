@@ -69,7 +69,13 @@ namespace YALife
     /// 1.0.20.0 12/08/2021 DWR Did some refactoring in DoLife with the code that 
     ///                         checks for any friends living around us. It's simplified
     ///                         in DoLife but the new 8 functions are a bit jank for now.
-    /// 1.0.21.0 12/12/2021 DWR More comment and code tweaking.
+    /// 1.0.21.0 12/12/2021 DWR More comment and code tweaking.\
+    /// 1.0.22.0 01/27/2022 DWR Added attributions to comments, readme and splash screen 
+    ///                         for the code used in Paper.cs and Gradient.cs that came
+    ///                         from StackOverflow.com.
+    ///                         - Added a file extention checker for FileReader to limit
+    ///                         what files the reader can display (experimenting on some
+    ///                         code to use at work)
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
@@ -332,10 +338,10 @@ namespace YALife
 
             // BlockSize is very important to how I designed this program. It is
             // in effect a zoom, as it allow the cells/locations displayed to be
-            // larger than a single pixel. I'm allowing a block size of up to 16
+            // larger than a single pixel. I'm allowing a block size of up to 32
             // (that can be increased by changing the maximum size set in 
             // NBlockSize). If block size too big you will eventually get 
-            // exceptions in DrawLife(). 
+            // exceptions in DrawLife(). And yes, 32 is very silly.
             //
             // Get the requested block size
             IBlockSize = (int)NBlockSize.Value;
@@ -521,7 +527,7 @@ namespace YALife
         /// Check NorthWest
         /// </summary>
         /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Cuyrrent height position (Y)</param>
+        /// <param name="CurH">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
         private void NorthWest(int CurW, int CurH, bool Wrap)
         {

@@ -86,7 +86,7 @@ namespace YALife
             // LBirth
             // 
             LBirth.AutoSize = true;
-            LBirth.Location = new System.Drawing.Point(5, 315);
+            LBirth.Location = new System.Drawing.Point(5, 335);
             LBirth.Name = "LBirth";
             LBirth.Size = new System.Drawing.Size(85, 15);
             LBirth.TabIndex = 31;
@@ -158,7 +158,7 @@ namespace YALife
             // DDMode
             // 
             this.DDMode.FormattingEnabled = true;
-            this.DDMode.Location = new System.Drawing.Point(133, 200);
+            this.DDMode.Location = new System.Drawing.Point(133, 211);
             this.DDMode.Name = "DDMode";
             this.DDMode.Size = new System.Drawing.Size(83, 23);
             this.DDMode.TabIndex = 2;
@@ -167,7 +167,7 @@ namespace YALife
             // BAbout
             // 
             this.BAbout.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BAbout.Location = new System.Drawing.Point(142, 515);
+            this.BAbout.Location = new System.Drawing.Point(142, 535);
             this.BAbout.Name = "BAbout";
             this.BAbout.Size = new System.Drawing.Size(55, 23);
             this.BAbout.TabIndex = 42;
@@ -178,7 +178,7 @@ namespace YALife
             // txtPassTimer
             // 
             this.txtPassTimer.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.txtPassTimer.Location = new System.Drawing.Point(133, 457);
+            this.txtPassTimer.Location = new System.Drawing.Point(133, 477);
             this.txtPassTimer.Name = "txtPassTimer";
             this.txtPassTimer.ReadOnly = true;
             this.txtPassTimer.Size = new System.Drawing.Size(80, 23);
@@ -188,7 +188,7 @@ namespace YALife
             // LabPassTimer
             // 
             this.LabPassTimer.AutoSize = true;
-            this.LabPassTimer.Location = new System.Drawing.Point(5, 460);
+            this.LabPassTimer.Location = new System.Drawing.Point(5, 480);
             this.LabPassTimer.Name = "LabPassTimer";
             this.LabPassTimer.Size = new System.Drawing.Size(92, 15);
             this.LabPassTimer.TabIndex = 40;
@@ -197,7 +197,7 @@ namespace YALife
             // BLicense
             // 
             this.BLicense.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BLicense.Location = new System.Drawing.Point(81, 515);
+            this.BLicense.Location = new System.Drawing.Point(81, 535);
             this.BLicense.Name = "BLicense";
             this.BLicense.Size = new System.Drawing.Size(55, 23);
             this.BLicense.TabIndex = 39;
@@ -208,7 +208,7 @@ namespace YALife
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 203);
+            this.label2.Location = new System.Drawing.Point(5, 214);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 15);
             this.label2.TabIndex = 38;
@@ -217,7 +217,7 @@ namespace YALife
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 178);
+            this.label1.Location = new System.Drawing.Point(5, 189);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(101, 15);
             this.label1.TabIndex = 37;
@@ -226,7 +226,7 @@ namespace YALife
             // LEmpty
             // 
             this.LEmpty.AutoSize = true;
-            this.LEmpty.Location = new System.Drawing.Point(5, 431);
+            this.LEmpty.Location = new System.Drawing.Point(5, 451);
             this.LEmpty.Name = "LEmpty";
             this.LEmpty.Size = new System.Drawing.Size(127, 15);
             this.LEmpty.TabIndex = 35;
@@ -235,7 +235,7 @@ namespace YALife
             // LCrowd
             // 
             this.LCrowd.AutoSize = true;
-            this.LCrowd.Location = new System.Drawing.Point(5, 402);
+            this.LCrowd.Location = new System.Drawing.Point(5, 422);
             this.LCrowd.Name = "LCrowd";
             this.LCrowd.Size = new System.Drawing.Size(128, 15);
             this.LCrowd.TabIndex = 34;
@@ -244,7 +244,7 @@ namespace YALife
             // LLonely
             // 
             this.LLonely.AutoSize = true;
-            this.LLonely.Location = new System.Drawing.Point(5, 373);
+            this.LLonely.Location = new System.Drawing.Point(5, 393);
             this.LLonely.Name = "LLonely";
             this.LLonely.Size = new System.Drawing.Size(114, 15);
             this.LLonely.TabIndex = 33;
@@ -253,7 +253,7 @@ namespace YALife
             // LAlive
             // 
             this.LAlive.AutoSize = true;
-            this.LAlive.Location = new System.Drawing.Point(5, 344);
+            this.LAlive.Location = new System.Drawing.Point(5, 364);
             this.LAlive.Name = "LAlive";
             this.LAlive.Size = new System.Drawing.Size(117, 15);
             this.LAlive.TabIndex = 32;
@@ -262,7 +262,7 @@ namespace YALife
             // TxEmpty
             // 
             this.TxEmpty.BackColor = System.Drawing.Color.Gold;
-            this.TxEmpty.Location = new System.Drawing.Point(133, 428);
+            this.TxEmpty.Location = new System.Drawing.Point(133, 448);
             this.TxEmpty.Name = "TxEmpty";
             this.TxEmpty.ReadOnly = true;
             this.TxEmpty.Size = new System.Drawing.Size(80, 23);
@@ -272,7 +272,7 @@ namespace YALife
             // TxCrowd
             // 
             this.TxCrowd.BackColor = System.Drawing.Color.LightSalmon;
-            this.TxCrowd.Location = new System.Drawing.Point(133, 399);
+            this.TxCrowd.Location = new System.Drawing.Point(133, 419);
             this.TxCrowd.Name = "TxCrowd";
             this.TxCrowd.ReadOnly = true;
             this.TxCrowd.Size = new System.Drawing.Size(80, 23);
@@ -282,7 +282,7 @@ namespace YALife
             // TxLonely
             // 
             this.TxLonely.BackColor = System.Drawing.Color.LightSalmon;
-            this.TxLonely.Location = new System.Drawing.Point(133, 370);
+            this.TxLonely.Location = new System.Drawing.Point(133, 390);
             this.TxLonely.Name = "TxLonely";
             this.TxLonely.ReadOnly = true;
             this.TxLonely.Size = new System.Drawing.Size(80, 23);
@@ -292,7 +292,7 @@ namespace YALife
             // TxLive
             // 
             this.TxLive.BackColor = System.Drawing.Color.PaleGreen;
-            this.TxLive.Location = new System.Drawing.Point(133, 341);
+            this.TxLive.Location = new System.Drawing.Point(133, 361);
             this.TxLive.Name = "TxLive";
             this.TxLive.ReadOnly = true;
             this.TxLive.Size = new System.Drawing.Size(80, 23);
@@ -302,7 +302,7 @@ namespace YALife
             // TxBirth
             // 
             this.TxBirth.BackColor = System.Drawing.Color.PaleGreen;
-            this.TxBirth.Location = new System.Drawing.Point(133, 312);
+            this.TxBirth.Location = new System.Drawing.Point(133, 332);
             this.TxBirth.Name = "TxBirth";
             this.TxBirth.ReadOnly = true;
             this.TxBirth.Size = new System.Drawing.Size(80, 23);
@@ -312,7 +312,7 @@ namespace YALife
             // LIsEmpty
             // 
             this.LIsEmpty.AutoSize = true;
-            this.LIsEmpty.Location = new System.Drawing.Point(5, 286);
+            this.LIsEmpty.Location = new System.Drawing.Point(5, 306);
             this.LIsEmpty.Name = "LIsEmpty";
             this.LIsEmpty.Size = new System.Drawing.Size(97, 15);
             this.LIsEmpty.TabIndex = 25;
@@ -321,7 +321,7 @@ namespace YALife
             // TxIsEmpty
             // 
             this.TxIsEmpty.BackColor = System.Drawing.Color.LightSalmon;
-            this.TxIsEmpty.Location = new System.Drawing.Point(133, 283);
+            this.TxIsEmpty.Location = new System.Drawing.Point(133, 303);
             this.TxIsEmpty.Name = "TxIsEmpty";
             this.TxIsEmpty.ReadOnly = true;
             this.TxIsEmpty.Size = new System.Drawing.Size(80, 23);
@@ -331,7 +331,7 @@ namespace YALife
             // LIsLiving
             // 
             this.LIsLiving.AutoSize = true;
-            this.LIsLiving.Location = new System.Drawing.Point(5, 257);
+            this.LIsLiving.Location = new System.Drawing.Point(5, 277);
             this.LIsLiving.Name = "LIsLiving";
             this.LIsLiving.Size = new System.Drawing.Size(95, 15);
             this.LIsLiving.TabIndex = 23;
@@ -340,7 +340,7 @@ namespace YALife
             // TxIsLiving
             // 
             this.TxIsLiving.BackColor = System.Drawing.Color.PaleGreen;
-            this.TxIsLiving.Location = new System.Drawing.Point(133, 254);
+            this.TxIsLiving.Location = new System.Drawing.Point(133, 274);
             this.TxIsLiving.Name = "TxIsLiving";
             this.TxIsLiving.ReadOnly = true;
             this.TxIsLiving.Size = new System.Drawing.Size(80, 23);
@@ -350,7 +350,7 @@ namespace YALife
             // LPass
             // 
             this.LPass.AutoSize = true;
-            this.LPass.Location = new System.Drawing.Point(5, 228);
+            this.LPass.Location = new System.Drawing.Point(5, 248);
             this.LPass.Name = "LPass";
             this.LPass.Size = new System.Drawing.Size(30, 15);
             this.LPass.TabIndex = 21;
@@ -359,7 +359,7 @@ namespace YALife
             // TxPass
             // 
             this.TxPass.BackColor = System.Drawing.Color.Gold;
-            this.TxPass.Location = new System.Drawing.Point(133, 225);
+            this.TxPass.Location = new System.Drawing.Point(133, 245);
             this.TxPass.Name = "TxPass";
             this.TxPass.ReadOnly = true;
             this.TxPass.Size = new System.Drawing.Size(80, 23);
@@ -369,7 +369,7 @@ namespace YALife
             // BStep
             // 
             this.BStep.BackColor = System.Drawing.Color.SpringGreen;
-            this.BStep.Location = new System.Drawing.Point(142, 486);
+            this.BStep.Location = new System.Drawing.Point(142, 506);
             this.BStep.Name = "BStep";
             this.BStep.Size = new System.Drawing.Size(55, 23);
             this.BStep.TabIndex = 19;
@@ -380,7 +380,7 @@ namespace YALife
             // BExit
             // 
             this.BExit.BackColor = System.Drawing.Color.Coral;
-            this.BExit.Location = new System.Drawing.Point(20, 544);
+            this.BExit.Location = new System.Drawing.Point(20, 564);
             this.BExit.Name = "BExit";
             this.BExit.Size = new System.Drawing.Size(55, 23);
             this.BExit.TabIndex = 18;
@@ -393,18 +393,18 @@ namespace YALife
             this.TxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TxLog.BackColor = System.Drawing.Color.Bisque;
-            this.TxLog.Location = new System.Drawing.Point(3, 573);
+            this.TxLog.Location = new System.Drawing.Point(3, 592);
             this.TxLog.Multiline = true;
             this.TxLog.Name = "TxLog";
             this.TxLog.ReadOnly = true;
             this.TxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TxLog.Size = new System.Drawing.Size(210, 60);
+            this.TxLog.Size = new System.Drawing.Size(210, 41);
             this.TxLog.TabIndex = 15;
             // 
             // BStop
             // 
             this.BStop.BackColor = System.Drawing.Color.Coral;
-            this.BStop.Location = new System.Drawing.Point(20, 515);
+            this.BStop.Location = new System.Drawing.Point(20, 535);
             this.BStop.Name = "BStop";
             this.BStop.Size = new System.Drawing.Size(55, 23);
             this.BStop.TabIndex = 17;
@@ -415,7 +415,7 @@ namespace YALife
             // BRun
             // 
             this.BRun.BackColor = System.Drawing.Color.SpringGreen;
-            this.BRun.Location = new System.Drawing.Point(81, 486);
+            this.BRun.Location = new System.Drawing.Point(81, 506);
             this.BRun.Name = "BRun";
             this.BRun.Size = new System.Drawing.Size(55, 23);
             this.BRun.TabIndex = 16;
@@ -444,7 +444,7 @@ namespace YALife
             // BReset
             // 
             this.BReset.BackColor = System.Drawing.Color.Gold;
-            this.BReset.Location = new System.Drawing.Point(19, 486);
+            this.BReset.Location = new System.Drawing.Point(19, 506);
             this.BReset.Name = "BReset";
             this.BReset.Size = new System.Drawing.Size(55, 23);
             this.BReset.TabIndex = 13;
@@ -464,7 +464,7 @@ namespace YALife
             // LWBlocks
             // 
             this.LWBlocks.AutoSize = true;
-            this.LWBlocks.Location = new System.Drawing.Point(3, 122);
+            this.LWBlocks.Location = new System.Drawing.Point(3, 127);
             this.LWBlocks.Name = "LWBlocks";
             this.LWBlocks.Size = new System.Drawing.Size(89, 15);
             this.LWBlocks.TabIndex = 10;
@@ -473,7 +473,7 @@ namespace YALife
             // TxWBlocks
             // 
             this.TxWBlocks.BackColor = System.Drawing.Color.Gold;
-            this.TxWBlocks.Location = new System.Drawing.Point(133, 119);
+            this.TxWBlocks.Location = new System.Drawing.Point(133, 124);
             this.TxWBlocks.Name = "TxWBlocks";
             this.TxWBlocks.ReadOnly = true;
             this.TxWBlocks.Size = new System.Drawing.Size(80, 23);
@@ -483,7 +483,7 @@ namespace YALife
             // LHBlocks
             // 
             this.LHBlocks.AutoSize = true;
-            this.LHBlocks.Location = new System.Drawing.Point(3, 151);
+            this.LHBlocks.Location = new System.Drawing.Point(3, 156);
             this.LHBlocks.Name = "LHBlocks";
             this.LHBlocks.Size = new System.Drawing.Size(93, 15);
             this.LHBlocks.TabIndex = 8;
@@ -492,7 +492,7 @@ namespace YALife
             // TxHBlocks
             // 
             this.TxHBlocks.BackColor = System.Drawing.Color.Gold;
-            this.TxHBlocks.Location = new System.Drawing.Point(133, 148);
+            this.TxHBlocks.Location = new System.Drawing.Point(133, 153);
             this.TxHBlocks.Name = "TxHBlocks";
             this.TxHBlocks.ReadOnly = true;
             this.TxHBlocks.Size = new System.Drawing.Size(80, 23);
@@ -504,7 +504,7 @@ namespace YALife
             this.CkWrap.AutoSize = true;
             this.CkWrap.Checked = true;
             this.CkWrap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CkWrap.Location = new System.Drawing.Point(133, 177);
+            this.CkWrap.Location = new System.Drawing.Point(133, 188);
             this.CkWrap.Name = "CkWrap";
             this.CkWrap.Size = new System.Drawing.Size(54, 19);
             this.CkWrap.TabIndex = 6;
@@ -515,7 +515,7 @@ namespace YALife
             // LWPixels
             // 
             this.LWPixels.AutoSize = true;
-            this.LWPixels.Location = new System.Drawing.Point(3, 64);
+            this.LWPixels.Location = new System.Drawing.Point(3, 69);
             this.LWPixels.Name = "LWPixels";
             this.LWPixels.Size = new System.Drawing.Size(85, 15);
             this.LWPixels.TabIndex = 5;
@@ -524,7 +524,7 @@ namespace YALife
             // TxWPixels
             // 
             this.TxWPixels.BackColor = System.Drawing.Color.Yellow;
-            this.TxWPixels.Location = new System.Drawing.Point(133, 61);
+            this.TxWPixels.Location = new System.Drawing.Point(133, 66);
             this.TxWPixels.Name = "TxWPixels";
             this.TxWPixels.ReadOnly = true;
             this.TxWPixels.Size = new System.Drawing.Size(80, 23);
@@ -534,7 +534,7 @@ namespace YALife
             // LHPixels
             // 
             this.LHPixels.AutoSize = true;
-            this.LHPixels.Location = new System.Drawing.Point(3, 93);
+            this.LHPixels.Location = new System.Drawing.Point(3, 98);
             this.LHPixels.Name = "LHPixels";
             this.LHPixels.Size = new System.Drawing.Size(89, 15);
             this.LHPixels.TabIndex = 3;
@@ -543,7 +543,7 @@ namespace YALife
             // TxHPixels
             // 
             this.TxHPixels.BackColor = System.Drawing.Color.Yellow;
-            this.TxHPixels.Location = new System.Drawing.Point(133, 90);
+            this.TxHPixels.Location = new System.Drawing.Point(133, 95);
             this.TxHPixels.Name = "TxHPixels";
             this.TxHPixels.ReadOnly = true;
             this.TxHPixels.Size = new System.Drawing.Size(80, 23);
@@ -563,7 +563,7 @@ namespace YALife
             // 
             this.NBlockSize.Location = new System.Drawing.Point(133, 3);
             this.NBlockSize.Maximum = new decimal(new int[] {
-            16,
+            32,
             0,
             0,
             0});

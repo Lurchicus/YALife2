@@ -4699,18 +4699,19 @@
 </value>
   </data>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>YALife
+    <value>YALife - Yet another Game of Life program based on the rules developed by John Horton Conway and programmed by Dan Rhea and is licensed under the GPL 3 Open Source license. This program was developed using the preview versions of Visual Studio 2022 to test using WinForms with .NET 6 preview.
 
-Yet another Game of Life program based on the rules developed by John Horton Conway and programmed by Dan Rhea and is licensed under the GPL 3 Open Source license.
-This program was developed using the preview versions of Visual Studio 2022 to test using WinForms with .NET 6 preview.
-
-YALife  Copyright (C) 2021  Dan Rhea
+YALife,  Copyright (C) 2021  Dan Rhea
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; click [License] for details.
 
 The image above Glider01sm.png, is Copyright (C) 2021 Dan Rhea and the image is covered by same GPL 3 license as the rest of the program. 
-The image was created using Blender 2.93.</value>
+The image was created using Blender 2.93.
+
+ColorHeatMap class by Davide Dolla (https://stackoverflow.com/users/1332133/davide-dolla) and shared on (https://stackoverflow.com/questions/17821828/calculating-heat-map-colours)
+
+DirectBitmap by A.Konzel (https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow (https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)</value>
   </data>
   <metadata name="ShowTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>

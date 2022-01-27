@@ -6,13 +6,14 @@ using System.Runtime.InteropServices;
 namespace YALife
 {
     /// <summary>
-    /// Supplied by A.Konzel (https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow 
-    /// (https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)
-    /// Note: All I've done is add comments to the original code authored by A.Konzel that was posted on StackOverflow.com
-    /// 
     /// Creates a direct access disposable bitmap that is much faster than
     /// the standard bitmap as we don't need to waste time with locking.
+    ///
+    /// DirectBitmap by A.Konzel (https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow 
+    /// (https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)
     /// 
+    /// Note: All I've done is add comments to the original code authored by A.Konzel that was posted on StackOverflow.com
+    ///  
     /// The speed increase realized by using this class is phenominal compared to graphic.bitmap.setpixel()
     /// </summary>
     public class DirectBitmap : IDisposable

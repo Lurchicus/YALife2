@@ -18,6 +18,7 @@ namespace YALife
         private readonly int ParentHeight;
         private readonly int ParentTop;
         private readonly int ParentLeft;
+        private string[] GoodExt = new string[] {".txt", ".TXT", ".md", ".MD", ".json", ".JSON"};
 
         /// <summary>
         /// Constructor to initialize the form and save the file to display
@@ -44,6 +45,12 @@ namespace YALife
         /// <param name="e"></param>
         private void FileReader_Load(object sender, EventArgs e)
         {
+            // Limit the file extentions we will allow to be viewed and
+            // throw an exception if we see one we don't allow.
+            if (!ValidateExtension(ReaderFile))
+            {
+                throw new Exception("Error! Invalid file format");
+            }
             // Center the text reader on parent app
             int TLeft = (ParentWidth - Width) / 2;
             int TTop = (ParentHeight - Height) / 2;
@@ -55,6 +62,23 @@ namespace YALife
             TBReader.Text = r.ReadToEnd();
             TBReader.Select(0, 0);
             r.Close();
+        }
+
+        /// <summary>
+        /// Limit the file extentions we will allow to be viewed and
+        /// return false if we don't find the extension
+        /// </summary>
+        /// <param name="ThePath">A full pathname</param>
+        /// <returns>bool</returns>
+        private bool ValidateExtension(string ThePath)
+        {
+            string ExtIs = Path.GetExtension(ThePath).ToLower();
+            // Validate file extension
+            foreach (string Ext in GoodExt)
+            {
+                if (Ext == ExtIs) { return true; }
+            }
+            return false;
         }
     }
 }

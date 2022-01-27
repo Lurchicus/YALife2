@@ -9,3 +9,11 @@ pixels wide. It can be thought of as a zoom.
 
 As with most of my public GitHub repositories, I'm licensing this
 program under the GPL 3 license.
+
+ColorHeatMap class by Davide Dolla 
+(https://stackoverflow.com/users/1332133/davide-dolla) and shared on 
+(https://stackoverflow.com/questions/17821828/calculating-heat-map-colours)
+
+DirectBitmap by A.Konzel 
+(https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow 
+(https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)
