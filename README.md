@@ -31,7 +31,7 @@ DirectBitmap by A.Konzel
 (https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow 
 (https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)
 
-Program change history is at the top of the YALife.cs code which is where
+Program change history is at the top of the Form1.cs code which is where
 I prefer to keep change history.
 
 I do not (currently) have a package and install for this program. For now,

@@ -76,6 +76,7 @@ namespace YALife
     ///                         - Added a file extention checker for FileReader to limit
     ///                         what files the reader can display (experimenting on some
     ///                         code to use at work)
+    /// 1.0.23.0 02/02/2022 DWR Minor tweaks and comments
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
@@ -137,7 +138,6 @@ namespace YALife
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Give the form a bit of time to draw
             ITop = Frame.Top;
             ILeft = Frame.Left;
             // Init and load and bind the color mode drop down list
@@ -145,6 +145,7 @@ namespace YALife
             DDMode.DataSource = colorMode.ModeList();
             DDMode.DisplayMember = "ModeInfo";
             DDMode.ValueMember = "ModeValue";
+            // Give the form a bit of time to draw and display
             Timer.Enabled = true;
         }
 
@@ -249,7 +250,8 @@ namespace YALife
         }
 
         /// <summary>
-        /// If we are running, stop the run
+        /// If we are running, stop the run (can be continued with
+        /// step or run).
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -264,7 +266,7 @@ namespace YALife
         }
 
         /// <summary>
-        /// Detect a minimize
+        /// Detect a minimize. If detected, stop and reset as well
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -287,6 +289,13 @@ namespace YALife
         /// <param name="e"></param>
         private void BExit_Click(object sender, EventArgs e)
         {
+            // Stop and reset first to make sure we exit cleanly
+            if (!Stopped && !StopIt)
+            {
+                StopIt = true;
+            }
+            Reset();
+            // Dispose of our "fast" bitmap
             Paper.Dispose();
             Application.Exit();
         }
@@ -364,7 +373,7 @@ namespace YALife
                 Frame.Image.Dispose();
             }
 
-            // Only recreate the bitmap on a reset
+            // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
             Paper = new DirectBitmap(IWPixels, IHPixels);
 
@@ -759,6 +768,7 @@ namespace YALife
                             else
                             {
                                 // Log if we overflow our bitmap. I may change this to just throw an exception later.
+                                // I honestly don't recall the last time I actually saw this error.
                                 TxLog.AppendText("Ovfl Err: IW:" + IW.ToString() + " IH:" + IH.ToString() + "\r\n");
                             }
                         }
@@ -768,6 +778,7 @@ namespace YALife
 
             // Show the updated bitmap and update the UI
             Frame.Image = Paper.Bitmap;
+            // Also calculate and show our pass timing
             StopMS = DateTime.Now;
             ElapsedMS = StopMS - StartMS;
             txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString("N4", Culture);

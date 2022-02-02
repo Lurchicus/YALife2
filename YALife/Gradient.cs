@@ -66,7 +66,7 @@ namespace YALife
         /// <param name="val">a double from 1 to maxVal-1 that can be thought of as an index into
         /// a large (maxVal) array of colors that make up a virtual gradient</param>
         /// <param name="maxVal">a double that defines how many colors our virtual gradient will contain</param>
-        /// <returns></returns>
+        /// <returns>32 bit aRGB color</returns>
         /// <exception cref="Exception"></exception>
         public Color GetColorForValue(double val, double maxVal)
         {
