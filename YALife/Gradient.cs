@@ -56,7 +56,7 @@ namespace YALife
                 Color.FromArgb(Alpha, 0, 0xFF, 0) ,     //Green
                 Color.FromArgb(Alpha, 0xFF, 0xFF, 0) ,  //Yellow
                 Color.FromArgb(Alpha, 0xFF, 0, 0) ,     //Red
-                Color.FromArgb(Alpha, 0xFF, 0xFF, 0xFF) // White
+                Color.FromArgb(Alpha, 0xFF, 0xFF, 0xFF) //White
             });
         }
 

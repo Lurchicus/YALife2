@@ -77,6 +77,9 @@ namespace YALife
     ///                         what files the reader can display (experimenting on some
     ///                         code to use at work)
     /// 1.0.23.0 02/02/2022 DWR Minor tweaks and comments
+    /// 1.0.24.0 03/13/2022 DWR Minor tweaks and moved cardnal direction checkers after
+    ///                         DoLife() but before DrawLife(). It just seemed to make 
+    ///                         more sense that way.
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
@@ -346,7 +349,7 @@ namespace YALife
             TxWPixels.Text = IWPixels.ToString(NumSpec, Culture);
 
             // BlockSize is very important to how I designed this program. It is
-            // in effect a zoom, as it allow the cells/locations displayed to be
+            // in effect a zoom, as it allows the cells/locations displayed to be
             // larger than a single pixel. I'm allowing a block size of up to 32
             // (that can be increased by changing the maximum size set in 
             // NBlockSize). If block size too big you will eventually get 
@@ -411,6 +414,157 @@ namespace YALife
 
             // Update the UI
             Application.DoEvents();
+        }
+
+        /// <summary>
+        /// Apply Conway's Life rules to the "life" array. Supports an 
+        /// unbounded and wrap-around universe.
+        /// </summary>
+        private void DoLife()
+        {
+            StartMS = DateTime.Now;
+
+            if (ILife == null) return;
+            if (ISave == null) return;
+
+            // Update the pass counter in the UI
+            TxPass.Text = IPass.ToString(NumSpec, Culture);
+
+            // Zero out the detail counters
+            IBirth = 0;
+            ILive = 0;
+            ILonely = 0;
+            ICrowd = 0;
+            IEmpty = 0;
+
+            // Scan through the "life" array (taking the block size into
+            // account as well)
+            for (int CurW = 0; CurW < IWBlocks; CurW++)
+            {
+                for (int CurH = 0; CurH < IHBlocks; CurH++)
+                {
+                    Friends = 0;
+
+                    if (BWrap)
+                    {
+                        // Wrap around universe: Things that hit an edge reappear
+                        // on the oppisite side.
+                        // Look around the current array element to determine
+                        // the future of the current location.
+                        North(CurW, CurH, BWrap);
+                        NorthEast(CurW, CurH, BWrap);
+                        East(CurW, CurH, BWrap);
+                        SouthEast(CurW, CurH, BWrap);
+                        South(CurW, CurH, BWrap);
+                        SouthWest(CurW, CurH, BWrap);
+                        West(CurW, CurH, BWrap);
+                        NorthWest(CurW, CurH, BWrap);
+                    }
+                    else
+                    {
+                        // Unbound universe: Things that hit the edge, keep going 
+                        // (well actually they stop at the edge, but in theory
+                        // they could keep going).
+                        // Look around the current array element to determine
+                        // what happens to this location.
+                        North(CurW, CurH, BWrap);
+                        NorthEast(CurW, CurH, BWrap);
+                        East(CurW, CurH, BWrap);
+                        SouthEast(CurW, CurH, BWrap);
+                        South(CurW, CurH, BWrap);
+                        SouthWest(CurW, CurH, BWrap);
+                        West(CurW, CurH, BWrap);
+                        NorthWest(CurW, CurH, BWrap);
+                    }
+
+                    if (ILife[CurW, CurH] >= 1)
+                    {
+                        // Live cell rules (current cell is alive)
+                        switch (Friends)
+                        {
+                            case < 2:
+                                // We have one or less neibours so we are too loney to live (/sadface)
+                                ISave[CurW, CurH] = 0;
+                                ILonely++;
+                                break;
+                            case 2:
+                            case 3:
+                                // We have two neibours, happy, we live on
+                                ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
+                                if (ILife[CurW, CurH] >= 255)
+                                {
+                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                }
+                                ILive++;
+                                break;
+                            case > 3:
+                                // We have more than three neibours, too many, we die (overpopulation)
+                                ISave[CurW, CurH] = 0;
+                                ICrowd++;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        // Empty cell rules (current cell is empty)
+                        switch (Friends)
+                        {
+                            case < 3:
+                            // Less than three neibours, we stay empty
+                            case > 3:
+                                // More than three neibours, stay empty
+                                ISave[CurW, CurH] = 0;
+                                IEmpty++;
+                                break;
+                            case 3:
+                                // Three neibours! Birth!
+                                ISave[CurW, CurH] = 1;
+                                if (ILife[CurW, CurH] >= 255)
+                                {
+                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                }
+                                IBirth++;
+                                break;
+                        }
+                    }
+                }
+            }
+
+            // Copy the cell info from the "save" array to the "life" array
+            // and collect raw alive/empty counts
+            IsLiving = 0;
+            IsEmpty = 0;
+            for (int CurW = 0; CurW < IWBlocks; CurW++)
+            {
+                for (int CurH = 0; CurH < IHBlocks; CurH++)
+                {
+                    ILife[CurW, CurH] = ISave[CurW, CurH];
+                    if (ILife[CurW, CurH] >= 1)
+                    {
+                        IsLiving++;
+                    }
+                    else
+                    {
+                        IsEmpty++;
+                    }
+                }
+            }
+
+            // Show living and empty cells
+            TxIsLiving.Text = IsLiving.ToString(NumSpec, Culture);
+            TxIsEmpty.Text = IsEmpty.ToString(NumSpec, Culture);
+
+            // Show detail stats
+            TxBirth.Text = IBirth.ToString(NumSpec, Culture);
+            TxLive.Text = ILive.ToString(NumSpec, Culture);
+            TxLonely.Text = ILonely.ToString(NumSpec, Culture);
+            TxCrowd.Text = ICrowd.ToString(NumSpec, Culture);
+            TxEmpty.Text = IEmpty.ToString(NumSpec, Culture);
+
+            // Draw the new bitmap
+            DrawLife();
         }
 
         /// <summary>
@@ -550,159 +704,8 @@ namespace YALife
         }
 
         /// <summary>
-        /// Apply Conway's Life rules to the "life" array. Supports an 
-        /// unbounded and wrap-around universe.
-        /// </summary>
-        private void DoLife()
-        {
-            StartMS = DateTime.Now;
-
-            if (ILife == null) return;
-            if (ISave == null) return;
-
-            // Update the pass counter in the UI
-            TxPass.Text = IPass.ToString(NumSpec, Culture);
-
-            // Zero out the detail counters
-            IBirth = 0;
-            ILive = 0;
-            ILonely = 0;
-            ICrowd = 0;
-            IEmpty = 0;
-
-            // Scan through the "life" array (taking the block size into
-            // account as well)
-            for (int CurW = 0; CurW < IWBlocks; CurW++)
-            {
-                for (int CurH = 0; CurH < IHBlocks; CurH++)
-                {
-                    Friends = 0;
-
-                    if (BWrap)
-                    {
-                        // Wrap around universe: Things that hit an edge reappear
-                        // on the oppisite side.
-                        // Look around the current array element to determine
-                        // the future of the current location.
-                        North(CurW, CurH, BWrap);
-                        NorthEast(CurW, CurH, BWrap);
-                        East(CurW, CurH, BWrap);
-                        SouthEast(CurW, CurH, BWrap); 
-                        South(CurW, CurH, BWrap); 
-                        SouthWest(CurW, CurH, BWrap);   
-                        West(CurW, CurH, BWrap);
-                        NorthWest(CurW, CurH, BWrap);
-                    }
-                    else
-                    {
-                        // Unbound universe: Things that hit the edge, keep going 
-                        // (well actually they stop at the edge, but in theory
-                        // they could keep going).
-                        // Look around the current array element to determine
-                        // what happens to this location.
-                        North(CurW, CurH, BWrap);
-                        NorthEast(CurW, CurH, BWrap);   
-                        East(CurW, CurH, BWrap);    
-                        SouthEast(CurW, CurH, BWrap);   
-                        South(CurW, CurH, BWrap);  
-                        SouthWest(CurW, CurH, BWrap);   
-                        West(CurW, CurH, BWrap);
-                        NorthWest(CurW, CurH, BWrap); 
-                    }
-
-                    if (ILife[CurW, CurH] >= 1)
-                    {
-                        // Live cell rules (current cell is alive)
-                        switch (Friends)
-                        {
-                            case < 2:
-                                // We have one or less neibours so we are too loney to live (/sadface)
-                                ISave[CurW, CurH] = 0;
-                                ILonely++;
-                                break;
-                            case 2:
-                            case 3:
-                                // We have two neibours, happy, we live on
-                                ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
-                                if (ILife[CurW, CurH] >= 255)
-                                {
-                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                }
-                                ILive++;
-                                break;
-                            case > 3:
-                                // We have more than three neibours, too many, we die (overpopulation)
-                                ISave[CurW, CurH] = 0;
-                                ICrowd++;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        // Empty cell rules (current cell is empty)
-                        switch (Friends)
-                        {
-                            case < 3:
-                                // Less than three neibours, we stay empty
-                            case > 3:
-                                // More than three neibours, stay empty
-                                ISave[CurW, CurH] = 0;
-                                IEmpty++;
-                                break;
-                            case 3:
-                                // Three neibours! Birth!
-                                ISave[CurW, CurH] = 1;
-                                if (ILife[CurW, CurH] >= 255)
-                                {
-                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                }
-                                IBirth++;
-                                break;
-                        }
-                    }
-                }
-            }
-
-            // Copy the cell info from the "save" array to the "life" array
-            // and collect raw alive/empty counts
-            IsLiving = 0;
-            IsEmpty = 0;
-            for (int CurW = 0; CurW < IWBlocks; CurW++)
-            {
-                for (int CurH = 0; CurH < IHBlocks; CurH++)
-                {
-                    ILife[CurW, CurH] = ISave[CurW, CurH];
-                    if (ILife[CurW, CurH] >= 1)
-                    {
-                        IsLiving++;
-                    }
-                    else
-                    {
-                        IsEmpty++;
-                    }
-                }
-            }
-
-            // Show living and empty cells
-            TxIsLiving.Text = IsLiving.ToString(NumSpec, Culture);
-            TxIsEmpty.Text = IsEmpty.ToString(NumSpec, Culture);
-
-            // Show detail stats
-            TxBirth.Text = IBirth.ToString(NumSpec, Culture);
-            TxLive.Text = ILive.ToString(NumSpec, Culture);
-            TxLonely.Text = ILonely.ToString(NumSpec, Culture);
-            TxCrowd.Text = ICrowd.ToString(NumSpec, Culture);
-            TxEmpty.Text = IEmpty.ToString(NumSpec, Culture);
-
-            // Draw the new bitmap
-            DrawLife();
-        }
-
-        /// <summary>
         /// Scan the "life" array and use it to generate a bitmap. An array element 
-        /// can be scaled from 1 pixel per array element to 16 pixels per array
+        /// can be scaled from 1 pixel per array element to 32 pixels per array
         /// element. This gives us an ersatz zoom (and it was a fun challange)
         /// </summary>
         private void DrawLife()
