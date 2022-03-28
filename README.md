@@ -1,10 +1,10 @@
 # YALife
 
-#Description
+## Description
 
 Yet Another Life Program (based on Conway's Game of Life).
 
-#Details
+## Details
 
 Designed and authored by Dan Rhea.
 
@@ -21,7 +21,7 @@ As with most of my public GitHub repositories, I'm licensing this
 program under the GPL 3 license. The two classes I mention below that
 are from StackOverflow.com are covered under the MIT license.
 
-#Attributions
+## Attributions
 
 I use the following to apply color to pixels based on how many passes 
 the pixel remains unchanged by the Game of Life rules. It's fun!
@@ -39,7 +39,7 @@ DirectBitmap by A.Konzel
 (https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow 
 (https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)
 
-#Change history
+## Change history
 
 Detailed program change history is at the top of the Form1.cs code which is 
 where I prefer to keep change history. This is an overview:
@@ -87,7 +87,7 @@ where I prefer to keep change history. This is an overview:
 * 1.0.24.0 03/13/2022  Moved cardnal direction checkers after DoLife() but before 
                        DrawLife(). It just seemed to make more sense that way.
 
-#Installation
+## Installation
 
 I do not (currently) have a package and install for this program. For now,
 it needs to be loaded into Visual Studio 2022 and run. I find it difficult
