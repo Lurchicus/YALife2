@@ -80,6 +80,7 @@ namespace YALife
     /// 1.0.24.0 03/13/2022 DWR Minor tweaks and moved cardnal direction checkers after
     ///                         DoLife() but before DrawLife(). It just seemed to make 
     ///                         more sense that way.
+    /// 1.0.25.0 03/28/2022 DWR Reworked the readme.md file (a work in progress).                        
     /// 
     /// ToDo:
     /// 1. Create a way to import a predefined "life" pattern. If there is a standard
