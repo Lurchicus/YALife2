@@ -17,9 +17,13 @@ that a scale of 4 will draw a live cell that is 4 pixels high and 4
 pixels wide. This can be thought of as a zoom, you see less cells 
 but the ones you see are much easier to see.
 
+## Licenseing
+
 As with most of my public GitHub repositories, I'm licensing this
-program under the GPL 3 license. The two classes I mention below that
-are from StackOverflow.com are covered under the MIT license.
+program under the GPL 3 license. 
+
+The two classes I mention below that are from StackOverflow.com 
+are covered under the MIT license.
 
 ## Attributions
 
