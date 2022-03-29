@@ -4,6 +4,8 @@
 
 Yet Another Life Program (based on Conway's Game of Life).
 
+![Y A Life Screenshot 2021 11 20 153427](YALife Screenshot 2021-11-20 153427.png)
+
 ## Details
 
 Designed and authored by Dan Rhea.
@@ -17,7 +19,7 @@ that a scale of 4 will draw a live cell that is 4 pixels high and 4
 pixels wide. This can be thought of as a zoom, you see less cells 
 but the ones you see are much easier to see.
 
-## Licenseing
+## Licensing
 
 As with most of my public GitHub repositories, I'm licensing this
 program under the GPL 3 license. 
