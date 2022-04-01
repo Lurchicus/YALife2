@@ -43,7 +43,7 @@ namespace YALife
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FileReader_Load(object sender, EventArgs e)
+        private async void FileReader_Load(object sender, EventArgs e)
         {
             // Limit the file extentions we will allow to be viewed and
             // throw an exception if we see one we don't allow.
@@ -59,7 +59,7 @@ namespace YALife
             // Show the requested file
             TBReader.Clear();
             using StreamReader r = new(ReaderFile);
-            TBReader.Text = r.ReadToEnd();
+            TBReader.Text = await r.ReadToEndAsync();
             TBReader.Select(0, 0);
             r.Close();
         }

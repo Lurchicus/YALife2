@@ -13,83 +13,9 @@ namespace YALife
     /// 
     /// I was saddened to learn that we lost Mr. Conway to Covid-19 complications
     /// April 11th of 2020.
-    /// 
-    /// 1.0.1.0  08/12/2021 DWR Initial version
-    /// 1.0.2.0  08/12/2021 DWR Code and comments cleanup pass 1
-    /// 1.0.3.0  08/24/2021 DWR Code and comments cleanup pass 2 (not checked in)
-    /// 1.0.4.0  08/29/2021 DWR Added a color gradient to color persistant cells. The
-    ///                         gradient is pretty bland. Need something better.
-    /// 1.0.5.0  09/10/2021 DWR Tweak pixel coloring, some cleanup (not checked in)
-    /// 1.0.6.0  09/25/2021 DWR Implemented pixel coloring (continous cycle). This new
-    ///                         method is from Davide Dolla on StackOverflow and works
-    ///                         exactly the way I want.
-    /// 1.0.7.0  09/28/2021 DWR Added a checkbox to control if persistance colors cycle
-    ///                         only once or continously.
-    /// 1.0.8.0  10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
-    ///                         - Expanded some of the more important comments.
-    /// 1.0.9.0  10/16/2021 DWR Added comments to the ColorHeatMap class (Gradient.cs)
-    /// 1.0.10.0 10/16/2021 DWR First compile using VS 2022 RC 1
-    /// 1.0.11.0 10/19/2021 DWR Added a file reader form to display the license and a 
-    ///                         button on the UI panel to load the reader form with the
-    ///                         GPL 3 license.
-    /// 1.0.12.0 10/25/2021 DWR Added a pass timer to show how ling (in seconds) it takes
-    ///                         to get through both DoLife() and DrawLife().
-    ///                         - Added an about/spalsh screen (preliminary).
-    /// 1.0.13.0 11/05/2021 DWR Removed the reset debounce as it blocked a proper response 
-    ///                         to screen size changes. With the debounce, it was seeing and
-    ///                         responding to the vertical changes but not the horizontal.
-    ///                         - Set frame (holds the bitmap) to a minimum of 1, 1 so we 
-    ///                         never try to create a 0x0 bitmap when minimized. For now 
-    ///                         coming back from a minimize forces a reset. In the future, 
-    ///                         if I can detect a minimize and restore, I could try to 
-    ///                         save the bitmap where the size of Frame doesn't affect it 
-    ///                         and restore it when we un-minimize the form. 
-    /// 1.0.14.0 11/07/2021 DWR Tweaked the log background.
-    /// 1.0.15.0 11/09/2021 DWR The initial CleanPaper() in DrawLife() was a total waste of 
-    ///                         time. Since we repaint the whole bitmap anyway, clearing it 
-    ///                         first is not needed. Found using the performance profiler. 
-    ///                         Also this version is on the release version of VS 2022.
-    /// 1.0.16.0 11/09/2021 DWR Added a "N0" format to add a thousands seperator for most
-    ///                         of the text boxes. Also added the culture parameter (I
-    ///                         used currrent, so it's based on how the current windows
-    ///                         config is set).
-    ///                         - Removed minimize and maximize from the splash screen.
-    ///                         - Implemented DirectBitmap which greatly improved my draw
-    ///                         times. More optimizations by moving the bitmap create and
-    ///                         dispose into the reset logic so we only recreate the 
-    ///                         bitmap if we change size or the blocksize (or click Stop
-    ///                         or Reset).
-    /// 1.0.17.0 11/20/2021 DWR Added "(zoom)" to block size label text.
-    /// 1.0.18.0 11/26/2021 DWR Added a "mode" dropdown that will control color cycling
-    ///                         or a single non cycling color.
-    ///                         - Removed no longer used functions, methods and events.
-    /// 1.0.19.0 11/26/2021 DWR More optmizations (don't clear the new life array first
-    ///                         since we are setting every element anyway). Found a 
-    ///                         couple case statements that could be optimized too.
-    /// 1.0.20.0 12/08/2021 DWR Did some refactoring in DoLife with the code that 
-    ///                         checks for any friends living around us. It's simplified
-    ///                         in DoLife but the new 8 functions are a bit jank for now.
-    /// 1.0.21.0 12/12/2021 DWR More comment and code tweaking.\
-    /// 1.0.22.0 01/27/2022 DWR Added attributions to comments, readme and splash screen 
-    ///                         for the code used in Paper.cs and Gradient.cs that came
-    ///                         from StackOverflow.com.
-    ///                         - Added a file extention checker for FileReader to limit
-    ///                         what files the reader can display (experimenting on some
-    ///                         code to use at work)
-    /// 1.0.23.0 02/02/2022 DWR Minor tweaks and comments
-    /// 1.0.24.0 03/13/2022 DWR Minor tweaks and moved cardnal direction checkers after
-    ///                         DoLife() but before DrawLife(). It just seemed to make 
-    ///                         more sense that way.
-    /// 1.0.25.0 03/28/2022 DWR Reworked the readme.md file (a work in progress).                        
-    /// 
-    /// ToDo:
-    /// 1. Create a way to import a predefined "life" pattern. If there is a standard
-    ///    for this already I'll use that, otherwise I'll create one... maybe a text
-    ///    or json formatted file giving the X/Y coordinates of the starting live
-    ///    cell locations... we can then single step or run them. A form to edit 
-    ///    these files would be nice as well. Possibly a combination of a text editor
-    ///    and a gui interface (mouse editing) of the predefined patterns.
-    /// 
+    ///
+    /// Change history and to do is at the end of this file.
+    ///  
     /// </summary>
     public partial class YALife : Form
     {
@@ -105,6 +31,7 @@ namespace YALife
         int IWBlocks;       // Width in blocks
         int IBlockSize;     // Pixels in block
         int IPass;          // Pass counter
+
         int IBirth;         // Count of births in a pass
         int ILive;          // Count of "stay alives" in a pass
         int ILonely;        // Count of lonely deaths in a pass
@@ -112,10 +39,13 @@ namespace YALife
         int IEmpty;         // Count of "Stay empty" cases in a pass
         int IsLiving;       // Count of all living cells
         int IsEmpty;        // Count of all empty cells
+
         int Mode;           // Color cycle mode
         int Friends;        // Nearby friends
+
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
+
         DateTime StartMS;   // Start timer
         DateTime StopMS;    // End timer
         TimeSpan ElapsedMS; // Elapsed timer
@@ -123,7 +53,7 @@ namespace YALife
         DirectBitmap Paper = new DirectBitmap(1, 1);
         readonly Random RNG = new();    // Object to pull RNG values
         ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
-        readonly string LicenseFile = "gnu_gpl3.txt";   // GPL 3 license file
+        readonly string LicenseFile = "MIT_License.txt";   // MIT license file
         readonly string NumSpec = "N0";
         CultureInfo Culture = CultureInfo.CurrentCulture;
 
@@ -819,4 +749,108 @@ namespace YALife
             };
         }
     }
+    //
+    // ToDo:
+    //
+    // 1. Create a way to import a predefined "life" pattern. If there is a standard
+    //    for this already I'll use that, otherwise I'll create one... maybe a text
+    //    or json formatted file giving the X/Y coordinates of the starting live
+    //    cell locations... we can then single step or run them. A form to edit 
+    //    these files would be nice as well. Possibly a combination of a text editor
+    //    and a gui interface (mouse editing) of the predefined patterns.
+    //
+    //  .gol file format (preliminary design)
+    //  
+    //  Name of GOL pattern,        [Patten name, no quotes, terminated by a comma]
+    //  0,0,0,                      [X,Y origin, clear flag: 1-clear life array, 0-leave as is]
+    //  11100000101011110000111,    [One row 1-Alive 0-empty]
+    //  00111101011111010101101,    [Another row]
+    //  10000100001000010000111,    [this is all random gibberish btw]
+    //  11100010111110001,          [Line length can vary (implies trailing zeros)]
+    //  -1,                         [Pattern end (comma indicates another pattern follows)]
+    //
+    // Program change history:
+    // 
+    // 1.0.1.0  08/12/2021 DWR Initial version
+    // 1.0.2.0  08/12/2021 DWR Code and comments cleanup pass 1
+    // 1.0.3.0  08/24/2021 DWR Code and comments cleanup pass 2 (not checked in)
+    // 1.0.4.0  08/29/2021 DWR Added a color gradient to color persistant cells. The
+    //                         gradient is pretty bland. Need something better.
+    // 1.0.5.0  09/10/2021 DWR Tweak pixel coloring, some cleanup (not checked in)
+    // 1.0.6.0  09/25/2021 DWR Implemented pixel coloring (continous cycle). This new
+    //                         method is from Davide Dolla on StackOverflow and works
+    //                         exactly the way I want.
+    // 1.0.7.0  09/28/2021 DWR Added a checkbox to control if persistance colors cycle
+    //                         only once or continously.
+    // 1.0.8.0  10/02/2021 DWR Cleaned up some cryptic comments in DoLife()
+    //                         - Expanded some of the more important comments.
+    // 1.0.9.0  10/16/2021 DWR Added comments to the ColorHeatMap class (Gradient.cs)
+    // 1.0.10.0 10/16/2021 DWR First compile using VS 2022 RC 1
+    // 1.0.11.0 10/19/2021 DWR Added a file reader form to display the license and a 
+    //                         button on the UI panel to load the reader form with the
+    //                         GPL 3 license.
+    // 1.0.12.0 10/25/2021 DWR Added a pass timer to show how ling (in seconds) it takes
+    //                         to get through both DoLife() and DrawLife().
+    //                         - Added an about/spalsh screen (preliminary).
+    // 1.0.13.0 11/05/2021 DWR Removed the reset debounce as it blocked a proper response 
+    //                         to screen size changes. With the debounce, it was seeing and
+    //                         responding to the vertical changes but not the horizontal.
+    //                         - Set frame (holds the bitmap) to a minimum of 1, 1 so we 
+    //                         never try to create a 0x0 bitmap when minimized. For now 
+    //                         coming back from a minimize forces a reset. In the future, 
+    //                         if I can detect a minimize and restore, I could try to 
+    //                         save the bitmap where the size of Frame doesn't affect it 
+    //                         and restore it when we un-minimize the form. 
+    // 1.0.14.0 11/07/2021 DWR Tweaked the log background.
+    // 1.0.15.0 11/09/2021 DWR The initial CleanPaper() in DrawLife() was a total waste of 
+    //                         time. Since we repaint the whole bitmap anyway, clearing it 
+    //                         first is not needed. Found using the performance profiler. 
+    //                         Also this version is on the release version of VS 2022.
+    // 1.0.16.0 11/09/2021 DWR Added a "N0" format to add a thousands seperator for most
+    //                         of the text boxes. Also added the culture parameter (I
+    //                         used currrent, so it's based on how the current windows
+    //                         config is set).
+    //                         - Removed minimize and maximize from the splash screen.
+    //                         - Implemented DirectBitmap which greatly improved my draw
+    //                         times. More optimizations by moving the bitmap create and
+    //                         dispose into the reset logic so we only recreate the 
+    //                         bitmap if we change size or the blocksize (or click Stop
+    //                         or Reset).
+    // 1.0.17.0 11/20/2021 DWR Added "(zoom)" to block size label text.
+    // 1.0.18.0 11/26/2021 DWR Added a "mode" dropdown that will control color cycling
+    //                         or a single non cycling color.
+    //                         - Removed no longer used functions, methods and events.
+    // 1.0.19.0 11/26/2021 DWR More optmizations (don't clear the new life array first
+    //                         since we are setting every element anyway). Found a 
+    //                         couple case statements that could be optimized too.
+    // 1.0.20.0 12/08/2021 DWR Did some refactoring in DoLife with the code that 
+    //                         checks for any friends living around us. It's simplified
+    //                         in DoLife but the new 8 functions are a bit jank for now.
+    // 1.0.21.0 12/12/2021 DWR More comment and code tweaking.\
+    // 1.0.22.0 01/27/2022 DWR Added attributions to comments, readme and splash screen 
+    //                         for the code used in Paper.cs and Gradient.cs that came
+    //                         from StackOverflow.com.
+    //                         - Added a file extention checker for FileReader to limit
+    //                         what files the reader can display (experimenting on some
+    //                         code to use at work)
+    // 1.0.23.0 02/02/2022 DWR Minor tweaks and comments
+    // 1.0.24.0 03/13/2022 DWR Minor tweaks and moved cardnal direction checkers after
+    //                         DoLife() but before DrawLife(). It just seemed to make 
+    //                         more sense that way.
+    // 1.0.25.0 03/28/2022 DWR Reworked the readme.md file (a work in progress).
+    // 1.0.26.0 03/31/2022 DWR More general optimizations. 
+    //                         - Switched the ReadToEnd in FileReader load event to
+    //                         ReadToEndAsync()... because I can. :)
+    //                         - Switched out license from GPL3 to MIT (seems a lot
+    //                         simpler and it matches the two classes from 
+    //                         StackOverflow.com (attributions are in the splash 
+    //                         screen and readme.md file).
+    //                         - Removed the GPL3 license text file from the project.
+    //                         - Tried to add a screenshot to Readme.md but it isn't
+    //                         working. 
+    //                         - Started work on a way to format "GOL" predefined 
+    //                         patterns in a file format (which will have the file
+    //                         extension .gol of course). These could be loaded as 
+    //                         sort of batch, or into a drop-down for individual 
+    //                         selections. It's a work in progress.
 }

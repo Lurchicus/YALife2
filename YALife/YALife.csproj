@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>YALife.Program</StartupObject>
-    <FileVersion>1.0.25.0</FileVersion>
-    <AssemblyVersion>1.0.25.0</AssemblyVersion>
+    <FileVersion>1.0.26.0</FileVersion>
+    <AssemblyVersion>1.0.26.0</AssemblyVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Dan Rhea 2021, 2022</Copyright>
     <Description>Yet Another (Conway's Game of) Life using .NET 6 Win Forms</Description>
@@ -19,7 +19,7 @@
     <PackageReleaseNotes>Expanded commenting including the ColorHeatMap class</PackageReleaseNotes>
     <PackageTags>GameOfLife; Conway; gol; C#;</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseFile>C:\Users\danrh\Source\Repos\YALife\YALife\gnu_gpl3.txt</PackageLicenseFile>
+    <PackageLicenseFile>C:\Users\danrh\Source\Repos\YALife\MIT_License.txt</PackageLicenseFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -63,8 +63,8 @@
     <None Update="Glider01sm.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="gnu_gpl3.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="MIT_License.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

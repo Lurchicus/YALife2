@@ -21,13 +21,15 @@ but the ones you see are much easier to see.
 
 ## Licensing
 
-As with most of my public GitHub repositories, I'm licensing this
-program under the GPL 3 license. 
+I'm licensing this program under the MIT License. 
 
 The two classes I mention below that are from StackOverflow.com 
-are covered under the MIT license.
+are covered under the MIT license as well.
 
 ## Attributions
+
+I don't have copyright information (dates) for the items below so I will
+go with the following attributions as suggested by StackOverflow.com.
 
 I use the following to apply color to pixels based on how many passes 
 the pixel remains unchanged by the Game of Life rules. It's fun!
