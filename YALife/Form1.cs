@@ -55,7 +55,9 @@ namespace YALife
         ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
         readonly string LicenseFile = "MIT_License.txt";   // MIT license file
         readonly string NumSpec = "N0";
-        CultureInfo Culture = CultureInfo.CurrentCulture;
+        readonly CultureInfo Culture = CultureInfo.CurrentCulture;
+        bool CollectStats = true; // Will eventually be hooked to a checkbox.
+        List<LifeStat> LifeStats = new List<LifeStat>();
 
         /// <summary>
         /// YALife constructor
@@ -75,8 +77,8 @@ namespace YALife
             ITop = Frame.Top;
             ILeft = Frame.Left;
             // Init and load and bind the color mode drop down list
-            ColorMode colorMode = new ColorMode();
-            DDMode.DataSource = colorMode.ModeList();
+            ColorMode colorMode = new();
+            DDMode.DataSource = ColorMode.ModeList();
             DDMode.DisplayMember = "ModeInfo";
             DDMode.ValueMember = "ModeValue";
             // Give the form a bit of time to draw and display
@@ -307,6 +309,8 @@ namespace YALife
                 Frame.Image.Dispose();
             }
 
+            LifeStats.Clear();
+
             // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
             Paper = new DirectBitmap(IWPixels, IHPixels);
@@ -493,9 +497,29 @@ namespace YALife
             TxLonely.Text = ILonely.ToString(NumSpec, Culture);
             TxCrowd.Text = ICrowd.ToString(NumSpec, Culture);
             TxEmpty.Text = IEmpty.ToString(NumSpec, Culture);
+            if (CollectStats)
+            {
+                StatLife();
+            }
 
             // Draw the new bitmap
             DrawLife();
+        }
+
+        /// <summary>
+        /// Collect and save a frame of statistics
+        /// </summary>
+        private void StatLife()
+        {
+            LifeStat LStat = new LifeStat();
+            LStat.LivingCount = IsLiving;
+            LStat.EmptyCount = IsEmpty;
+            LStat.NewbornCount = IBirth;
+            LStat.LivedOnCount = ILive;
+            LStat.DiedLonelyCount = ILonely;
+            LStat.DiedCrowededCount = ICrowd;
+            LStat.StayedEmptyCount = IEmpty;
+            LifeStats.Add(LStat);
         }
 
         /// <summary>
@@ -738,7 +762,7 @@ namespace YALife
         /// Create our list of color modes
         /// </summary>
         /// <returns>List of ColorMode</returns>
-        public List<ColorMode> ModeList()
+        public static List<ColorMode> ModeList()
         {
             return new List<ColorMode>
             {
@@ -749,10 +773,35 @@ namespace YALife
             };
         }
     }
+
+    /// <summary>
+    /// Used to create a snapshot of stats at the end of doLife. Collecting the stats
+    /// is an option as this data will keep growing everytime we make a doLife pass.
+    /// THe intent is to have a dataset we could render into a chart if we wanted to.
+    /// </summary>
+    public class LifeStat
+    {
+        /// <summary>The number of living cells</summary>
+        public int LivingCount;
+        /// <summary>The number of empty cells</summary>
+        public int EmptyCount;
+        /// <summary>The number of newly born cells</summary>
+        public int NewbornCount;
+        /// <summary>The number of cells that stayed alive</summary>
+        public int LivedOnCount;
+        /// <summary>The number of cells that died of lonelyness</summary>
+        public int DiedLonelyCount;
+        /// <summary>The number of cells that died of overcrowding</summary>
+        public int DiedCrowededCount;
+        /// <summary>The number of cells that stayed empty</summary>
+        public int StayedEmptyCount;
+    }
+
     //
     // ToDo:
     //
-    // 1. Create a way to import a predefined "life" pattern. If there is a standard
+    // 1. Collect pass statistics into a list that we could then use to create a chart
+    // 2. Create a way to import a predefined "life" pattern. If there is a standard
     //    for this already I'll use that, otherwise I'll create one... maybe a text
     //    or json formatted file giving the X/Y coordinates of the starting live
     //    cell locations... we can then single step or run them. A form to edit 
@@ -853,4 +902,8 @@ namespace YALife
     //                         extension .gol of course). These could be loaded as 
     //                         sort of batch, or into a drop-down for individual 
     //                         selections. It's a work in progress.
+    // 1.0.27.0 05/14/2022 DWR Added a stats class and list so we can collect stats 
+    //                         each pass. The intent is to use the list as a data
+    //                         set for a chart of some sort (probably just a line
+    //                         graph. Work in progress!
 }

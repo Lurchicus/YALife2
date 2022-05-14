@@ -94,6 +94,9 @@ where I prefer to keep change history. This is an overview:
                        code to use at work)
 * 1.0.24.0 03/13/2022  Moved cardnal direction checkers after DoLife() but before 
                        DrawLife(). It just seemed to make more sense that way.
+* 1.0.26.0 03/31/2022  Changed to the MIT license and started working on a file
+                       format to manage pre-defined "GOL" patterns (for example a
+                       glider factory). WIP.
 
 ## Installation
 
