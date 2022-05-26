@@ -4,12 +4,12 @@ using System.Windows.Forms;
 namespace YALife
 {
     /// <summary>
-    /// 
+    /// A splash screen 
     /// </summary>
     public partial class Splash : Form
     {
         /// <summary>
-        /// 
+        /// Class vars
         /// </summary>
         private readonly int WaitTicks;
         private readonly int ParentWidth;
@@ -54,7 +54,6 @@ namespace YALife
             }
         }
 
-
         /// <summary>
         /// Closes the spalash screen after wait
         /// </summary>
@@ -65,6 +64,5 @@ namespace YALife
             ShowTimer.Enabled = false;
             this.Hide();
         }
-
     }
 }

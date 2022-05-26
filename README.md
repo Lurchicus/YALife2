@@ -10,7 +10,7 @@ Yet Another Life Program (based on Conway's Game of Life).
 
 Designed and authored by Dan Rhea.
 
-I wrote this to try out WinForms on the VS 2022 Preview (now RC 1)
+I wrote this to try out WinForms on the VS 2022 Preview
 using .NET 6. Note that Visual Studio 2022 has been released as has
 .NET 6.
 

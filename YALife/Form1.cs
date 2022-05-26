@@ -57,7 +57,9 @@ namespace YALife
         readonly string NumSpec = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
         bool CollectStats = true; // Will eventually be hooked to a checkbox.
-        List<LifeStat> LifeStats = new List<LifeStat>();
+        /// <summary>Collection of LifeStat objects in a list object</summary>
+        public List<LifeStat> LifeStats = new List<LifeStat>();
+
 
         /// <summary>
         /// YALife constructor
@@ -147,6 +149,25 @@ namespace YALife
         }
 
         /// <summary>
+        /// Controll if we will be saving pass stats into a list or not
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbxCollectStats_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CbxCollectStats.Checked)
+            {
+                // If we turn on collection, always start with a clean slate
+                LifeStats.Clear();
+                CollectStats = true;
+            }
+            else
+            {
+                CollectStats = false;   
+            }
+        }
+
+        /// <summary>
         /// If we change our initial percentage, reset everything
         /// </summary>
         /// <param name="sender"></param>
@@ -165,6 +186,17 @@ namespace YALife
         {
             FileReader ReaderForm = new(LicenseFile, Width, Height, Top, Left);
             ReaderForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnChart_Click(object sender, EventArgs e)
+        {
+            LifeChart ChartForm = new LifeChart(LifeStats);
+            ChartForm.ShowDialog();
         }
 
         /// <summary>
@@ -309,6 +341,8 @@ namespace YALife
                 Frame.Image.Dispose();
             }
 
+            // Manage stats collection and reset collected stats
+            CollectStats = CbxCollectStats.Checked;
             LifeStats.Clear();
 
             // Only recreate the "fast" bitmap on a reset
@@ -380,37 +414,16 @@ namespace YALife
                 {
                     Friends = 0;
 
-                    if (BWrap)
-                    {
-                        // Wrap around universe: Things that hit an edge reappear
-                        // on the oppisite side.
-                        // Look around the current array element to determine
-                        // the future of the current location.
-                        North(CurW, CurH, BWrap);
-                        NorthEast(CurW, CurH, BWrap);
-                        East(CurW, CurH, BWrap);
-                        SouthEast(CurW, CurH, BWrap);
-                        South(CurW, CurH, BWrap);
-                        SouthWest(CurW, CurH, BWrap);
-                        West(CurW, CurH, BWrap);
-                        NorthWest(CurW, CurH, BWrap);
-                    }
-                    else
-                    {
-                        // Unbound universe: Things that hit the edge, keep going 
-                        // (well actually they stop at the edge, but in theory
-                        // they could keep going).
-                        // Look around the current array element to determine
-                        // what happens to this location.
-                        North(CurW, CurH, BWrap);
-                        NorthEast(CurW, CurH, BWrap);
-                        East(CurW, CurH, BWrap);
-                        SouthEast(CurW, CurH, BWrap);
-                        South(CurW, CurH, BWrap);
-                        SouthWest(CurW, CurH, BWrap);
-                        West(CurW, CurH, BWrap);
-                        NorthWest(CurW, CurH, BWrap);
-                    }
+                    // Look around the current array element to determine
+                    // the future of the current location.
+                    North(CurW, CurH, BWrap);
+                    NorthEast(CurW, CurH, BWrap);
+                    East(CurW, CurH, BWrap);
+                    SouthEast(CurW, CurH, BWrap);
+                    South(CurW, CurH, BWrap);
+                    SouthWest(CurW, CurH, BWrap);
+                    West(CurW, CurH, BWrap);
+                    NorthWest(CurW, CurH, BWrap);
 
                     if (ILife[CurW, CurH] >= 1)
                     {
@@ -511,7 +524,10 @@ namespace YALife
         /// </summary>
         private void StatLife()
         {
+            // Create a stat object and load it with stats
+            int ID = LifeStats.Count;
             LifeStat LStat = new LifeStat();
+            LStat.ID = ID;
             LStat.LivingCount = IsLiving;
             LStat.EmptyCount = IsEmpty;
             LStat.NewbornCount = IBirth;
@@ -519,7 +535,20 @@ namespace YALife
             LStat.DiedLonelyCount = ILonely;
             LStat.DiedCrowededCount = ICrowd;
             LStat.StayedEmptyCount = IEmpty;
-            LifeStats.Add(LStat);
+            try
+            {
+                // Add the stat object to the list of stats
+                LifeStats.Add(LStat);
+            }
+            catch(Exception ex)
+            {
+                // If we have an error, stop collecting stats (but don't clear
+                // what we have so far (wait for a reset to do the clear).
+                TxLog.AppendText(ex.Message + 
+                    "\r\nError encountered, statistics collection stopped." +
+                    "\r\nTo clear, click [Stop] and [Reset].");
+                CbxCollectStats.Checked = false;
+            }
         }
 
         /// <summary>
@@ -781,6 +810,8 @@ namespace YALife
     /// </summary>
     public class LifeStat
     {
+        ///<summary>The ID number of the stat cell</summary>
+        public int ID;
         /// <summary>The number of living cells</summary>
         public int LivingCount;
         /// <summary>The number of empty cells</summary>
@@ -797,10 +828,10 @@ namespace YALife
         public int StayedEmptyCount;
     }
 
-    //
     // ToDo:
     //
     // 1. Collect pass statistics into a list that we could then use to create a chart
+    //    This is mostly done. Just no good .NET 6 chart options so far for WinForms.
     // 2. Create a way to import a predefined "life" pattern. If there is a standard
     //    for this already I'll use that, otherwise I'll create one... maybe a text
     //    or json formatted file giving the X/Y coordinates of the starting live
@@ -906,4 +937,20 @@ namespace YALife
     //                         each pass. The intent is to use the list as a data
     //                         set for a chart of some sort (probably just a line
     //                         graph. Work in progress!
+    //                         - Fixed dumb bug where I was calling a bunch of
+    //                         functions in an if/else block where the if was not
+    //                         needed.
+    //                         - Added a try/catch where we add stats to the stats 
+    //                         list as this could cause a memory exception. For now
+    //                         we simply stop collecting stats and let the user know 
+    //                         they can use [Stop] and [Reset] to clear out the stats
+    //                         we have collected so far. No additional stats are 
+    //                         collected for the current run.
+    // 1.0.28.0 05/26/2022 DWR Continuing to try and find a chart/data visualization 
+    //                         pack for WinForms .NET 6. It doesn't look like
+    //                         Microsoft wants to migrate the .NET Framework 4.x
+    //                         version to .NET 6 (Core). Boo! Hiss. I could use 
+    //                         somethink like Syncfusion, but I'm not sure about
+    //                         the licensing needed (also not sure it actually 
+    //                         supports .NET 6.0 WinForms properly). Well see. 
 }

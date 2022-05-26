@@ -34,6 +34,8 @@ namespace YALife
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
             this.Frame = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.CbxCollectStats = new System.Windows.Forms.CheckBox();
             this.DDMode = new System.Windows.Forms.ComboBox();
             this.BAbout = new System.Windows.Forms.Button();
             this.txtPassTimer = new System.Windows.Forms.TextBox();
@@ -76,6 +78,7 @@ namespace YALife
             this.LBlockSize = new System.Windows.Forms.Label();
             this.NBlockSize = new System.Windows.Forms.NumericUpDown();
             this.Timer = new System.Windows.Forms.Timer(this.components);
+            this.BtnChart = new System.Windows.Forms.Button();
             LBirth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Frame)).BeginInit();
             this.panel1.SuspendLayout();
@@ -99,7 +102,7 @@ namespace YALife
             this.Frame.Location = new System.Drawing.Point(222, 0);
             this.Frame.MinimumSize = new System.Drawing.Size(1, 1);
             this.Frame.Name = "Frame";
-            this.Frame.Size = new System.Drawing.Size(805, 636);
+            this.Frame.Size = new System.Drawing.Size(805, 670);
             this.Frame.TabIndex = 0;
             this.Frame.TabStop = false;
             this.Frame.SizeChanged += new System.EventHandler(this.Image_SizeChanged);
@@ -107,6 +110,9 @@ namespace YALife
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.panel1.Controls.Add(this.BtnChart);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.CbxCollectStats);
             this.panel1.Controls.Add(this.DDMode);
             this.panel1.Controls.Add(this.BAbout);
             this.panel1.Controls.Add(this.txtPassTimer);
@@ -152,8 +158,30 @@ namespace YALife
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(216, 636);
+            this.panel1.Size = new System.Drawing.Size(216, 670);
             this.panel1.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 507);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 15);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "Collect stats";
+            // 
+            // CbxCollectStats
+            // 
+            this.CbxCollectStats.AutoSize = true;
+            this.CbxCollectStats.Checked = true;
+            this.CbxCollectStats.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CbxCollectStats.Location = new System.Drawing.Point(133, 506);
+            this.CbxCollectStats.Name = "CbxCollectStats";
+            this.CbxCollectStats.Size = new System.Drawing.Size(63, 19);
+            this.CbxCollectStats.TabIndex = 43;
+            this.CbxCollectStats.Text = "Collect";
+            this.CbxCollectStats.UseVisualStyleBackColor = true;
+            this.CbxCollectStats.CheckedChanged += new System.EventHandler(this.CbxCollectStats_CheckedChanged);
             // 
             // DDMode
             // 
@@ -167,7 +195,7 @@ namespace YALife
             // BAbout
             // 
             this.BAbout.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BAbout.Location = new System.Drawing.Point(142, 535);
+            this.BAbout.Location = new System.Drawing.Point(144, 563);
             this.BAbout.Name = "BAbout";
             this.BAbout.Size = new System.Drawing.Size(55, 23);
             this.BAbout.TabIndex = 42;
@@ -197,7 +225,7 @@ namespace YALife
             // BLicense
             // 
             this.BLicense.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BLicense.Location = new System.Drawing.Point(81, 535);
+            this.BLicense.Location = new System.Drawing.Point(83, 563);
             this.BLicense.Name = "BLicense";
             this.BLicense.Size = new System.Drawing.Size(55, 23);
             this.BLicense.TabIndex = 39;
@@ -369,7 +397,7 @@ namespace YALife
             // BStep
             // 
             this.BStep.BackColor = System.Drawing.Color.SpringGreen;
-            this.BStep.Location = new System.Drawing.Point(142, 506);
+            this.BStep.Location = new System.Drawing.Point(144, 534);
             this.BStep.Name = "BStep";
             this.BStep.Size = new System.Drawing.Size(55, 23);
             this.BStep.TabIndex = 19;
@@ -380,7 +408,7 @@ namespace YALife
             // BExit
             // 
             this.BExit.BackColor = System.Drawing.Color.Coral;
-            this.BExit.Location = new System.Drawing.Point(20, 564);
+            this.BExit.Location = new System.Drawing.Point(22, 592);
             this.BExit.Name = "BExit";
             this.BExit.Size = new System.Drawing.Size(55, 23);
             this.BExit.TabIndex = 18;
@@ -393,18 +421,18 @@ namespace YALife
             this.TxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TxLog.BackColor = System.Drawing.Color.Bisque;
-            this.TxLog.Location = new System.Drawing.Point(3, 592);
+            this.TxLog.Location = new System.Drawing.Point(3, 621);
             this.TxLog.Multiline = true;
             this.TxLog.Name = "TxLog";
             this.TxLog.ReadOnly = true;
             this.TxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TxLog.Size = new System.Drawing.Size(210, 41);
+            this.TxLog.Size = new System.Drawing.Size(210, 46);
             this.TxLog.TabIndex = 15;
             // 
             // BStop
             // 
             this.BStop.BackColor = System.Drawing.Color.Coral;
-            this.BStop.Location = new System.Drawing.Point(20, 535);
+            this.BStop.Location = new System.Drawing.Point(22, 563);
             this.BStop.Name = "BStop";
             this.BStop.Size = new System.Drawing.Size(55, 23);
             this.BStop.TabIndex = 17;
@@ -415,7 +443,7 @@ namespace YALife
             // BRun
             // 
             this.BRun.BackColor = System.Drawing.Color.SpringGreen;
-            this.BRun.Location = new System.Drawing.Point(81, 506);
+            this.BRun.Location = new System.Drawing.Point(83, 534);
             this.BRun.Name = "BRun";
             this.BRun.Size = new System.Drawing.Size(55, 23);
             this.BRun.TabIndex = 16;
@@ -444,7 +472,7 @@ namespace YALife
             // BReset
             // 
             this.BReset.BackColor = System.Drawing.Color.Gold;
-            this.BReset.Location = new System.Drawing.Point(19, 506);
+            this.BReset.Location = new System.Drawing.Point(21, 534);
             this.BReset.Name = "BReset";
             this.BReset.Size = new System.Drawing.Size(55, 23);
             this.BReset.TabIndex = 13;
@@ -587,12 +615,24 @@ namespace YALife
             this.Timer.Interval = 600;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
+            // BtnChart
+            // 
+            this.BtnChart.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.BtnChart.Location = new System.Drawing.Point(83, 592);
+            this.BtnChart.Name = "BtnChart";
+            this.BtnChart.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.BtnChart.Size = new System.Drawing.Size(55, 23);
+            this.BtnChart.TabIndex = 45;
+            this.BtnChart.Text = "Chart";
+            this.BtnChart.UseVisualStyleBackColor = false;
+            this.BtnChart.Click += new System.EventHandler(this.BtnChart_Click);
+            // 
             // YALife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1027, 636);
+            this.ClientSize = new System.Drawing.Size(1027, 670);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Frame);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -655,6 +695,9 @@ namespace YALife
         private System.Windows.Forms.TextBox txtPassTimer;
         private System.Windows.Forms.Label LabPassTimer;
         private System.Windows.Forms.ComboBox DDMode;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox CbxCollectStats;
+        private System.Windows.Forms.Button BtnChart;
     }
 }
 
