@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>YALife.Program</StartupObject>
-    <FileVersion>1.0.27.0</FileVersion>
-    <AssemblyVersion>1.0.27.0</AssemblyVersion>
+    <FileVersion>1.0.30.0</FileVersion>
+    <AssemblyVersion>1.0.30.0</AssemblyVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Dan Rhea 2021, 2022</Copyright>
     <Description>Yet Another (Conway's Game of) Life using .NET 6 Win Forms</Description>
@@ -16,11 +16,12 @@
     <PackageIcon>TGOL.ico</PackageIcon>
     <RepositoryUrl>https://github.com/Lurchicus/YALife</RepositoryUrl>
     <ApplicationIcon>C:\Users\danrh\Source\Repos\YALife\YALife\TGOL.ico</ApplicationIcon>
-    <PackageReleaseNotes>Expanded commenting including the ColorHeatMap class</PackageReleaseNotes>
+    <PackageReleaseNotes>All the change history is at the bottom of the Form1.cs code. I only put highlights in the readme file.</PackageReleaseNotes>
     <PackageTags>GameOfLife; Conway; gol; C#;</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseFile>C:\Users\danrh\Source\Repos\YALife\MIT_License.txt</PackageLicenseFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -42,6 +43,17 @@
       <Pack>True</Pack>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,7 +15,13 @@ namespace YALife
     /// April 11th of 2020.
     ///
     /// Change history and to do is at the end of this file.
-    ///  
+    /// 
+    /// To anyone that sees this, I realize this is overkill for a game of life
+    /// program that uses random data, but I wrote it specifily to try out 
+    /// VS 2022 and .NET 6 WinForms.Not to mention, I find this sort of thing 
+    /// fun and I believe it helps keep my 66 year old brain plastic and able to 
+    /// learn new things.
+    /// 
     /// </summary>
     public partial class YALife : Form
     {
@@ -23,11 +29,11 @@ namespace YALife
         bool StopIt;        // Stop flag
         bool Stopped;       // Stop state
         int ITop;           // Tracks the top of the image frame
-        int ILeft;          // Tracls the left of the image frame
+        int ILeft;          // Tracks the left of the image frame
         int IInitPercent;   // Initial live percentage
         int IHPixels;       // Height in pixels
         int IWPixels;       // Width in pixels
-        int IHBlocks;       // Height in blocks
+        int IHBlocks;       // Height in blocks (blocks are made up of multiple pixels)
         int IWBlocks;       // Width in blocks
         int IBlockSize;     // Pixels in block
         int IPass;          // Pass counter
@@ -41,7 +47,7 @@ namespace YALife
         int IsEmpty;        // Count of all empty cells
 
         int Mode;           // Color cycle mode
-        int Friends;        // Nearby friends
+        int FriendCount;    // Nearby friends
 
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
@@ -50,16 +56,15 @@ namespace YALife
         DateTime StopMS;    // End timer
         TimeSpan ElapsedMS; // Elapsed timer
 
-        DirectBitmap Paper = new DirectBitmap(1, 1);
+        DirectBitmap Paper = new(1, 1);
         readonly Random RNG = new();    // Object to pull RNG values
         ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
         readonly string LicenseFile = "MIT_License.txt";   // MIT license file
         readonly string NumSpec = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
-        bool CollectStats = true; // Will eventually be hooked to a checkbox.
+        bool CollectStats = true; // Hooked to a checkbox.
         /// <summary>Collection of LifeStat objects in a list object</summary>
-        public List<LifeStat> LifeStats = new List<LifeStat>();
-
+        public List<LifeStat> LifeStats = new();
 
         /// <summary>
         /// YALife constructor
@@ -96,6 +101,7 @@ namespace YALife
         {
             // Stop the load delay timer and finish init (Reset())
             Timer.Enabled = false;
+            // Pop up the splash screen for 6 seconds
             Splash SplashScreen = new(6000, Width, Height, Top, Left);
             SplashScreen.ShowDialog();
             Reset();
@@ -189,7 +195,7 @@ namespace YALife
         }
 
         /// <summary>
-        /// 
+        /// Will eventually show a chart/graph
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -412,10 +418,11 @@ namespace YALife
             {
                 for (int CurH = 0; CurH < IHBlocks; CurH++)
                 {
-                    Friends = 0;
+                    FriendCount = 0;
 
                     // Look around the current array element to determine
-                    // the future of the current location.
+                    // the future of the current location. Updates 
+                    // FriendCount.
                     North(CurW, CurH, BWrap);
                     NorthEast(CurW, CurH, BWrap);
                     East(CurW, CurH, BWrap);
@@ -428,7 +435,7 @@ namespace YALife
                     if (ILife[CurW, CurH] >= 1)
                     {
                         // Live cell rules (current cell is alive)
-                        switch (Friends)
+                        switch (FriendCount)
                         {
                             case < 2:
                                 // We have one or less neibours so we are too loney to live (/sadface)
@@ -437,7 +444,7 @@ namespace YALife
                                 break;
                             case 2:
                             case 3:
-                                // We have two neibours, happy, we live on
+                                // We have two or three neibours, happy, we live on
                                 ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
                                 if (ILife[CurW, CurH] >= 255)
                                 {
@@ -456,7 +463,7 @@ namespace YALife
                     else
                     {
                         // Empty cell rules (current cell is empty)
-                        switch (Friends)
+                        switch (FriendCount)
                         {
                             case < 3:
                             // Less than three neibours, we stay empty
@@ -565,7 +572,7 @@ namespace YALife
             int W = CurW;
             int H = CurH - 1;
             if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; }}
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -583,7 +590,7 @@ namespace YALife
             int H = CurH - 1;
             if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
             if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -600,7 +607,7 @@ namespace YALife
             int W = CurW + 1;
             int H = CurH;
             if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -618,7 +625,7 @@ namespace YALife
             int H = CurH + 1;
             if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
             if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -634,7 +641,7 @@ namespace YALife
             int W = CurW;
             int H = CurH + 1;
             if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -651,7 +658,7 @@ namespace YALife
             int H = CurH + 1;
             if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
             if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -667,7 +674,7 @@ namespace YALife
             int W = CurW - 1;
             int H = CurH;
             if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -684,7 +691,7 @@ namespace YALife
             int H = CurH - 1;
             if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
             if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
-            if (ILife[W, H] >= 1) { Friends++; }
+            if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -699,7 +706,7 @@ namespace YALife
             int IW;
             int IH;
             Color Clr;
-            Double Cndx;
+            Double ColorIndex;
 
             if (ILife == null) return;
 
@@ -723,7 +730,7 @@ namespace YALife
                             {
                                 if (ILife[Wid, Hei] >= 1)
                                 {
-                                    // Cndx contains a value from 1 to 255 that is actually the number
+                                    // ColorIndex contains a value from 1 to 255 that is actually the number
                                     // of passes this cell/location has survived. We take this value
                                     // and use it to map into a gradient/color map and we use this
                                     // 'color' as the color we paint the cell/location. It's not really
@@ -731,12 +738,12 @@ namespace YALife
                                     // binary display (alive or empty) and adds some interest by letting
                                     // us know which cells are persistant and which are not.
                                     // Note that the "rules" part of DoLife() sets and resets (or clamps)
-                                    // the value in the cell (FYI: Cndx is color index).
+                                    // the value in the cell.
                                     if (Mode == 1 || Mode == 2)
                                     {
-                                        Cndx = (double)ILife[Wid, Hei];
-                                        if (Cndx > 255) { Cndx = 255; }
-                                        Clr = CMap.GetColorForValue(Cndx, (double)256);
+                                        ColorIndex = (double)ILife[Wid, Hei];
+                                        if (ColorIndex > 255) { ColorIndex = 255; }
+                                        Clr = CMap.GetColorForValue(ColorIndex, (double)256);
                                     } 
                                     else
                                     {
@@ -806,7 +813,7 @@ namespace YALife
     /// <summary>
     /// Used to create a snapshot of stats at the end of doLife. Collecting the stats
     /// is an option as this data will keep growing everytime we make a doLife pass.
-    /// THe intent is to have a dataset we could render into a chart if we wanted to.
+    /// The intent is to have a dataset we could render into a chart if we wanted to.
     /// </summary>
     public class LifeStat
     {
@@ -953,4 +960,8 @@ namespace YALife
     //                         somethink like Syncfusion, but I'm not sure about
     //                         the licensing needed (also not sure it actually 
     //                         supports .NET 6.0 WinForms properly). Well see. 
+    // 1.0.29.0 10/11/2022 DWR Renamed "Friends" to "FriendCount" and it's much
+    //                         more descriptive.
+    // 1.0.30.0 11/18/2022 DWR Renamed "Cndx" to "ColorIndex" and cleaned up some
+    //                         comments and typos.
 }
