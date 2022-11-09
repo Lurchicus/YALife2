@@ -962,6 +962,9 @@ namespace YALife
     //                         supports .NET 6.0 WinForms properly). Well see. 
     // 1.0.29.0 10/11/2022 DWR Renamed "Friends" to "FriendCount" and it's much
     //                         more descriptive.
-    // 1.0.30.0 11/18/2022 DWR Renamed "Cndx" to "ColorIndex" and cleaned up some
+    // 1.0.30.0 11/08/2022 DWR Renamed "Cndx" to "ColorIndex" and cleaned up some
     //                         comments and typos.
+    // 1.0.31.0 11/09/2022 DWR Renamed Form1 to LifeForm because it's kinda funny. 
+    //                         Also switched to .NET 7. No changes needed. Updated
+    //                         the Splash "screen" and readme file.
 }

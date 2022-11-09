@@ -4699,7 +4699,7 @@
 </value>
   </data>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>YALife - Yet another Game of Life program based on the rules developed by John Horton Conway and programmed by Dan Rhea and is licensed under the GPL 3 Open Source license. This program was developed using the preview versions of Visual Studio 2022 to test using WinForms with .NET 6 preview.
+    <value>YALife - Yet another Game of Life program based on the rules developed by John Horton Conway and programmed by Dan Rhea and is licensed under the GPL 3 Open Source license. This program was developed using the preview versions of Visual Studio 2022 to test using WinForms with .NET 7.
 
 YALife,  Copyright 2022  Dan Rhea
 This program comes with ABSOLUTELY NO WARRANTY.

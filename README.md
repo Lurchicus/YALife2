@@ -12,7 +12,7 @@ Designed and authored by Dan Rhea.
 
 I wrote this to try out WinForms on the VS 2022 Preview
 using .NET 6. Note that Visual Studio 2022 has been released as has
-.NET 6.
+.NET 6. And now it runs under .NET 7. 
 
 I added the ability to scale a life "cell" from 1 to 32. This means
 that a scale of 4 will draw a live cell that is 4 pixels high and 4
