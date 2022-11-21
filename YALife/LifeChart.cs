@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization;
+﻿using System.Windows.Forms;
 
 namespace YALife
 {
@@ -11,18 +9,19 @@ namespace YALife
     {
 
         /// <summary>
-        /// 
+        /// Eventually create a graph/chart of collected stats (if any)
         /// </summary>
         public LifeChart()
         {
             InitializeComponent();
 
-            if (LifeStat.LifeStatsList != null)
-            {
-                int Cnt = LifeStat.LifeStatsList.Count;
-                richTextBox1.AppendText("\n\nStats collected is ");
-                richTextBox1.AppendText(Cnt.ToString());
-            } 
+            //if (YALife.TheStats.Count> 0 )
+            //{
+            //    int Cnt = YALife.TheStats.Count;
+            //    richTextBox1.AppendText("\n\nStats collected is ");
+            //    richTextBox1.AppendText(Cnt.ToString());
+            //}
+
             // This is on hold until some open source or community
             // licence chart software becomes available for 
             // .NET 7.0 WinForms

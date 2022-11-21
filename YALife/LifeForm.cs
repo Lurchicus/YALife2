@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace YALife
@@ -41,7 +42,7 @@ namespace YALife
         int ILive;          // Count of "stay alives" in a pass
         int ILonely;        // Count of lonely deaths in a pass
         int ICrowd;         // Count of crowded deaths in a pass
-        int IEmpty;         // Count of "Stay empty" cases in a pass
+        int InEmpty;        // Count of "Stay empty" cases in a pass
         int IsLiving;       // Count of all living cells
         int IsEmpty;        // Count of all empty cells
 
@@ -61,8 +62,8 @@ namespace YALife
         readonly string LicenseFile = "MIT_License.txt";   // MIT license file
         readonly string NumSpec = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
-        bool CollectStats = true; // Hooked to a checkbox.
-        static readonly LifeStat LStat = new();
+        bool CollectStats = false; // Hooked to a checkbox.
+        readonly List<StatListRecord> TheStats = new();
 
         /// <summary>
         /// YALife constructor
@@ -162,12 +163,17 @@ namespace YALife
             if (CbxCollectStats.Checked)
             {
                 // If we turn on collection, always start with a clean slate
-                LifeStat.ClearList();
+                TheStats.Clear();
                 CollectStats = true;
             }
             else
             {
-                CollectStats = false;   
+                CollectStats = false;
+                // Don't keep old stats either
+                if (TheStats.Count> 0) 
+                { 
+                    TheStats.Clear(); 
+                }    
             }
         }
 
@@ -344,7 +350,7 @@ namespace YALife
 
             // Manage stats collection and reset collected stats
             CollectStats = CbxCollectStats.Checked;
-            LifeStat.ClearList();
+            TheStats.Clear();
 
             // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
@@ -405,7 +411,7 @@ namespace YALife
             ILive = 0;
             ILonely = 0;
             ICrowd = 0;
-            IEmpty = 0;
+            InEmpty = 0;
 
             // Scan through the "life" array (taking the block size into
             // account as well)
@@ -465,7 +471,7 @@ namespace YALife
                             case > 3:
                                 // More than three neibours, stay empty
                                 ISave[CurW, CurH] = 0;
-                                IEmpty++;
+                                InEmpty++;
                                 break;
                             case 3:
                                 // Three neibours! Birth!
@@ -511,14 +517,16 @@ namespace YALife
             TxLive.Text = ILive.ToString(NumSpec, Culture);
             TxLonely.Text = ILonely.ToString(NumSpec, Culture);
             TxCrowd.Text = ICrowd.ToString(NumSpec, Culture);
-            TxEmpty.Text = IEmpty.ToString(NumSpec, Culture);
+            TxEmpty.Text = InEmpty.ToString(NumSpec, Culture);
             if (CollectStats)
             {
-                string Got = LifeStat.StatLife(IPass, IsLiving, IsEmpty, IBirth, ILive, ILonely, ICrowd, IEmpty, LStat);
-                if (Got.Length > 0)
+                StatListRecord StatList = new(IsLiving, IsEmpty,IBirth,ILive,ILonely,ICrowd, InEmpty);
+                
+                TheStats.Add(StatList);
+                int Got = TheStats.Count;
+                if (Got > 0)
                 {
-                    TxLog.AppendText(Got);
-                    CbxCollectStats.Checked = false;
+                    TheStats[Got-1].Scount = Got;
                 }
             }
 
@@ -886,4 +894,7 @@ namespace YALife
     //                         - Moved the LifeStat class into the internal class
     //                         file LifeStats.cs. Eventually figured out how to 
     //                         reference the list in the class in the LifeChart form.
+    // 1.0.33.0 11/21/2022 DWR Had to rewrite LifeStat class as LifeStats and move 
+    //                         the list to the main form. Still can't access the list
+    //                         in LifeChart as I can't make the list static. WIP.
 }
