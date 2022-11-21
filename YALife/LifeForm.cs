@@ -884,5 +884,6 @@ namespace YALife
     // 1.0.32.0 11/21/2022 DWR Some refactoring, move the colormode class to its 
     //                         own internal class file (ColorModes.cs).
     //                         - Moved the LifeStat class into the internal class
-    //                         file LifeStats.cs
+    //                         file LifeStats.cs. Eventually figured out how to 
+    //                         reference the list in the class in the LifeChart form.
 }
