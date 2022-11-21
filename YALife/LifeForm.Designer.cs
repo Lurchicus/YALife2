@@ -34,6 +34,7 @@ namespace YALife
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
             this.Frame = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.BtnChart = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.CbxCollectStats = new System.Windows.Forms.CheckBox();
             this.DDMode = new System.Windows.Forms.ComboBox();
@@ -78,7 +79,6 @@ namespace YALife
             this.LBlockSize = new System.Windows.Forms.Label();
             this.NBlockSize = new System.Windows.Forms.NumericUpDown();
             this.Timer = new System.Windows.Forms.Timer(this.components);
-            this.BtnChart = new System.Windows.Forms.Button();
             LBirth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Frame)).BeginInit();
             this.panel1.SuspendLayout();
@@ -161,6 +161,18 @@ namespace YALife
             this.panel1.Size = new System.Drawing.Size(216, 670);
             this.panel1.TabIndex = 1;
             // 
+            // BtnChart
+            // 
+            this.BtnChart.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.BtnChart.Location = new System.Drawing.Point(83, 592);
+            this.BtnChart.Name = "BtnChart";
+            this.BtnChart.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.BtnChart.Size = new System.Drawing.Size(55, 23);
+            this.BtnChart.TabIndex = 45;
+            this.BtnChart.Text = "Chart";
+            this.BtnChart.UseVisualStyleBackColor = false;
+            this.BtnChart.Click += new System.EventHandler(this.BtnChart_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -173,8 +185,6 @@ namespace YALife
             // CbxCollectStats
             // 
             this.CbxCollectStats.AutoSize = true;
-            this.CbxCollectStats.Checked = true;
-            this.CbxCollectStats.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CbxCollectStats.Location = new System.Drawing.Point(133, 506);
             this.CbxCollectStats.Name = "CbxCollectStats";
             this.CbxCollectStats.Size = new System.Drawing.Size(63, 19);
@@ -614,18 +624,6 @@ namespace YALife
             // 
             this.Timer.Interval = 600;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
-            // 
-            // BtnChart
-            // 
-            this.BtnChart.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BtnChart.Location = new System.Drawing.Point(83, 592);
-            this.BtnChart.Name = "BtnChart";
-            this.BtnChart.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnChart.Size = new System.Drawing.Size(55, 23);
-            this.BtnChart.TabIndex = 45;
-            this.BtnChart.Text = "Chart";
-            this.BtnChart.UseVisualStyleBackColor = false;
-            this.BtnChart.Click += new System.EventHandler(this.BtnChart_Click);
             // 
             // YALife
             // 

@@ -18,10 +18,9 @@ namespace YALife
     /// 
     /// To anyone that sees this, I realize this is overkill for a game of life
     /// program that uses random data, but I wrote it specifily to try out 
-    /// VS 2022 and .NET 6 WinForms.Not to mention, I find this sort of thing 
+    /// VS 2022 and .NET 6 WinForms. Not to mention, I find this sort of thing 
     /// fun and I believe it helps keep my 66 year old brain plastic and able to 
     /// learn new things.
-    /// 
     /// </summary>
     public partial class YALife : Form
     {
@@ -58,13 +57,12 @@ namespace YALife
 
         DirectBitmap Paper = new(1, 1);
         readonly Random RNG = new();    // Object to pull RNG values
-        ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
+        readonly ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
         readonly string LicenseFile = "MIT_License.txt";   // MIT license file
         readonly string NumSpec = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
         bool CollectStats = true; // Hooked to a checkbox.
-        /// <summary>Collection of LifeStat objects in a list object</summary>
-        public List<LifeStat> LifeStats = new();
+        static readonly LifeStat LStat = new();
 
         /// <summary>
         /// YALife constructor
@@ -164,7 +162,7 @@ namespace YALife
             if (CbxCollectStats.Checked)
             {
                 // If we turn on collection, always start with a clean slate
-                LifeStats.Clear();
+                LifeStat.ClearList();
                 CollectStats = true;
             }
             else
@@ -201,7 +199,7 @@ namespace YALife
         /// <param name="e"></param>
         private void BtnChart_Click(object sender, EventArgs e)
         {
-            LifeChart ChartForm = new LifeChart(LifeStats);
+            LifeChart ChartForm = new();
             ChartForm.ShowDialog();
         }
 
@@ -342,14 +340,11 @@ namespace YALife
             Frame.Height = this.ClientSize.Height;
 
             // Clear and prepare for a fresh bitmap
-            if (Frame.Image != null)
-            {
-                Frame.Image.Dispose();
-            }
+            Frame.Image?.Dispose();
 
             // Manage stats collection and reset collected stats
             CollectStats = CbxCollectStats.Checked;
-            LifeStats.Clear();
+            LifeStat.ClearList();
 
             // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
@@ -519,43 +514,16 @@ namespace YALife
             TxEmpty.Text = IEmpty.ToString(NumSpec, Culture);
             if (CollectStats)
             {
-                StatLife();
+                string Got = LifeStat.StatLife(IPass, IsLiving, IsEmpty, IBirth, ILive, ILonely, ICrowd, IEmpty, LStat);
+                if (Got.Length > 0)
+                {
+                    TxLog.AppendText(Got);
+                    CbxCollectStats.Checked = false;
+                }
             }
 
             // Draw the new bitmap
             DrawLife();
-        }
-
-        /// <summary>
-        /// Collect and save a frame of statistics
-        /// </summary>
-        private void StatLife()
-        {
-            // Create a stat object and load it with stats
-            int ID = LifeStats.Count;
-            LifeStat LStat = new LifeStat();
-            LStat.ID = ID;
-            LStat.LivingCount = IsLiving;
-            LStat.EmptyCount = IsEmpty;
-            LStat.NewbornCount = IBirth;
-            LStat.LivedOnCount = ILive;
-            LStat.DiedLonelyCount = ILonely;
-            LStat.DiedCrowededCount = ICrowd;
-            LStat.StayedEmptyCount = IEmpty;
-            try
-            {
-                // Add the stat object to the list of stats
-                LifeStats.Add(LStat);
-            }
-            catch(Exception ex)
-            {
-                // If we have an error, stop collecting stats (but don't clear
-                // what we have so far (wait for a reset to do the clear).
-                TxLog.AppendText(ex.Message + 
-                    "\r\nError encountered, statistics collection stopped." +
-                    "\r\nTo clear, click [Stop] and [Reset].");
-                CbxCollectStats.Checked = false;
-            }
         }
 
         /// <summary>
@@ -780,61 +748,6 @@ namespace YALife
         }
     }
 
-    /// <summary>
-    /// Create a list of color modes to bind to a drop down list
-    /// </summary>
-    public class ColorMode
-    {
-        /// <summary>
-        /// Unique value for each mode
-        /// </summary>
-        public string ?ModeValue { get; set; } 
-        /// <summary>
-        /// A description of the mode for the drop down
-        /// </summary>
-        public string ?ModeInfo { get; set; }
-
-        /// <summary>
-        /// Create our list of color modes
-        /// </summary>
-        /// <returns>List of ColorMode</returns>
-        public static List<ColorMode> ModeList()
-        {
-            return new List<ColorMode>
-            {
-                new ColorMode{ ModeValue = "", ModeInfo = "Select" },
-                new ColorMode{ ModeValue = "1", ModeInfo = "Cycle once" },
-                new ColorMode{ ModeValue = "2", ModeInfo = "Cycle many" },
-                new ColorMode{ ModeValue = "3", ModeInfo = "Color: Yellow" }
-            };
-        }
-    }
-
-    /// <summary>
-    /// Used to create a snapshot of stats at the end of doLife. Collecting the stats
-    /// is an option as this data will keep growing everytime we make a doLife pass.
-    /// The intent is to have a dataset we could render into a chart if we wanted to.
-    /// </summary>
-    public class LifeStat
-    {
-        ///<summary>The ID number of the stat cell</summary>
-        public int ID;
-        /// <summary>The number of living cells</summary>
-        public int LivingCount;
-        /// <summary>The number of empty cells</summary>
-        public int EmptyCount;
-        /// <summary>The number of newly born cells</summary>
-        public int NewbornCount;
-        /// <summary>The number of cells that stayed alive</summary>
-        public int LivedOnCount;
-        /// <summary>The number of cells that died of lonelyness</summary>
-        public int DiedLonelyCount;
-        /// <summary>The number of cells that died of overcrowding</summary>
-        public int DiedCrowededCount;
-        /// <summary>The number of cells that stayed empty</summary>
-        public int StayedEmptyCount;
-    }
-
     // ToDo:
     //
     // 1. Collect pass statistics into a list that we could then use to create a chart
@@ -848,13 +761,14 @@ namespace YALife
     //
     //  .gol file format (preliminary design)
     //  
-    //  Name of GOL pattern,        [Patten name, no quotes, terminated by a comma]
-    //  0,0,0,                      [X,Y origin, clear flag: 1-clear life array, 0-leave as is]
-    //  11100000101011110000111,    [One row 1-Alive 0-empty]
-    //  00111101011111010101101,    [Another row]
-    //  10000100001000010000111,    [this is all random gibberish btw]
-    //  11100010111110001,          [Line length can vary (implies trailing zeros)]
-    //  -1,                         [Pattern end (comma indicates another pattern follows)]
+    //  # Comment
+    //  Name of GOL pattern,        # Patten name, no quotes, terminated by a comma
+    //  0,0,0,                      # X,Y origin, clear flag: 1-clear life array, 0-leave as is
+    //  11100000101011110000111,    # One row 1-Alive 0-empty
+    //  00111101011111010101101,    # Another row
+    //  10000100001000010000111,    # this is all random gibberish btw
+    //  11100010111110001,          # Line length can vary (implies trailing zeros)
+    //  -1,                         # Pattern end (comma indicates another pattern follows)
     //
     // Program change history:
     // 
@@ -967,4 +881,8 @@ namespace YALife
     // 1.0.31.0 11/09/2022 DWR Renamed Form1 to LifeForm because it's kinda funny. 
     //                         Also switched to .NET 7. No changes needed. Updated
     //                         the Splash "screen" and readme file.
+    // 1.0.32.0 11/21/2022 DWR Some refactoring, move the colormode class to its 
+    //                         own internal class file (ColorModes.cs).
+    //                         - Moved the LifeStat class into the internal class
+    //                         file LifeStats.cs
 }
