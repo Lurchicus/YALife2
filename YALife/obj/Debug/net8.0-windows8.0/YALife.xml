@@ -296,6 +296,11 @@
             Reset and reinitialize the variables and the working "life" array
             </summary>
         </member>
+        <member name="M:YALife.YALife.GetGolFile">
+            <summary>
+            Open a file dialog and locate a .gol file
+            </summary>
+        </member>
         <member name="M:YALife.YALife.LoadPredefined(System.String)">
             <summary>
             Load and parse the GOL predefined file

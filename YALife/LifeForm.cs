@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace YALife
@@ -52,8 +49,8 @@ namespace YALife
         int Mode;           // Color cycle mode
         int FriendCount;    // Nearby friends
 
-        bool UsingPredefined = true;
-        string PredefinedFile = ".\\LifeTest.gol";
+        bool UsingPredefined = false;
+        string? PredefinedFile;
         bool LoadedPredefined = false;
 
         int[,]? ILife;      // Life matrix
@@ -70,7 +67,7 @@ namespace YALife
         readonly string NumSpec = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
         bool CollectStats = false; // Hooked to a checkbox.
-        readonly List<StatListRecord> TheStats = new();
+        readonly List<StatListRecord> TheStats = [];
 
         /// <summary>
         /// YALife constructor
@@ -177,10 +174,10 @@ namespace YALife
             {
                 CollectStats = false;
                 // Don't keep old stats either
-                if (TheStats.Count> 0) 
-                { 
-                    TheStats.Clear(); 
-                }    
+                if (TheStats.Count > 0)
+                {
+                    TheStats.Clear();
+                }
             }
         }
 
@@ -374,17 +371,27 @@ namespace YALife
             if (UsingPredefined)
             {
                 {
-                    // All empty for predefined
-                    //ISave[IW, IH] = 0;
-                    //ILife[IW, IH] = 0;
-                    if (PredefinedFile.Length > 0)
+                    // Load and parse .gol file and initialize predefined object
+                    if (PredefinedFile is not null)
                     {
                         LoadPredefined(PredefinedFile);
+                        if (!LoadedPredefined)
+                        {
+                            UsingPredefined = false;
+                        }
+                        UsingPredefined = true;
+                    }
+                    else
+                    {
+                        UsingPredefined |= false;
                     }
                 }
             }
-            if (!UsingPredefined) 
+            else
             {
+                // Initialize the life array randomly based on a desired starting
+                // percentage of live cells
+                Array.Clear(ISave, 0, ISave.Length);
                 for (int IW = 0; IW < IWBlocks; IW++)
                 {
                     for (int IH = 0; IH < IHBlocks; IH++)
@@ -415,6 +422,30 @@ namespace YALife
         }
 
         /// <summary>
+        /// Open a file dialog and locate a .gol file
+        /// </summary>
+        private void GetGolFile()
+        {
+            OpenFileDialog GetGolFile = new()
+            {
+                Filter = "GOL File|*.gol|All files|*.*",
+                FilterIndex = 0,
+                InitialDirectory = Application.ExecutablePath
+            };
+            if (GetGolFile.ShowDialog() == DialogResult.OK)
+            {
+                PredefinedFile = GetGolFile.FileName;
+                UsingPredefined = true;
+            }
+            else
+            {
+                UsingPredefined = false;
+            }
+            GetGolFile.Dispose();
+            GC.Collect();
+        }
+
+        /// <summary>
         /// Load and parse the GOL predefined file
         /// *The initial version only supports a single object
         /// </summary>
@@ -425,8 +456,8 @@ namespace YALife
             string? Line2;
             string[] Got;
             char[] Chunk;
-      
-            StreamReader Gol = new StreamReader(PredefinedFile);
+
+            StreamReader Gol = new(PredefinedFile);
 
             string? GolName;
             int XOffset = 0;
@@ -434,55 +465,59 @@ namespace YALife
             int KeepIt = 0;
             int Rows = 0;
             int MaxLen = 0;
-            List<string> GolList= new();
+            List<string> GolList = [];
 
             Line = await Gol.ReadLineAsync();
             while (Line is not null)
             {
-                if (Line.Trim().StartsWith("#"))
+                Line = Line.Trim();
+                if (!Line.StartsWith('#'))
                 {
-                    // Comment, ignore it
-                }
-                else
-                {
-                    Chunk = Line.Trim().Substring(0, 1).ToLower().ToCharArray();
-                    if (Chunk is not null) {
+                    Chunk = Line.Trim()[..1].ToLower().ToCharArray();
+                    if (Chunk is not null)
+                    {
                         // GOL Object name
-                        if (Chunk[0] >= 'a' && Chunk[0] <= 'z') 
+                        if (Chunk[0] >= 'a' && Chunk[0] <= 'z')
                         {
                             GolName = Line.Trim();
-                            TxLog.Text = "Predefine: \n" +GolName;
+                            TxLog.Text = "Predefine: \n" + GolName;
                         }
                     }
-                    if (Line.Trim().StartsWith("+")) 
+                    if (Line.StartsWith('+'))
                     {
                         // Offset header
-                        Line2 = Line.Trim().Substring(1);
-                        Got = Line2.Trim().Split(",");
+                        Line2 = Line.Trim()[1..];
+                        Got = Line2.Split(",");
                         // This is a real weak point for the parser... I'm going to add a "+" prefix to the line
                         try
                         {
-                                XOffset = Int32.Parse(Got[0]);
-                                YOffset = Int32.Parse(Got[1]);
-                                KeepIt = Int32.Parse(Got[2]);
+                            XOffset = Int32.Parse(Got[0]);
+                            YOffset = Int32.Parse(Got[1]);
+                            KeepIt = Int32.Parse(Got[2]);
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
-                            throw(new Exception("LoadPredefined: Integer conversion error in offset header. Err:" + e.Message));
+                            LoadedPredefined = false;
+                            UsingPredefined = false;
+                            throw (new Exception("LoadPredefined: Integer conversion error in offset header. Err:" + e.Message));
                         }
                     }
-                    if (Line.Trim().StartsWith("-1"))
+                    if (Line.StartsWith("-1"))
                     {
                         // End of object
                         break;
                     }
-                    if (Line.Trim().StartsWith("0") || Line.Trim().StartsWith("1")) 
+                    if (Line.StartsWith('0') || Line.StartsWith('1'))
                     {
                         // One or more object rows
                         Rows++;
-                        GolList.Add(Line.Trim().Substring(0,Line.Length-1));
-                        if (Line.Length > MaxLen) { MaxLen = Line.Trim().Length; }
+                        GolList.Add(Line.Trim()[..(Line.Length - 1)]);
+                        if (Line.Length > MaxLen) { MaxLen = Line.Length; }
                     }
+                }
+                else
+                {
+                    // Comment, ignore it
                 }
                 // Next line
                 Line = await Gol.ReadLineAsync();
@@ -493,15 +528,8 @@ namespace YALife
             if (KeepIt == 0)
             {
                 // Wipe everything first
-                for (int IW = 0; IW < IWBlocks; IW++)
-                {
-                    for (int IH = 0; IH < IHBlocks; IH++)
-                    {
-                        if (ISave is not null) { ISave[IW, IH] = 0; }
-                        if (ILife is not null) { ILife[IW, IH] = 0; }
-                    }
-                }
-
+                if (ISave is not null) { Array.Clear(ISave, 0, ISave.Length); }
+                if (ILife is not null) { Array.Clear(ILife, 0, ILife.Length); }
             }
             // "Draw" the object (Go Row then Column to keep things simpler)
             int GRow = 0;
@@ -518,8 +546,13 @@ namespace YALife
                         if (GIdx < GLen)
                         {
                             GVal = Int32.Parse(GStr.Substring(GIdx, 1));
-                            if (ILife is not null) { ILife[IW, IH] = GVal; }
-                            if (ISave is not null) { ISave[IW, IH] = 0; }
+                            if (ILife is not null)
+                            {
+                                if (GVal > 0)
+                                {
+                                    ILife[IW, IH] = GVal;
+                                }
+                            }
                             GIdx++;
                         }
                         else
@@ -530,6 +563,7 @@ namespace YALife
                     GRow++;
                 }
             }
+            GolList.Clear();
             LoadedPredefined = true;
             DrawLife();
         }
@@ -662,13 +696,13 @@ namespace YALife
             TxEmpty.Text = InEmpty.ToString(NumSpec, Culture);
             if (CollectStats)
             {
-                StatListRecord StatList = new(IsLiving, IsEmpty,IBirth,ILive,ILonely,ICrowd, InEmpty);
-                
+                StatListRecord StatList = new(IsLiving, IsEmpty, IBirth, ILive, ILonely, ICrowd, InEmpty);
+
                 TheStats.Add(StatList);
                 int Got = TheStats.Count;
                 if (Got > 0)
                 {
-                    TheStats[Got-1].Scount = Got;
+                    TheStats[Got - 1].Scount = Got;
                 }
             }
 
@@ -689,7 +723,7 @@ namespace YALife
             // North: Width, Height-1
             int W = CurW;
             int H = CurH - 1;
-            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; }}
+            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
             if (ILife[W, H] >= 1) { FriendCount++; }
         }
 
@@ -736,8 +770,8 @@ namespace YALife
         /// <param name="Wrap">Edge wrap mode</param>
         private void SouthEast(int CurW, int CurH, bool Wrap)
         {
-            if (ILife==null) { return; } 
-            
+            if (ILife == null) { return; }
+
             // Southeast: Width+1, Height+1
             int W = CurW + 1;
             int H = CurH + 1;
@@ -754,7 +788,7 @@ namespace YALife
         /// <param name="Wrap">Edge wrap mode</param>
         private void South(int CurW, int CurH, bool Wrap)
         {
-            if (ILife==null) { return; }    
+            if (ILife == null) { return; }
             // South: Width, Height+1
             int W = CurW;
             int H = CurH + 1;
@@ -770,7 +804,7 @@ namespace YALife
         /// <param name="Wrap">Edge wrap mode</param>
         private void SouthWest(int CurW, int CurH, bool Wrap)
         {
-            if (ILife==null) { return; }    
+            if (ILife == null) { return; }
             // Southwest: Width-1, Height+1
             int W = CurW - 1;
             int H = CurH + 1;
@@ -862,7 +896,7 @@ namespace YALife
                                         ColorIndex = (double)ILife[Wid, Hei];
                                         if (ColorIndex > 255) { ColorIndex = 255; }
                                         Clr = CMap.GetColorForValue(ColorIndex, (double)256);
-                                    } 
+                                    }
                                     else
                                     {
                                         // A cool side effect of making this a simple else, this will
@@ -895,6 +929,12 @@ namespace YALife
             ElapsedMS = StopMS - StartMS;
             txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString("N4", Culture);
             Application.DoEvents();
+        }
+
+        private void Predef_Click(object sender, EventArgs e)
+        {
+            GetGolFile();
+            Reset();
         }
     }
 

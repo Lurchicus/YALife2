@@ -18,7 +18,7 @@ namespace YALife
         private readonly int ParentHeight;
         private readonly int ParentTop;
         private readonly int ParentLeft;
-        private string[] GoodExt = new string[] {".txt", ".TXT", ".md", ".MD", ".json", ".JSON"};
+        private readonly string[] GoodExt = new string[] { ".txt", ".TXT", ".md", ".MD", ".json", ".JSON" };
 
         /// <summary>
         /// Constructor to initialize the form and save the file to display

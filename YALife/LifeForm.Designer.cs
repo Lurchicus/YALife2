@@ -29,62 +29,63 @@ namespace YALife
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.Windows.Forms.Label LBirth;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
-            this.Frame = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.BtnChart = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.CbxCollectStats = new System.Windows.Forms.CheckBox();
-            this.DDMode = new System.Windows.Forms.ComboBox();
-            this.BAbout = new System.Windows.Forms.Button();
-            this.txtPassTimer = new System.Windows.Forms.TextBox();
-            this.LabPassTimer = new System.Windows.Forms.Label();
-            this.BLicense = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LEmpty = new System.Windows.Forms.Label();
-            this.LCrowd = new System.Windows.Forms.Label();
-            this.LLonely = new System.Windows.Forms.Label();
-            this.LAlive = new System.Windows.Forms.Label();
-            this.TxEmpty = new System.Windows.Forms.TextBox();
-            this.TxCrowd = new System.Windows.Forms.TextBox();
-            this.TxLonely = new System.Windows.Forms.TextBox();
-            this.TxLive = new System.Windows.Forms.TextBox();
-            this.TxBirth = new System.Windows.Forms.TextBox();
-            this.LIsEmpty = new System.Windows.Forms.Label();
-            this.TxIsEmpty = new System.Windows.Forms.TextBox();
-            this.LIsLiving = new System.Windows.Forms.Label();
-            this.TxIsLiving = new System.Windows.Forms.TextBox();
-            this.LPass = new System.Windows.Forms.Label();
-            this.TxPass = new System.Windows.Forms.TextBox();
-            this.BStep = new System.Windows.Forms.Button();
-            this.BExit = new System.Windows.Forms.Button();
-            this.TxLog = new System.Windows.Forms.TextBox();
-            this.BStop = new System.Windows.Forms.Button();
-            this.BRun = new System.Windows.Forms.Button();
-            this.TxPercent = new System.Windows.Forms.NumericUpDown();
-            this.BReset = new System.Windows.Forms.Button();
-            this.LInitPercent = new System.Windows.Forms.Label();
-            this.LWBlocks = new System.Windows.Forms.Label();
-            this.TxWBlocks = new System.Windows.Forms.TextBox();
-            this.LHBlocks = new System.Windows.Forms.Label();
-            this.TxHBlocks = new System.Windows.Forms.TextBox();
-            this.CkWrap = new System.Windows.Forms.CheckBox();
-            this.LWPixels = new System.Windows.Forms.Label();
-            this.TxWPixels = new System.Windows.Forms.TextBox();
-            this.LHPixels = new System.Windows.Forms.Label();
-            this.TxHPixels = new System.Windows.Forms.TextBox();
-            this.LBlockSize = new System.Windows.Forms.Label();
-            this.NBlockSize = new System.Windows.Forms.NumericUpDown();
-            this.Timer = new System.Windows.Forms.Timer(this.components);
+            Frame = new System.Windows.Forms.PictureBox();
+            panel1 = new System.Windows.Forms.Panel();
+            BtnChart = new System.Windows.Forms.Button();
+            label3 = new System.Windows.Forms.Label();
+            CbxCollectStats = new System.Windows.Forms.CheckBox();
+            DDMode = new System.Windows.Forms.ComboBox();
+            BAbout = new System.Windows.Forms.Button();
+            txtPassTimer = new System.Windows.Forms.TextBox();
+            LabPassTimer = new System.Windows.Forms.Label();
+            BLicense = new System.Windows.Forms.Button();
+            label2 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            LEmpty = new System.Windows.Forms.Label();
+            LCrowd = new System.Windows.Forms.Label();
+            LLonely = new System.Windows.Forms.Label();
+            LAlive = new System.Windows.Forms.Label();
+            TxEmpty = new System.Windows.Forms.TextBox();
+            TxCrowd = new System.Windows.Forms.TextBox();
+            TxLonely = new System.Windows.Forms.TextBox();
+            TxLive = new System.Windows.Forms.TextBox();
+            TxBirth = new System.Windows.Forms.TextBox();
+            LIsEmpty = new System.Windows.Forms.Label();
+            TxIsEmpty = new System.Windows.Forms.TextBox();
+            LIsLiving = new System.Windows.Forms.Label();
+            TxIsLiving = new System.Windows.Forms.TextBox();
+            LPass = new System.Windows.Forms.Label();
+            TxPass = new System.Windows.Forms.TextBox();
+            BStep = new System.Windows.Forms.Button();
+            BExit = new System.Windows.Forms.Button();
+            TxLog = new System.Windows.Forms.TextBox();
+            BStop = new System.Windows.Forms.Button();
+            BRun = new System.Windows.Forms.Button();
+            TxPercent = new System.Windows.Forms.NumericUpDown();
+            BReset = new System.Windows.Forms.Button();
+            LInitPercent = new System.Windows.Forms.Label();
+            LWBlocks = new System.Windows.Forms.Label();
+            TxWBlocks = new System.Windows.Forms.TextBox();
+            LHBlocks = new System.Windows.Forms.Label();
+            TxHBlocks = new System.Windows.Forms.TextBox();
+            CkWrap = new System.Windows.Forms.CheckBox();
+            LWPixels = new System.Windows.Forms.Label();
+            TxWPixels = new System.Windows.Forms.TextBox();
+            LHPixels = new System.Windows.Forms.Label();
+            TxHPixels = new System.Windows.Forms.TextBox();
+            LBlockSize = new System.Windows.Forms.Label();
+            NBlockSize = new System.Windows.Forms.NumericUpDown();
+            Timer = new System.Windows.Forms.Timer(components);
+            Predef = new System.Windows.Forms.Button();
             LBirth = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.Frame)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TxPercent)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NBlockSize)).BeginInit();
-            this.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)Frame).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)TxPercent).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NBlockSize).BeginInit();
+            SuspendLayout();
             // 
             // LBirth
             // 
@@ -97,554 +98,545 @@ namespace YALife
             // 
             // Frame
             // 
-            this.Frame.BackColor = System.Drawing.SystemColors.Control;
-            this.Frame.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Frame.Location = new System.Drawing.Point(222, 0);
-            this.Frame.MinimumSize = new System.Drawing.Size(1, 1);
-            this.Frame.Name = "Frame";
-            this.Frame.Size = new System.Drawing.Size(805, 670);
-            this.Frame.TabIndex = 0;
-            this.Frame.TabStop = false;
-            this.Frame.SizeChanged += new System.EventHandler(this.Image_SizeChanged);
+            Frame.BackColor = System.Drawing.SystemColors.Control;
+            Frame.Dock = System.Windows.Forms.DockStyle.Right;
+            Frame.Location = new System.Drawing.Point(222, 0);
+            Frame.MinimumSize = new System.Drawing.Size(1, 1);
+            Frame.Name = "Frame";
+            Frame.Size = new System.Drawing.Size(805, 670);
+            Frame.TabIndex = 0;
+            Frame.TabStop = false;
+            Frame.SizeChanged += Image_SizeChanged;
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel1.Controls.Add(this.BtnChart);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.CbxCollectStats);
-            this.panel1.Controls.Add(this.DDMode);
-            this.panel1.Controls.Add(this.BAbout);
-            this.panel1.Controls.Add(this.txtPassTimer);
-            this.panel1.Controls.Add(this.LabPassTimer);
-            this.panel1.Controls.Add(this.BLicense);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.LEmpty);
-            this.panel1.Controls.Add(this.LCrowd);
-            this.panel1.Controls.Add(this.LLonely);
-            this.panel1.Controls.Add(this.LAlive);
-            this.panel1.Controls.Add(LBirth);
-            this.panel1.Controls.Add(this.TxEmpty);
-            this.panel1.Controls.Add(this.TxCrowd);
-            this.panel1.Controls.Add(this.TxLonely);
-            this.panel1.Controls.Add(this.TxLive);
-            this.panel1.Controls.Add(this.TxBirth);
-            this.panel1.Controls.Add(this.LIsEmpty);
-            this.panel1.Controls.Add(this.TxIsEmpty);
-            this.panel1.Controls.Add(this.LIsLiving);
-            this.panel1.Controls.Add(this.TxIsLiving);
-            this.panel1.Controls.Add(this.LPass);
-            this.panel1.Controls.Add(this.TxPass);
-            this.panel1.Controls.Add(this.BStep);
-            this.panel1.Controls.Add(this.BExit);
-            this.panel1.Controls.Add(this.TxLog);
-            this.panel1.Controls.Add(this.BStop);
-            this.panel1.Controls.Add(this.BRun);
-            this.panel1.Controls.Add(this.TxPercent);
-            this.panel1.Controls.Add(this.BReset);
-            this.panel1.Controls.Add(this.LInitPercent);
-            this.panel1.Controls.Add(this.LWBlocks);
-            this.panel1.Controls.Add(this.TxWBlocks);
-            this.panel1.Controls.Add(this.LHBlocks);
-            this.panel1.Controls.Add(this.TxHBlocks);
-            this.panel1.Controls.Add(this.CkWrap);
-            this.panel1.Controls.Add(this.LWPixels);
-            this.panel1.Controls.Add(this.TxWPixels);
-            this.panel1.Controls.Add(this.LHPixels);
-            this.panel1.Controls.Add(this.TxHPixels);
-            this.panel1.Controls.Add(this.LBlockSize);
-            this.panel1.Controls.Add(this.NBlockSize);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(216, 670);
-            this.panel1.TabIndex = 1;
+            panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            panel1.Controls.Add(Predef);
+            panel1.Controls.Add(BtnChart);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(CbxCollectStats);
+            panel1.Controls.Add(DDMode);
+            panel1.Controls.Add(BAbout);
+            panel1.Controls.Add(txtPassTimer);
+            panel1.Controls.Add(LabPassTimer);
+            panel1.Controls.Add(BLicense);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(LEmpty);
+            panel1.Controls.Add(LCrowd);
+            panel1.Controls.Add(LLonely);
+            panel1.Controls.Add(LAlive);
+            panel1.Controls.Add(LBirth);
+            panel1.Controls.Add(TxEmpty);
+            panel1.Controls.Add(TxCrowd);
+            panel1.Controls.Add(TxLonely);
+            panel1.Controls.Add(TxLive);
+            panel1.Controls.Add(TxBirth);
+            panel1.Controls.Add(LIsEmpty);
+            panel1.Controls.Add(TxIsEmpty);
+            panel1.Controls.Add(LIsLiving);
+            panel1.Controls.Add(TxIsLiving);
+            panel1.Controls.Add(LPass);
+            panel1.Controls.Add(TxPass);
+            panel1.Controls.Add(BStep);
+            panel1.Controls.Add(BExit);
+            panel1.Controls.Add(TxLog);
+            panel1.Controls.Add(BStop);
+            panel1.Controls.Add(BRun);
+            panel1.Controls.Add(TxPercent);
+            panel1.Controls.Add(BReset);
+            panel1.Controls.Add(LInitPercent);
+            panel1.Controls.Add(LWBlocks);
+            panel1.Controls.Add(TxWBlocks);
+            panel1.Controls.Add(LHBlocks);
+            panel1.Controls.Add(TxHBlocks);
+            panel1.Controls.Add(CkWrap);
+            panel1.Controls.Add(LWPixels);
+            panel1.Controls.Add(TxWPixels);
+            panel1.Controls.Add(LHPixels);
+            panel1.Controls.Add(TxHPixels);
+            panel1.Controls.Add(LBlockSize);
+            panel1.Controls.Add(NBlockSize);
+            panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(216, 670);
+            panel1.TabIndex = 1;
             // 
             // BtnChart
             // 
-            this.BtnChart.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BtnChart.Location = new System.Drawing.Point(83, 592);
-            this.BtnChart.Name = "BtnChart";
-            this.BtnChart.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnChart.Size = new System.Drawing.Size(55, 23);
-            this.BtnChart.TabIndex = 45;
-            this.BtnChart.Text = "Chart";
-            this.BtnChart.UseVisualStyleBackColor = false;
-            this.BtnChart.Click += new System.EventHandler(this.BtnChart_Click);
+            BtnChart.BackColor = System.Drawing.Color.LightSkyBlue;
+            BtnChart.Location = new System.Drawing.Point(83, 592);
+            BtnChart.Name = "BtnChart";
+            BtnChart.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            BtnChart.Size = new System.Drawing.Size(55, 23);
+            BtnChart.TabIndex = 45;
+            BtnChart.Text = "Chart";
+            BtnChart.UseVisualStyleBackColor = false;
+            BtnChart.Click += BtnChart_Click;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 507);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 15);
-            this.label3.TabIndex = 44;
-            this.label3.Text = "Collect stats";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(5, 507);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(71, 15);
+            label3.TabIndex = 44;
+            label3.Text = "Collect stats";
             // 
             // CbxCollectStats
             // 
-            this.CbxCollectStats.AutoSize = true;
-            this.CbxCollectStats.Location = new System.Drawing.Point(133, 506);
-            this.CbxCollectStats.Name = "CbxCollectStats";
-            this.CbxCollectStats.Size = new System.Drawing.Size(63, 19);
-            this.CbxCollectStats.TabIndex = 43;
-            this.CbxCollectStats.Text = "Collect";
-            this.CbxCollectStats.UseVisualStyleBackColor = true;
-            this.CbxCollectStats.CheckedChanged += new System.EventHandler(this.CbxCollectStats_CheckedChanged);
+            CbxCollectStats.AutoSize = true;
+            CbxCollectStats.Location = new System.Drawing.Point(133, 506);
+            CbxCollectStats.Name = "CbxCollectStats";
+            CbxCollectStats.Size = new System.Drawing.Size(63, 19);
+            CbxCollectStats.TabIndex = 43;
+            CbxCollectStats.Text = "Collect";
+            CbxCollectStats.UseVisualStyleBackColor = true;
+            CbxCollectStats.CheckedChanged += CbxCollectStats_CheckedChanged;
             // 
             // DDMode
             // 
-            this.DDMode.FormattingEnabled = true;
-            this.DDMode.Location = new System.Drawing.Point(133, 211);
-            this.DDMode.Name = "DDMode";
-            this.DDMode.Size = new System.Drawing.Size(83, 23);
-            this.DDMode.TabIndex = 2;
-            this.DDMode.SelectedIndexChanged += new System.EventHandler(this.DDMode_SelectedIndexChanged);
+            DDMode.FormattingEnabled = true;
+            DDMode.Location = new System.Drawing.Point(133, 211);
+            DDMode.Name = "DDMode";
+            DDMode.Size = new System.Drawing.Size(83, 23);
+            DDMode.TabIndex = 2;
+            DDMode.SelectedIndexChanged += DDMode_SelectedIndexChanged;
             // 
             // BAbout
             // 
-            this.BAbout.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BAbout.Location = new System.Drawing.Point(144, 563);
-            this.BAbout.Name = "BAbout";
-            this.BAbout.Size = new System.Drawing.Size(55, 23);
-            this.BAbout.TabIndex = 42;
-            this.BAbout.Text = "About";
-            this.BAbout.UseVisualStyleBackColor = false;
-            this.BAbout.Click += new System.EventHandler(this.BAbout_Click);
+            BAbout.BackColor = System.Drawing.Color.LightSkyBlue;
+            BAbout.Location = new System.Drawing.Point(144, 563);
+            BAbout.Name = "BAbout";
+            BAbout.Size = new System.Drawing.Size(55, 23);
+            BAbout.TabIndex = 42;
+            BAbout.Text = "About";
+            BAbout.UseVisualStyleBackColor = false;
+            BAbout.Click += BAbout_Click;
             // 
             // txtPassTimer
             // 
-            this.txtPassTimer.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.txtPassTimer.Location = new System.Drawing.Point(133, 477);
-            this.txtPassTimer.Name = "txtPassTimer";
-            this.txtPassTimer.ReadOnly = true;
-            this.txtPassTimer.Size = new System.Drawing.Size(80, 23);
-            this.txtPassTimer.TabIndex = 41;
-            this.txtPassTimer.Text = "0";
+            txtPassTimer.BackColor = System.Drawing.Color.LightSkyBlue;
+            txtPassTimer.Location = new System.Drawing.Point(133, 477);
+            txtPassTimer.Name = "txtPassTimer";
+            txtPassTimer.ReadOnly = true;
+            txtPassTimer.Size = new System.Drawing.Size(80, 23);
+            txtPassTimer.TabIndex = 41;
+            txtPassTimer.Text = "0";
             // 
             // LabPassTimer
             // 
-            this.LabPassTimer.AutoSize = true;
-            this.LabPassTimer.Location = new System.Drawing.Point(5, 480);
-            this.LabPassTimer.Name = "LabPassTimer";
-            this.LabPassTimer.Size = new System.Drawing.Size(92, 15);
-            this.LabPassTimer.TabIndex = 40;
-            this.LabPassTimer.Text = "Pass timer (sec.)";
+            LabPassTimer.AutoSize = true;
+            LabPassTimer.Location = new System.Drawing.Point(5, 480);
+            LabPassTimer.Name = "LabPassTimer";
+            LabPassTimer.Size = new System.Drawing.Size(92, 15);
+            LabPassTimer.TabIndex = 40;
+            LabPassTimer.Text = "Pass timer (sec.)";
             // 
             // BLicense
             // 
-            this.BLicense.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.BLicense.Location = new System.Drawing.Point(83, 563);
-            this.BLicense.Name = "BLicense";
-            this.BLicense.Size = new System.Drawing.Size(55, 23);
-            this.BLicense.TabIndex = 39;
-            this.BLicense.Text = "License";
-            this.BLicense.UseVisualStyleBackColor = false;
-            this.BLicense.Click += new System.EventHandler(this.BLicense_Click);
+            BLicense.BackColor = System.Drawing.Color.LightSkyBlue;
+            BLicense.Location = new System.Drawing.Point(83, 563);
+            BLicense.Name = "BLicense";
+            BLicense.Size = new System.Drawing.Size(55, 23);
+            BLicense.TabIndex = 39;
+            BLicense.Text = "License";
+            BLicense.UseVisualStyleBackColor = false;
+            BLicense.Click += BLicense_Click;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 214);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 15);
-            this.label2.TabIndex = 38;
-            this.label2.Text = "Color cycle mode";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(5, 214);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(100, 15);
+            label2.TabIndex = 38;
+            label2.Text = "Color cycle mode";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 189);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 15);
-            this.label1.TabIndex = 37;
-            this.label1.Text = "Universe: Open or";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(5, 189);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(101, 15);
+            label1.TabIndex = 37;
+            label1.Text = "Universe: Open or";
             // 
             // LEmpty
             // 
-            this.LEmpty.AutoSize = true;
-            this.LEmpty.Location = new System.Drawing.Point(5, 451);
-            this.LEmpty.Name = "LEmpty";
-            this.LEmpty.Size = new System.Drawing.Size(127, 15);
-            this.LEmpty.TabIndex = 35;
-            this.LEmpty.Text = "Stayed empty this pass";
+            LEmpty.AutoSize = true;
+            LEmpty.Location = new System.Drawing.Point(5, 451);
+            LEmpty.Name = "LEmpty";
+            LEmpty.Size = new System.Drawing.Size(127, 15);
+            LEmpty.TabIndex = 35;
+            LEmpty.Text = "Stayed empty this pass";
             // 
             // LCrowd
             // 
-            this.LCrowd.AutoSize = true;
-            this.LCrowd.Location = new System.Drawing.Point(5, 422);
-            this.LCrowd.Name = "LCrowd";
-            this.LCrowd.Size = new System.Drawing.Size(128, 15);
-            this.LCrowd.TabIndex = 34;
-            this.LCrowd.Text = "Died crowded this pass";
+            LCrowd.AutoSize = true;
+            LCrowd.Location = new System.Drawing.Point(5, 422);
+            LCrowd.Name = "LCrowd";
+            LCrowd.Size = new System.Drawing.Size(128, 15);
+            LCrowd.TabIndex = 34;
+            LCrowd.Text = "Died crowded this pass";
             // 
             // LLonely
             // 
-            this.LLonely.AutoSize = true;
-            this.LLonely.Location = new System.Drawing.Point(5, 393);
-            this.LLonely.Name = "LLonely";
-            this.LLonely.Size = new System.Drawing.Size(114, 15);
-            this.LLonely.TabIndex = 33;
-            this.LLonely.Text = "Died lonely this pass";
+            LLonely.AutoSize = true;
+            LLonely.Location = new System.Drawing.Point(5, 393);
+            LLonely.Name = "LLonely";
+            LLonely.Size = new System.Drawing.Size(114, 15);
+            LLonely.TabIndex = 33;
+            LLonely.Text = "Died lonely this pass";
             // 
             // LAlive
             // 
-            this.LAlive.AutoSize = true;
-            this.LAlive.Location = new System.Drawing.Point(5, 364);
-            this.LAlive.Name = "LAlive";
-            this.LAlive.Size = new System.Drawing.Size(117, 15);
-            this.LAlive.TabIndex = 32;
-            this.LAlive.Text = "Stayed alive this pass";
+            LAlive.AutoSize = true;
+            LAlive.Location = new System.Drawing.Point(5, 364);
+            LAlive.Name = "LAlive";
+            LAlive.Size = new System.Drawing.Size(117, 15);
+            LAlive.TabIndex = 32;
+            LAlive.Text = "Stayed alive this pass";
             // 
             // TxEmpty
             // 
-            this.TxEmpty.BackColor = System.Drawing.Color.Gold;
-            this.TxEmpty.Location = new System.Drawing.Point(133, 448);
-            this.TxEmpty.Name = "TxEmpty";
-            this.TxEmpty.ReadOnly = true;
-            this.TxEmpty.Size = new System.Drawing.Size(80, 23);
-            this.TxEmpty.TabIndex = 30;
-            this.TxEmpty.Text = "0";
+            TxEmpty.BackColor = System.Drawing.Color.Gold;
+            TxEmpty.Location = new System.Drawing.Point(133, 448);
+            TxEmpty.Name = "TxEmpty";
+            TxEmpty.ReadOnly = true;
+            TxEmpty.Size = new System.Drawing.Size(80, 23);
+            TxEmpty.TabIndex = 30;
+            TxEmpty.Text = "0";
             // 
             // TxCrowd
             // 
-            this.TxCrowd.BackColor = System.Drawing.Color.LightSalmon;
-            this.TxCrowd.Location = new System.Drawing.Point(133, 419);
-            this.TxCrowd.Name = "TxCrowd";
-            this.TxCrowd.ReadOnly = true;
-            this.TxCrowd.Size = new System.Drawing.Size(80, 23);
-            this.TxCrowd.TabIndex = 29;
-            this.TxCrowd.Text = "0";
+            TxCrowd.BackColor = System.Drawing.Color.LightSalmon;
+            TxCrowd.Location = new System.Drawing.Point(133, 419);
+            TxCrowd.Name = "TxCrowd";
+            TxCrowd.ReadOnly = true;
+            TxCrowd.Size = new System.Drawing.Size(80, 23);
+            TxCrowd.TabIndex = 29;
+            TxCrowd.Text = "0";
             // 
             // TxLonely
             // 
-            this.TxLonely.BackColor = System.Drawing.Color.LightSalmon;
-            this.TxLonely.Location = new System.Drawing.Point(133, 390);
-            this.TxLonely.Name = "TxLonely";
-            this.TxLonely.ReadOnly = true;
-            this.TxLonely.Size = new System.Drawing.Size(80, 23);
-            this.TxLonely.TabIndex = 28;
-            this.TxLonely.Text = "0";
+            TxLonely.BackColor = System.Drawing.Color.LightSalmon;
+            TxLonely.Location = new System.Drawing.Point(133, 390);
+            TxLonely.Name = "TxLonely";
+            TxLonely.ReadOnly = true;
+            TxLonely.Size = new System.Drawing.Size(80, 23);
+            TxLonely.TabIndex = 28;
+            TxLonely.Text = "0";
             // 
             // TxLive
             // 
-            this.TxLive.BackColor = System.Drawing.Color.PaleGreen;
-            this.TxLive.Location = new System.Drawing.Point(133, 361);
-            this.TxLive.Name = "TxLive";
-            this.TxLive.ReadOnly = true;
-            this.TxLive.Size = new System.Drawing.Size(80, 23);
-            this.TxLive.TabIndex = 27;
-            this.TxLive.Text = "0";
+            TxLive.BackColor = System.Drawing.Color.PaleGreen;
+            TxLive.Location = new System.Drawing.Point(133, 361);
+            TxLive.Name = "TxLive";
+            TxLive.ReadOnly = true;
+            TxLive.Size = new System.Drawing.Size(80, 23);
+            TxLive.TabIndex = 27;
+            TxLive.Text = "0";
             // 
             // TxBirth
             // 
-            this.TxBirth.BackColor = System.Drawing.Color.PaleGreen;
-            this.TxBirth.Location = new System.Drawing.Point(133, 332);
-            this.TxBirth.Name = "TxBirth";
-            this.TxBirth.ReadOnly = true;
-            this.TxBirth.Size = new System.Drawing.Size(80, 23);
-            this.TxBirth.TabIndex = 26;
-            this.TxBirth.Text = "0";
+            TxBirth.BackColor = System.Drawing.Color.PaleGreen;
+            TxBirth.Location = new System.Drawing.Point(133, 332);
+            TxBirth.Name = "TxBirth";
+            TxBirth.ReadOnly = true;
+            TxBirth.Size = new System.Drawing.Size(80, 23);
+            TxBirth.TabIndex = 26;
+            TxBirth.Text = "0";
             // 
             // LIsEmpty
             // 
-            this.LIsEmpty.AutoSize = true;
-            this.LIsEmpty.Location = new System.Drawing.Point(5, 306);
-            this.LIsEmpty.Name = "LIsEmpty";
-            this.LIsEmpty.Size = new System.Drawing.Size(97, 15);
-            this.LIsEmpty.TabIndex = 25;
-            this.LIsEmpty.Text = "Total Empty Cells";
+            LIsEmpty.AutoSize = true;
+            LIsEmpty.Location = new System.Drawing.Point(5, 306);
+            LIsEmpty.Name = "LIsEmpty";
+            LIsEmpty.Size = new System.Drawing.Size(97, 15);
+            LIsEmpty.TabIndex = 25;
+            LIsEmpty.Text = "Total Empty Cells";
             // 
             // TxIsEmpty
             // 
-            this.TxIsEmpty.BackColor = System.Drawing.Color.LightSalmon;
-            this.TxIsEmpty.Location = new System.Drawing.Point(133, 303);
-            this.TxIsEmpty.Name = "TxIsEmpty";
-            this.TxIsEmpty.ReadOnly = true;
-            this.TxIsEmpty.Size = new System.Drawing.Size(80, 23);
-            this.TxIsEmpty.TabIndex = 24;
-            this.TxIsEmpty.Text = "0";
+            TxIsEmpty.BackColor = System.Drawing.Color.LightSalmon;
+            TxIsEmpty.Location = new System.Drawing.Point(133, 303);
+            TxIsEmpty.Name = "TxIsEmpty";
+            TxIsEmpty.ReadOnly = true;
+            TxIsEmpty.Size = new System.Drawing.Size(80, 23);
+            TxIsEmpty.TabIndex = 24;
+            TxIsEmpty.Text = "0";
             // 
             // LIsLiving
             // 
-            this.LIsLiving.AutoSize = true;
-            this.LIsLiving.Location = new System.Drawing.Point(5, 277);
-            this.LIsLiving.Name = "LIsLiving";
-            this.LIsLiving.Size = new System.Drawing.Size(95, 15);
-            this.LIsLiving.TabIndex = 23;
-            this.LIsLiving.Text = "Total Living Cells";
+            LIsLiving.AutoSize = true;
+            LIsLiving.Location = new System.Drawing.Point(5, 277);
+            LIsLiving.Name = "LIsLiving";
+            LIsLiving.Size = new System.Drawing.Size(95, 15);
+            LIsLiving.TabIndex = 23;
+            LIsLiving.Text = "Total Living Cells";
             // 
             // TxIsLiving
             // 
-            this.TxIsLiving.BackColor = System.Drawing.Color.PaleGreen;
-            this.TxIsLiving.Location = new System.Drawing.Point(133, 274);
-            this.TxIsLiving.Name = "TxIsLiving";
-            this.TxIsLiving.ReadOnly = true;
-            this.TxIsLiving.Size = new System.Drawing.Size(80, 23);
-            this.TxIsLiving.TabIndex = 22;
-            this.TxIsLiving.Text = "0";
+            TxIsLiving.BackColor = System.Drawing.Color.PaleGreen;
+            TxIsLiving.Location = new System.Drawing.Point(133, 274);
+            TxIsLiving.Name = "TxIsLiving";
+            TxIsLiving.ReadOnly = true;
+            TxIsLiving.Size = new System.Drawing.Size(80, 23);
+            TxIsLiving.TabIndex = 22;
+            TxIsLiving.Text = "0";
             // 
             // LPass
             // 
-            this.LPass.AutoSize = true;
-            this.LPass.Location = new System.Drawing.Point(5, 248);
-            this.LPass.Name = "LPass";
-            this.LPass.Size = new System.Drawing.Size(30, 15);
-            this.LPass.TabIndex = 21;
-            this.LPass.Text = "Pass";
+            LPass.AutoSize = true;
+            LPass.Location = new System.Drawing.Point(5, 248);
+            LPass.Name = "LPass";
+            LPass.Size = new System.Drawing.Size(30, 15);
+            LPass.TabIndex = 21;
+            LPass.Text = "Pass";
             // 
             // TxPass
             // 
-            this.TxPass.BackColor = System.Drawing.Color.Gold;
-            this.TxPass.Location = new System.Drawing.Point(133, 245);
-            this.TxPass.Name = "TxPass";
-            this.TxPass.ReadOnly = true;
-            this.TxPass.Size = new System.Drawing.Size(80, 23);
-            this.TxPass.TabIndex = 20;
-            this.TxPass.Text = "0";
+            TxPass.BackColor = System.Drawing.Color.Gold;
+            TxPass.Location = new System.Drawing.Point(133, 245);
+            TxPass.Name = "TxPass";
+            TxPass.ReadOnly = true;
+            TxPass.Size = new System.Drawing.Size(80, 23);
+            TxPass.TabIndex = 20;
+            TxPass.Text = "0";
             // 
             // BStep
             // 
-            this.BStep.BackColor = System.Drawing.Color.SpringGreen;
-            this.BStep.Location = new System.Drawing.Point(144, 534);
-            this.BStep.Name = "BStep";
-            this.BStep.Size = new System.Drawing.Size(55, 23);
-            this.BStep.TabIndex = 19;
-            this.BStep.Text = "Step";
-            this.BStep.UseVisualStyleBackColor = false;
-            this.BStep.Click += new System.EventHandler(this.BStep_Click);
+            BStep.BackColor = System.Drawing.Color.SpringGreen;
+            BStep.Location = new System.Drawing.Point(144, 534);
+            BStep.Name = "BStep";
+            BStep.Size = new System.Drawing.Size(55, 23);
+            BStep.TabIndex = 19;
+            BStep.Text = "Step";
+            BStep.UseVisualStyleBackColor = false;
+            BStep.Click += BStep_Click;
             // 
             // BExit
             // 
-            this.BExit.BackColor = System.Drawing.Color.Coral;
-            this.BExit.Location = new System.Drawing.Point(22, 592);
-            this.BExit.Name = "BExit";
-            this.BExit.Size = new System.Drawing.Size(55, 23);
-            this.BExit.TabIndex = 18;
-            this.BExit.Text = "Exit";
-            this.BExit.UseVisualStyleBackColor = false;
-            this.BExit.Click += new System.EventHandler(this.BExit_Click);
+            BExit.BackColor = System.Drawing.Color.Coral;
+            BExit.Location = new System.Drawing.Point(22, 592);
+            BExit.Name = "BExit";
+            BExit.Size = new System.Drawing.Size(55, 23);
+            BExit.TabIndex = 18;
+            BExit.Text = "Exit";
+            BExit.UseVisualStyleBackColor = false;
+            BExit.Click += BExit_Click;
             // 
             // TxLog
             // 
-            this.TxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.TxLog.BackColor = System.Drawing.Color.Bisque;
-            this.TxLog.Location = new System.Drawing.Point(3, 621);
-            this.TxLog.Multiline = true;
-            this.TxLog.Name = "TxLog";
-            this.TxLog.ReadOnly = true;
-            this.TxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TxLog.Size = new System.Drawing.Size(210, 46);
-            this.TxLog.TabIndex = 15;
+            TxLog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            TxLog.BackColor = System.Drawing.Color.Bisque;
+            TxLog.Location = new System.Drawing.Point(3, 621);
+            TxLog.Multiline = true;
+            TxLog.Name = "TxLog";
+            TxLog.ReadOnly = true;
+            TxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            TxLog.Size = new System.Drawing.Size(210, 46);
+            TxLog.TabIndex = 15;
             // 
             // BStop
             // 
-            this.BStop.BackColor = System.Drawing.Color.Coral;
-            this.BStop.Location = new System.Drawing.Point(22, 563);
-            this.BStop.Name = "BStop";
-            this.BStop.Size = new System.Drawing.Size(55, 23);
-            this.BStop.TabIndex = 17;
-            this.BStop.Text = "Stop";
-            this.BStop.UseVisualStyleBackColor = false;
-            this.BStop.Click += new System.EventHandler(this.BStop_Click);
+            BStop.BackColor = System.Drawing.Color.Coral;
+            BStop.Location = new System.Drawing.Point(22, 563);
+            BStop.Name = "BStop";
+            BStop.Size = new System.Drawing.Size(55, 23);
+            BStop.TabIndex = 17;
+            BStop.Text = "Stop";
+            BStop.UseVisualStyleBackColor = false;
+            BStop.Click += BStop_Click;
             // 
             // BRun
             // 
-            this.BRun.BackColor = System.Drawing.Color.SpringGreen;
-            this.BRun.Location = new System.Drawing.Point(83, 534);
-            this.BRun.Name = "BRun";
-            this.BRun.Size = new System.Drawing.Size(55, 23);
-            this.BRun.TabIndex = 16;
-            this.BRun.Text = "Run";
-            this.BRun.UseVisualStyleBackColor = false;
-            this.BRun.Click += new System.EventHandler(this.BRun_Click);
+            BRun.BackColor = System.Drawing.Color.SpringGreen;
+            BRun.Location = new System.Drawing.Point(83, 534);
+            BRun.Name = "BRun";
+            BRun.Size = new System.Drawing.Size(55, 23);
+            BRun.TabIndex = 16;
+            BRun.Text = "Run";
+            BRun.UseVisualStyleBackColor = false;
+            BRun.Click += BRun_Click;
             // 
             // TxPercent
             // 
-            this.TxPercent.Location = new System.Drawing.Point(133, 32);
-            this.TxPercent.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.TxPercent.Name = "TxPercent";
-            this.TxPercent.Size = new System.Drawing.Size(80, 23);
-            this.TxPercent.TabIndex = 14;
-            this.TxPercent.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            0});
-            this.TxPercent.ValueChanged += new System.EventHandler(this.TxPercent_ValueChanged);
+            TxPercent.Location = new System.Drawing.Point(133, 32);
+            TxPercent.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            TxPercent.Name = "TxPercent";
+            TxPercent.Size = new System.Drawing.Size(80, 23);
+            TxPercent.TabIndex = 14;
+            TxPercent.Value = new decimal(new int[] { 25, 0, 0, 0 });
+            TxPercent.ValueChanged += TxPercent_ValueChanged;
             // 
             // BReset
             // 
-            this.BReset.BackColor = System.Drawing.Color.Gold;
-            this.BReset.Location = new System.Drawing.Point(21, 534);
-            this.BReset.Name = "BReset";
-            this.BReset.Size = new System.Drawing.Size(55, 23);
-            this.BReset.TabIndex = 13;
-            this.BReset.Text = "Reset";
-            this.BReset.UseVisualStyleBackColor = false;
-            this.BReset.Click += new System.EventHandler(this.BReset_Click);
+            BReset.BackColor = System.Drawing.Color.Gold;
+            BReset.Location = new System.Drawing.Point(21, 534);
+            BReset.Name = "BReset";
+            BReset.Size = new System.Drawing.Size(55, 23);
+            BReset.TabIndex = 13;
+            BReset.Text = "Reset";
+            BReset.UseVisualStyleBackColor = false;
+            BReset.Click += BReset_Click;
             // 
             // LInitPercent
             // 
-            this.LInitPercent.AutoSize = true;
-            this.LInitPercent.Location = new System.Drawing.Point(3, 35);
-            this.LInitPercent.Name = "LInitPercent";
-            this.LInitPercent.Size = new System.Drawing.Size(98, 15);
-            this.LInitPercent.TabIndex = 12;
-            this.LInitPercent.Text = "Initial Percentage";
+            LInitPercent.AutoSize = true;
+            LInitPercent.Location = new System.Drawing.Point(3, 35);
+            LInitPercent.Name = "LInitPercent";
+            LInitPercent.Size = new System.Drawing.Size(98, 15);
+            LInitPercent.TabIndex = 12;
+            LInitPercent.Text = "Initial Percentage";
             // 
             // LWBlocks
             // 
-            this.LWBlocks.AutoSize = true;
-            this.LWBlocks.Location = new System.Drawing.Point(3, 127);
-            this.LWBlocks.Name = "LWBlocks";
-            this.LWBlocks.Size = new System.Drawing.Size(89, 15);
-            this.LWBlocks.TabIndex = 10;
-            this.LWBlocks.Text = "Width in Blocks";
+            LWBlocks.AutoSize = true;
+            LWBlocks.Location = new System.Drawing.Point(3, 127);
+            LWBlocks.Name = "LWBlocks";
+            LWBlocks.Size = new System.Drawing.Size(89, 15);
+            LWBlocks.TabIndex = 10;
+            LWBlocks.Text = "Width in Blocks";
             // 
             // TxWBlocks
             // 
-            this.TxWBlocks.BackColor = System.Drawing.Color.Gold;
-            this.TxWBlocks.Location = new System.Drawing.Point(133, 124);
-            this.TxWBlocks.Name = "TxWBlocks";
-            this.TxWBlocks.ReadOnly = true;
-            this.TxWBlocks.Size = new System.Drawing.Size(80, 23);
-            this.TxWBlocks.TabIndex = 9;
-            this.TxWBlocks.Text = "0";
+            TxWBlocks.BackColor = System.Drawing.Color.Gold;
+            TxWBlocks.Location = new System.Drawing.Point(133, 124);
+            TxWBlocks.Name = "TxWBlocks";
+            TxWBlocks.ReadOnly = true;
+            TxWBlocks.Size = new System.Drawing.Size(80, 23);
+            TxWBlocks.TabIndex = 9;
+            TxWBlocks.Text = "0";
             // 
             // LHBlocks
             // 
-            this.LHBlocks.AutoSize = true;
-            this.LHBlocks.Location = new System.Drawing.Point(3, 156);
-            this.LHBlocks.Name = "LHBlocks";
-            this.LHBlocks.Size = new System.Drawing.Size(93, 15);
-            this.LHBlocks.TabIndex = 8;
-            this.LHBlocks.Text = "Height in Blocks";
+            LHBlocks.AutoSize = true;
+            LHBlocks.Location = new System.Drawing.Point(3, 156);
+            LHBlocks.Name = "LHBlocks";
+            LHBlocks.Size = new System.Drawing.Size(93, 15);
+            LHBlocks.TabIndex = 8;
+            LHBlocks.Text = "Height in Blocks";
             // 
             // TxHBlocks
             // 
-            this.TxHBlocks.BackColor = System.Drawing.Color.Gold;
-            this.TxHBlocks.Location = new System.Drawing.Point(133, 153);
-            this.TxHBlocks.Name = "TxHBlocks";
-            this.TxHBlocks.ReadOnly = true;
-            this.TxHBlocks.Size = new System.Drawing.Size(80, 23);
-            this.TxHBlocks.TabIndex = 7;
-            this.TxHBlocks.Text = "0";
+            TxHBlocks.BackColor = System.Drawing.Color.Gold;
+            TxHBlocks.Location = new System.Drawing.Point(133, 153);
+            TxHBlocks.Name = "TxHBlocks";
+            TxHBlocks.ReadOnly = true;
+            TxHBlocks.Size = new System.Drawing.Size(80, 23);
+            TxHBlocks.TabIndex = 7;
+            TxHBlocks.Text = "0";
             // 
             // CkWrap
             // 
-            this.CkWrap.AutoSize = true;
-            this.CkWrap.Checked = true;
-            this.CkWrap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CkWrap.Location = new System.Drawing.Point(133, 188);
-            this.CkWrap.Name = "CkWrap";
-            this.CkWrap.Size = new System.Drawing.Size(54, 19);
-            this.CkWrap.TabIndex = 6;
-            this.CkWrap.Text = "Wrap";
-            this.CkWrap.UseVisualStyleBackColor = true;
-            this.CkWrap.CheckedChanged += new System.EventHandler(this.CkWrap_CheckedChanged);
+            CkWrap.AutoSize = true;
+            CkWrap.Checked = true;
+            CkWrap.CheckState = System.Windows.Forms.CheckState.Checked;
+            CkWrap.Location = new System.Drawing.Point(133, 188);
+            CkWrap.Name = "CkWrap";
+            CkWrap.Size = new System.Drawing.Size(54, 19);
+            CkWrap.TabIndex = 6;
+            CkWrap.Text = "Wrap";
+            CkWrap.UseVisualStyleBackColor = true;
+            CkWrap.CheckedChanged += CkWrap_CheckedChanged;
             // 
             // LWPixels
             // 
-            this.LWPixels.AutoSize = true;
-            this.LWPixels.Location = new System.Drawing.Point(3, 69);
-            this.LWPixels.Name = "LWPixels";
-            this.LWPixels.Size = new System.Drawing.Size(85, 15);
-            this.LWPixels.TabIndex = 5;
-            this.LWPixels.Text = "Width in Pixels";
+            LWPixels.AutoSize = true;
+            LWPixels.Location = new System.Drawing.Point(3, 69);
+            LWPixels.Name = "LWPixels";
+            LWPixels.Size = new System.Drawing.Size(85, 15);
+            LWPixels.TabIndex = 5;
+            LWPixels.Text = "Width in Pixels";
             // 
             // TxWPixels
             // 
-            this.TxWPixels.BackColor = System.Drawing.Color.Yellow;
-            this.TxWPixels.Location = new System.Drawing.Point(133, 66);
-            this.TxWPixels.Name = "TxWPixels";
-            this.TxWPixels.ReadOnly = true;
-            this.TxWPixels.Size = new System.Drawing.Size(80, 23);
-            this.TxWPixels.TabIndex = 4;
-            this.TxWPixels.Text = "0";
+            TxWPixels.BackColor = System.Drawing.Color.Yellow;
+            TxWPixels.Location = new System.Drawing.Point(133, 66);
+            TxWPixels.Name = "TxWPixels";
+            TxWPixels.ReadOnly = true;
+            TxWPixels.Size = new System.Drawing.Size(80, 23);
+            TxWPixels.TabIndex = 4;
+            TxWPixels.Text = "0";
             // 
             // LHPixels
             // 
-            this.LHPixels.AutoSize = true;
-            this.LHPixels.Location = new System.Drawing.Point(3, 98);
-            this.LHPixels.Name = "LHPixels";
-            this.LHPixels.Size = new System.Drawing.Size(89, 15);
-            this.LHPixels.TabIndex = 3;
-            this.LHPixels.Text = "Height in Pixels";
+            LHPixels.AutoSize = true;
+            LHPixels.Location = new System.Drawing.Point(3, 98);
+            LHPixels.Name = "LHPixels";
+            LHPixels.Size = new System.Drawing.Size(89, 15);
+            LHPixels.TabIndex = 3;
+            LHPixels.Text = "Height in Pixels";
             // 
             // TxHPixels
             // 
-            this.TxHPixels.BackColor = System.Drawing.Color.Yellow;
-            this.TxHPixels.Location = new System.Drawing.Point(133, 95);
-            this.TxHPixels.Name = "TxHPixels";
-            this.TxHPixels.ReadOnly = true;
-            this.TxHPixels.Size = new System.Drawing.Size(80, 23);
-            this.TxHPixels.TabIndex = 2;
-            this.TxHPixels.Text = "0";
+            TxHPixels.BackColor = System.Drawing.Color.Yellow;
+            TxHPixels.Location = new System.Drawing.Point(133, 95);
+            TxHPixels.Name = "TxHPixels";
+            TxHPixels.ReadOnly = true;
+            TxHPixels.Size = new System.Drawing.Size(80, 23);
+            TxHPixels.TabIndex = 2;
+            TxHPixels.Text = "0";
             // 
             // LBlockSize
             // 
-            this.LBlockSize.AutoSize = true;
-            this.LBlockSize.Location = new System.Drawing.Point(3, 5);
-            this.LBlockSize.Name = "LBlockSize";
-            this.LBlockSize.Size = new System.Drawing.Size(99, 15);
-            this.LBlockSize.TabIndex = 1;
-            this.LBlockSize.Text = "Block size (zoom)";
+            LBlockSize.AutoSize = true;
+            LBlockSize.Location = new System.Drawing.Point(3, 5);
+            LBlockSize.Name = "LBlockSize";
+            LBlockSize.Size = new System.Drawing.Size(99, 15);
+            LBlockSize.TabIndex = 1;
+            LBlockSize.Text = "Block size (zoom)";
             // 
             // NBlockSize
             // 
-            this.NBlockSize.Location = new System.Drawing.Point(133, 3);
-            this.NBlockSize.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-            this.NBlockSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NBlockSize.Name = "NBlockSize";
-            this.NBlockSize.Size = new System.Drawing.Size(80, 23);
-            this.NBlockSize.TabIndex = 0;
-            this.NBlockSize.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NBlockSize.ValueChanged += new System.EventHandler(this.NBlockSize_ValueChanged);
+            NBlockSize.Location = new System.Drawing.Point(133, 3);
+            NBlockSize.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+            NBlockSize.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            NBlockSize.Name = "NBlockSize";
+            NBlockSize.Size = new System.Drawing.Size(80, 23);
+            NBlockSize.TabIndex = 0;
+            NBlockSize.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            NBlockSize.ValueChanged += NBlockSize_ValueChanged;
             // 
             // Timer
             // 
-            this.Timer.Interval = 600;
-            this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
+            Timer.Interval = 600;
+            Timer.Tick += Timer_Tick;
+            // 
+            // Predef
+            // 
+            Predef.BackColor = System.Drawing.Color.Gold;
+            Predef.ForeColor = System.Drawing.Color.Black;
+            Predef.Location = new System.Drawing.Point(144, 592);
+            Predef.Name = "Predef";
+            Predef.Size = new System.Drawing.Size(55, 23);
+            Predef.TabIndex = 46;
+            Predef.Text = "Predef";
+            Predef.UseVisualStyleBackColor = false;
+            Predef.Click += Predef_Click;
             // 
             // YALife
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1027, 670);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.Frame);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "YALife";
-            this.Text = "YALife";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.SizeChanged += new System.EventHandler(this.YALife_SizeChanged);
-            ((System.ComponentModel.ISupportInitialize)(this.Frame)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TxPercent)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NBlockSize)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            ClientSize = new System.Drawing.Size(1027, 670);
+            Controls.Add(panel1);
+            Controls.Add(Frame);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Name = "YALife";
+            Text = "YALife";
+            Load += Form1_Load;
+            SizeChanged += YALife_SizeChanged;
+            ((System.ComponentModel.ISupportInitialize)Frame).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)TxPercent).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NBlockSize).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -696,6 +688,7 @@ namespace YALife
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox CbxCollectStats;
         private System.Windows.Forms.Button BtnChart;
+        private System.Windows.Forms.Button Predef;
     }
 }
 

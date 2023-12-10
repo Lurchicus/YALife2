@@ -15,11 +15,11 @@
     <PackageProjectUrl>https://github.com/Lurchicus/YALife</PackageProjectUrl>
     <PackageIcon>TGOL.ico</PackageIcon>
     <RepositoryUrl>https://github.com/Lurchicus/YALife</RepositoryUrl>
-    <ApplicationIcon>C:\Users\danrh\Source\Repos\YALife\YALife\TGOL.ico</ApplicationIcon>
+    <ApplicationIcon>C:\Users\darhea\Source\Repos\YALife-recovered\YALife\TGOL.ico</ApplicationIcon>
     <PackageReleaseNotes>All the change history is at the bottom of the Form1.cs code. I only put highlights in the readme file.</PackageReleaseNotes>
     <PackageTags>GameOfLife; Conway; gol; C#;</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseFile>C:\Users\danrh\Source\Repos\YALife\MIT_License.txt</PackageLicenseFile>
+    <PackageLicenseFile>C:\Users\darhea\Source\Repos\YALife-recovered\YALife\MIT_License.txt</PackageLicenseFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -73,6 +73,9 @@
 
   <ItemGroup>
     <None Update="Glider01sm.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Life.gol">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="LifeTest.gol">
