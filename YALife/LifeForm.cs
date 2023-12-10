@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace YALife
@@ -48,6 +51,10 @@ namespace YALife
 
         int Mode;           // Color cycle mode
         int FriendCount;    // Nearby friends
+
+        bool UsingPredefined = true;
+        string PredefinedFile = ".\\LifeTest.gol";
+        bool LoadedPredefined = false;
 
         int[,]? ILife;      // Life matrix
         int[,]? ISave;      // Save matrix
@@ -364,19 +371,34 @@ namespace YALife
 
             // Initialize the life array randomly based on a desired starting
             // percentage of live cells
-            for (int IW = 0; IW < IWBlocks; IW++)
+            if (UsingPredefined)
             {
-                for (int IH = 0; IH < IHBlocks; IH++)
                 {
-                    ISave[IW, IH] = 0;
-                    int IRNG = RNG.Next(1, 101);
-                    if (IRNG <= IInitPercent)
+                    // All empty for predefined
+                    //ISave[IW, IH] = 0;
+                    //ILife[IW, IH] = 0;
+                    if (PredefinedFile.Length > 0)
                     {
-                        ILife[IW, IH] = 1;
+                        LoadPredefined(PredefinedFile);
                     }
-                    else
+                }
+            }
+            if (!UsingPredefined) 
+            {
+                for (int IW = 0; IW < IWBlocks; IW++)
+                {
+                    for (int IH = 0; IH < IHBlocks; IH++)
                     {
-                        ILife[IW, IH] = 0;
+                        ISave[IW, IH] = 0;
+                        int IRNG = RNG.Next(1, 101);
+                        if (IRNG <= IInitPercent)
+                        {
+                            ILife[IW, IH] = 1;
+                        }
+                        else
+                        {
+                            ILife[IW, IH] = 0;
+                        }
                     }
                 }
             }
@@ -390,6 +412,126 @@ namespace YALife
 
             // Update the UI
             Application.DoEvents();
+        }
+
+        /// <summary>
+        /// Load and parse the GOL predefined file
+        /// *The initial version only supports a single object
+        /// </summary>
+        /// <param name="PredefinedFile">Predefined GOL file name and path</param>
+        private async void LoadPredefined(string PredefinedFile)
+        {
+            string? Line;
+            string? Line2;
+            string[] Got;
+            char[] Chunk;
+      
+            StreamReader Gol = new StreamReader(PredefinedFile);
+
+            string? GolName;
+            int XOffset = 0;
+            int YOffset = 0;
+            int KeepIt = 0;
+            int Rows = 0;
+            int MaxLen = 0;
+            List<string> GolList= new();
+
+            Line = await Gol.ReadLineAsync();
+            while (Line is not null)
+            {
+                if (Line.Trim().StartsWith("#"))
+                {
+                    // Comment, ignore it
+                }
+                else
+                {
+                    Chunk = Line.Trim().Substring(0, 1).ToLower().ToCharArray();
+                    if (Chunk is not null) {
+                        // GOL Object name
+                        if (Chunk[0] >= 'a' && Chunk[0] <= 'z') 
+                        {
+                            GolName = Line.Trim();
+                            TxLog.Text = "Predefine: \n" +GolName;
+                        }
+                    }
+                    if (Line.Trim().StartsWith("+")) 
+                    {
+                        // Offset header
+                        Line2 = Line.Trim().Substring(1);
+                        Got = Line2.Trim().Split(",");
+                        // This is a real weak point for the parser... I'm going to add a "+" prefix to the line
+                        try
+                        {
+                                XOffset = Int32.Parse(Got[0]);
+                                YOffset = Int32.Parse(Got[1]);
+                                KeepIt = Int32.Parse(Got[2]);
+                        }
+                        catch(Exception e)
+                        {
+                            throw(new Exception("LoadPredefined: Integer conversion error in offset header. Err:" + e.Message));
+                        }
+                    }
+                    if (Line.Trim().StartsWith("-1"))
+                    {
+                        // End of object
+                        break;
+                    }
+                    if (Line.Trim().StartsWith("0") || Line.Trim().StartsWith("1")) 
+                    {
+                        // One or more object rows
+                        Rows++;
+                        GolList.Add(Line.Trim().Substring(0,Line.Length-1));
+                        if (Line.Length > MaxLen) { MaxLen = Line.Trim().Length; }
+                    }
+                }
+                // Next line
+                Line = await Gol.ReadLineAsync();
+            }
+            Gol.Close();
+
+            // Draw the predefined object
+            if (KeepIt == 0)
+            {
+                // Wipe everything first
+                for (int IW = 0; IW < IWBlocks; IW++)
+                {
+                    for (int IH = 0; IH < IHBlocks; IH++)
+                    {
+                        if (ISave is not null) { ISave[IW, IH] = 0; }
+                        if (ILife is not null) { ILife[IW, IH] = 0; }
+                    }
+                }
+
+            }
+            // "Draw" the object (Go Row then Column to keep things simpler)
+            int GRow = 0;
+            for (int IH = YOffset; IH < IHBlocks; IH++)
+            {
+                if (GRow < GolList.Count)
+                {
+                    int GLen = GolList[GRow].ToString().Length;
+                    string GStr = GolList[GRow].ToString();
+                    int GIdx = 0;
+                    int GVal;
+                    for (int IW = XOffset; IW < IWBlocks; IW++)
+                    {
+                        if (GIdx < GLen)
+                        {
+                            GVal = Int32.Parse(GStr.Substring(GIdx, 1));
+                            if (ILife is not null) { ILife[IW, IH] = GVal; }
+                            if (ISave is not null) { ISave[IW, IH] = 0; }
+                            GIdx++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    GRow++;
+                }
+            }
+            LoadedPredefined = true;
+            DrawLife();
         }
 
         /// <summary>
@@ -760,12 +902,13 @@ namespace YALife
     //
     // 1. Collect pass statistics into a list that we could then use to create a chart
     //    This is mostly done. Just no good .NET 6 chart options so far for WinForms.
+    //    WIP.
     // 2. Create a way to import a predefined "life" pattern. If there is a standard
     //    for this already I'll use that, otherwise I'll create one... maybe a text
     //    or json formatted file giving the X/Y coordinates of the starting live
     //    cell locations... we can then single step or run them. A form to edit 
     //    these files would be nice as well. Possibly a combination of a text editor
-    //    and a gui interface (mouse editing) of the predefined patterns.
+    //    and a gui interface (mouse editing) of the predefined patterns. WIP.
     //
     //  .gol file format (preliminary design)
     //  

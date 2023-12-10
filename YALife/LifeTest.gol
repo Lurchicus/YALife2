@@ -6,7 +6,7 @@
 #
 #  # Comment
 #  Name of GOL pattern,        # Patten name, no quotes, terminated by a comma
-#  0,0,0,                      # X,Y origin, clear flag: 1-clear life array, 0-leave as is
+#  +0,0,0,                      # X,Y origin, clear flag: 1-clear life array, 0-leave as is (for multiple defines)
 #  11100000101011110000111,    # One row 1-Alive 0-empty
 #  00111101011111010101101,    # Another row
 #  10000100001000010000111,    # this is all random gibberish btw
@@ -14,7 +14,7 @@
 #  -1,
 #
 Gosper glider gun,
-10,10,0,
++10,10,0,
 0000000000000000000000001,
 0000000000000000000000101,
 000000000000110000001100000000000011,
