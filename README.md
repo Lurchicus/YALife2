@@ -4,7 +4,16 @@
 
 Yet Another Life Program (based on Conway's Game of Life).
 
-![Y A Life Screenshot 2021 11 20 153427](YALife Screenshot 2021-11-20 153427.png)
+![Y A Life Screenshot 2021 11 20 153427] (YALife Screenshot 2021-11-20 153427.png)
+
+(stil can't figure out why my screenshot won't display with MD.)
+
+## Notes
+
+On 12/10/2023 I had to recreate this repository since some odd bug in 
+Visual Studio 2022 v18 Pre converted my WinForms application into a 
+console app and I couldn't undo it. Attempts to rollback the commits
+also failed.
 
 ## Details
 
@@ -12,12 +21,16 @@ Designed and authored by Dan Rhea.
 
 I wrote this to try out WinForms on the VS 2022 Preview
 using .NET 6. Note that Visual Studio 2022 has been released as has
-.NET 6. And now it runs under .NET 7. 
+.NET 6. And now it runs under .NET 8. 
 
 I added the ability to scale a life "cell" from 1 to 32. This means
 that a scale of 4 will draw a live cell that is 4 pixels high and 4
 pixels wide. This can be thought of as a zoom, you see less cells 
 but the ones you see are much easier to see.
+
+I have also added a facility where you can create custom .GOL files
+to predefine an initial pattern. See the file LifeTest.gol for file
+formating information.
 
 ## Licensing
 
