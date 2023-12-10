@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\danrh\Source\Repos\YALife\YALife\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="FileReader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LifeChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LifeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "0f1605f5-3e27-426c-92be-d148137ab726": {
+      "ProjectGuid": "0f1605f5-3e27-426c-92be-d148137ab726",
+      "DisplayName": "YALife",
+      "ColorIndex": 0
+    },
+    "08350cbd-ea0b-497a-a682-eea6ad6b9dea": {
+      "ProjectGuid": "08350cbd-ea0b-497a-a682-eea6ad6b9dea",
+      "DisplayName": "Solution Items",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}

@@ -1,0 +1,544 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YALife</name>
+    </assembly>
+    <members>
+        <member name="P:YALife.ColorMode.ModeValue">
+            <summary>
+            Unique value for each mode
+            </summary>
+        </member>
+        <member name="P:YALife.ColorMode.ModeInfo">
+            <summary>
+            A description of the mode for the drop down
+            </summary>
+        </member>
+        <member name="M:YALife.ColorMode.ModeList">
+            <summary>
+            Create our list of color modes
+            </summary>
+            <returns>List of ColorMode</returns>
+        </member>
+        <member name="T:YALife.FileReader">
+            <summary>
+            A form to read a supplied file
+            </summary>
+        </member>
+        <member name="F:YALife.FileReader.ReaderFile">
+            <summary>
+            This string will hold the name and path of the file we will show
+            to the user (set via the constructor)
+            </summary>
+        </member>
+        <member name="M:YALife.FileReader.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor to initialize the form and save the file to display
+            </summary>
+            <param name="FileToRead">string with the file and path of the file to display</param>
+            <param name="PWidth">int Parent form width</param>
+            <param name="PHeight">int Parent form height</param>
+            <param name="PTop">int Top of parent form</param>
+            <param name="PLeft">int Left side of parent form</param>
+        </member>
+        <member name="M:YALife.FileReader.FileReader_Load(System.Object,System.EventArgs)">
+            <summary>
+            Loads the file to display into a text box with a stream reader
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.FileReader.ValidateExtension(System.String)">
+            <summary>
+            Limit the file extentions we will allow to be viewed and
+            return false if we don't find the extension
+            </summary>
+            <param name="ThePath">A full pathname</param>
+            <returns>bool</returns>
+        </member>
+        <member name="F:YALife.FileReader.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:YALife.FileReader.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:YALife.FileReader.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:YALife.ColorHeatMap">
+            <summary>
+            Define two or more key colors (ColorsOfMap) then we
+            calculate and return ARGB values between these key colors creating a 
+            dynamic color gradient.
+            
+            ColorHeatMap class by Davide Dolla (https://stackoverflow.com/users/1332133/davide-dolla)
+            and shared on (https://stackoverflow.com/questions/17821828/calculating-heat-map-colours)
+            
+            I added my own comments to make sure I understand how this class works.
+            </summary>
+        </member>
+        <member name="F:YALife.ColorHeatMap.Alpha">
+            <summary>
+            Byte that defines the Alpha (transparency) part of an ARGB color
+            </summary>
+        </member>
+        <member name="F:YALife.ColorHeatMap.ColorsOfMap">
+            <summary>
+            Defines key ARGB points in what can be seen as a large virtual gradient
+            </summary>
+        </member>
+        <member name="M:YALife.ColorHeatMap.#ctor">
+            <summary>
+            Class constructor
+            </summary>
+        </member>
+        <member name="M:YALife.ColorHeatMap.#ctor(System.Byte)">
+            <summary>
+            Class constructor with an alpha other than 0xFF
+            </summary>
+            <param name="alpha">byte value used to define our ARGB alpha (transparency)</param>
+        </member>
+        <member name="M:YALife.ColorHeatMap.initColorsBlocks">
+            <summary>
+            Define the color steps that define our virtual color gradient/color map
+            </summary>
+        </member>
+        <member name="M:YALife.ColorHeatMap.GetColorForValue(System.Double,System.Double)">
+            <summary>
+            Calculate a single ARGB color from a virtual gradient/color map
+            </summary>
+            <param name="val">a double from 1 to maxVal-1 that can be thought of as an index into
+            a large (maxVal) array of colors that make up a virtual gradient</param>
+            <param name="maxVal">a double that defines how many colors our virtual gradient will contain</param>
+            <returns>32 bit aRGB color</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:YALife.LifeChart">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:YALife.LifeChart.#ctor">
+            <summary>
+            Eventually create a graph/chart of collected stats (if any)
+            </summary>
+        </member>
+        <member name="F:YALife.LifeChart.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:YALife.LifeChart.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:YALife.LifeChart.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:YALife.YALife">
+             <summary>
+             Yet Another Life Program (based on Conway's Game of Life) by Dan Rhea
+             I wrote this to try out WinForms on the VS 2022 Preview. I popped this
+             into my GitHub repository (public)
+             
+             I was saddened to learn that we lost Mr. Conway to Covid-19 complications
+             April 11th of 2020.
+            
+             Change history and to do is at the end of this file.
+             
+             To anyone that sees this, I realize this is overkill for a game of life
+             program that uses random data, but I wrote it specifily to try out 
+             VS 2022 and .NET 6 WinForms. Not to mention, I find this sort of thing 
+             fun and I believe it helps keep my 66 year old brain plastic and able to 
+             learn new things.
+             </summary>
+        </member>
+        <member name="M:YALife.YALife.#ctor">
+            <summary>
+            YALife constructor
+            </summary>
+        </member>
+        <member name="M:YALife.YALife.Form1_Load(System.Object,System.EventArgs)">
+            <summary>
+            Start loading the UI and kick off a timer to finish initializing things
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.Timer_Tick(System.Object,System.EventArgs)">
+            <summary>
+            Timer event finishes initialization
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.NBlockSize_ValueChanged(System.Object,System.EventArgs)">
+            <summary>
+            When we change our block size, reset everything
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.Image_SizeChanged(System.Object,System.EventArgs)">
+            <summary>
+            When we resize the image, reset everything
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BReset_Click(System.Object,System.EventArgs)">
+            <summary>
+            If we reset, yes, reset everything
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.CkWrap_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            If we switch between a wrapping or bounded universe
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.CbxCollectStats_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            Controll if we will be saving pass stats into a list or not
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.TxPercent_ValueChanged(System.Object,System.EventArgs)">
+            <summary>
+            If we change our initial percentage, reset everything
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BLicense_Click(System.Object,System.EventArgs)">
+            <summary>
+            Display the license to the user
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BtnChart_Click(System.Object,System.EventArgs)">
+            <summary>
+            Will eventually show a chart/graph
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BRun_Click(System.Object,System.EventArgs)">
+            <summary>
+            Start running until stopped
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BStop_Click(System.Object,System.EventArgs)">
+            <summary>
+            If we are running, stop the run (can be continued with
+            step or run).
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.YALife_SizeChanged(System.Object,System.EventArgs)">
+            <summary>
+            Detect a minimize. If detected, stop and reset as well
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BExit_Click(System.Object,System.EventArgs)">
+            <summary>
+            Exit the program
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BStep_Click(System.Object,System.EventArgs)">
+            <summary>
+            Single step each pass
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.BAbout_Click(System.Object,System.EventArgs)">
+            <summary>
+            Show the about/splash screen
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.DDMode_SelectedIndexChanged(System.Object,System.EventArgs)">
+            <summary>
+            Grab the selected color mode and force a reset
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.YALife.Reset">
+            <summary>
+            Reset and reinitialize the variables and the working "life" array
+            </summary>
+        </member>
+        <member name="M:YALife.YALife.LoadPredefined(System.String)">
+            <summary>
+            Load and parse the GOL predefined file
+            *The initial version only supports a single object
+            </summary>
+            <param name="PredefinedFile">Predefined GOL file name and path</param>
+        </member>
+        <member name="M:YALife.YALife.DoLife">
+            <summary>
+            Apply Conway's Life rules to the "life" array. Supports an 
+            unbounded and wrap-around universe.
+            </summary>
+        </member>
+        <member name="M:YALife.YALife.North(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check North
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.NorthEast(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check NorthEast
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.East(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check East
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.SouthEast(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check SouthEast
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.South(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check South
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.SouthWest(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check SouthWest
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.West(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check West
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.NorthWest(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check NorthWest
+            </summary>
+            <param name="CurW">Current width position (X)</param>
+            <param name="CurH">Current height position (Y)</param>
+            <param name="Wrap">Edge wrap mode</param>
+        </member>
+        <member name="M:YALife.YALife.DrawLife">
+            <summary>
+            Scan the "life" array and use it to generate a bitmap. An array element 
+            can be scaled from 1 pixel per array element to 32 pixels per array
+            element. This gives us an ersatz zoom (and it was a fun challange)
+            </summary>
+        </member>
+        <member name="F:YALife.YALife.components">
+            <summary>
+             Required designer variable.
+            </summary>
+        </member>
+        <member name="M:YALife.YALife.Dispose(System.Boolean)">
+            <summary>
+             Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:YALife.YALife.InitializeComponent">
+            <summary>
+             Required method for Designer support - do not modify
+             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:YALife.DirectBitmap">
+             <summary>
+             Creates a direct access disposable bitmap that is much faster than
+             the standard bitmap as we don't need to waste time with locking.
+            
+             DirectBitmap by A.Konzel (https://stackoverflow.com/users/3117338/a-konzel) via StackOverflow 
+             (https://stackoverflow.com/questions/24701703/c-sharp-faster-alternatives-to-setpixel-and-getpixel-for-bitmaps-for-windows-f)
+             
+             Note: All I've done is add comments to the original code authored by A.Konzel that was posted on StackOverflow.com
+              
+             The speed increase realized by using this class is phenominal compared to graphic.bitmap.setpixel()
+             </summary>
+        </member>
+        <member name="P:YALife.DirectBitmap.Bitmap">
+            <summary>
+            Our directly accesable bitmap
+            </summary>
+        </member>
+        <member name="P:YALife.DirectBitmap.Bits">
+            <summary>
+            Expresses the bitmap as an array of 32 bit integers
+            </summary>
+        </member>
+        <member name="P:YALife.DirectBitmap.Disposed">
+            <summary>
+            Flag to show if the bitmap is disposed or not
+            </summary>
+        </member>
+        <member name="P:YALife.DirectBitmap.Height">
+            <summary>
+            Our height
+            </summary>
+        </member>
+        <member name="P:YALife.DirectBitmap.Width">
+            <summary>
+            Our width
+            </summary>
+        </member>
+        <member name="P:YALife.DirectBitmap.BitsHandle">
+            <summary>
+            Handle to pinned bitmap in memory
+            </summary>
+        </member>
+        <member name="M:YALife.DirectBitmap.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor to define and create our directly accessable bitmap 
+            </summary>
+            <param name="width">Bitmap width</param>
+            <param name="height">Bitmap height</param>
+        </member>
+        <member name="M:YALife.DirectBitmap.SetPixel(System.Int32,System.Int32,System.Drawing.Color)">
+            <summary>
+            Set the pixel at x by y to color
+            </summary>
+            <param name="x">Width in pixels</param>
+            <param name="y">Height in pixels</param>
+            <param name="colour">32 bit argb color</param>
+        </member>
+        <member name="M:YALife.DirectBitmap.GetPixel(System.Int32,System.Int32)">
+            <summary>
+            Return the color of the pixel in x by y of the bitmap
+            </summary>
+            <param name="x">Pixel column of interest</param>
+            <param name="y">Pixel row of interest</param>
+            <returns>32 bit argb color</returns>
+        </member>
+        <member name="M:YALife.DirectBitmap.Dispose">
+            <summary>
+            Dispose of our bitmap
+            </summary>
+        </member>
+        <member name="M:YALife.Program.Main">
+            <summary>
+             The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:YALife.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:YALife.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:YALife.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:YALife.Splash">
+            <summary>
+            A splash screen 
+            </summary>
+        </member>
+        <member name="F:YALife.Splash.WaitTicks">
+            <summary>
+            Class vars
+            </summary>
+        </member>
+        <member name="M:YALife.Splash.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class constructor
+            </summary>
+            <param name="TimeToWait">int Seconds to display before closing or 0 to stay open</param>
+            <param name="PWidth">Caller app width</param>
+            <param name="PHeight">Caller app height</param>
+            <param name="PTop">Caller app top</param>
+            <param name="PLeft">Caller app left</param>
+        </member>
+        <member name="M:YALife.Splash.Splash_Load(System.Object,System.EventArgs)">
+            <summary>
+            Center the splash screen and if needed set the timer 
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:YALife.Splash.ShowTimer_Tick(System.Object,System.EventArgs)">
+            <summary>
+            Closes the spalash screen after wait
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:YALife.Splash.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:YALife.Splash.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:YALife.Splash.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+    </members>
+</doc>

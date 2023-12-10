@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GBj7UPzilA8iysGHACkeuOWtGyxE2ZN+5z3chrFkFX1+FKxNXAdC5txWQjVg7vth8rzkSdztKBJ3Lp+1f3gx9A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\YALife.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\darhea\\.nuget\\packages\\system.windows.forms.datavisualization\\1.0.0-prerelease.20110.1\\system.windows.forms.datavisualization.1.0.0-prerelease.20110.1.nupkg.sha512"
+  ],
+  "logs": []
+}
