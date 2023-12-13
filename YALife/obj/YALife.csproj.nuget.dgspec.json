@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\darhea\\Source\\Repos\\YALife-recovered\\YALife\\YALife.csproj": {}
+    "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\YALife.csproj": {}
   },
   "projects": {
-    "C:\\Users\\darhea\\Source\\Repos\\YALife-recovered\\YALife\\YALife.csproj": {
+    "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\YALife.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\darhea\\Source\\Repos\\YALife-recovered\\YALife\\YALife.csproj",
+        "projectUniqueName": "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\YALife.csproj",
         "projectName": "YALife",
-        "projectPath": "C:\\Users\\darhea\\Source\\Repos\\YALife-recovered\\YALife\\YALife.csproj",
+        "projectPath": "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\YALife.csproj",
         "packagesPath": "C:\\Users\\darhea\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\darhea\\Source\\Repos\\YALife-recovered\\YALife\\obj\\",
+        "outputPath": "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -39,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {

@@ -15,7 +15,7 @@
     <PackageProjectUrl>https://github.com/Lurchicus/YALife</PackageProjectUrl>
     <PackageIcon>TGOL.ico</PackageIcon>
     <RepositoryUrl>https://github.com/Lurchicus/YALife</RepositoryUrl>
-    <ApplicationIcon>C:\Users\darhea\Source\Repos\YALife-recovered\YALife\TGOL.ico</ApplicationIcon>
+    <ApplicationIcon>TGOL.ico</ApplicationIcon>
     <PackageReleaseNotes>All the change history is at the bottom of the Form1.cs code. I only put highlights in the readme file.</PackageReleaseNotes>
     <PackageTags>GameOfLife; Conway; gol; C#;</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TGOL.ico" />
+    <Content Include="TGOL.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -83,6 +83,10 @@
     </None>
     <None Update="MIT_License.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TGOL.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
