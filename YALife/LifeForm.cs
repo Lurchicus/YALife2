@@ -599,7 +599,8 @@ namespace YALife
 
                     // Look around the current array element to determine
                     // the future of the current location. Updates 
-                    // FriendCount.
+                    // FriendCount. Tried running the tasks below in parallel 
+                    // but it really hurt performance, backed it out.
                     North(CurW, CurH, BWrap);
                     NorthEast(CurW, CurH, BWrap);
                     East(CurW, CurH, BWrap);
