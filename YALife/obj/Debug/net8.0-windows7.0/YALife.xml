@@ -318,64 +318,64 @@
             <summary>
             Check North
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.NorthEast(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check NorthEast
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.East(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check East
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.SouthEast(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check SouthEast
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.South(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check South
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.SouthWest(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check SouthWest
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.West(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check West
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.NorthWest(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Check NorthWest
             </summary>
-            <param name="CurW">Current width position (X)</param>
-            <param name="CurH">Current height position (Y)</param>
+            <param name="CurrentWidth">Current width position (X)</param>
+            <param name="CurrentHeight">Current height position (Y)</param>
             <param name="Wrap">Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.DrawLife">

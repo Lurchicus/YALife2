@@ -73,7 +73,7 @@ namespace YALife
             double valPerc = val / maxVal;                              // value%
             double colorPerc = 1d / (ColorsOfMap.Count - 1);            // % of each block of color. the last is the "100% Color"
             double blockOfColor = valPerc / colorPerc;                  // the integer part repersents how many block to skip
-            int blockIdx = (int)Math.Truncate(blockOfColor);         // Idx of 
+            int blockIdx = (int)Math.Truncate(blockOfColor);            // Idx of 
             double valPercResidual = valPerc - (blockIdx * colorPerc);  // remove the part represented of block 
             double percOfColor = valPercResidual / colorPerc;           // % of color of this block that will be filled
 

@@ -25,26 +25,26 @@ namespace YALife
     /// </summary>
     public partial class YALife : Form
     {
-        bool BWrap;         // Wrap around or bounded universe
+        bool Wrap;         // Wrap around or bounded universe
         bool StopIt;        // Stop flag
         bool Stopped;       // Stop state
-        int ITop;           // Tracks the top of the image frame
-        int ILeft;          // Tracks the left of the image frame
-        int IInitPercent;   // Initial live percentage
-        int IHPixels;       // Height in pixels
-        int IWPixels;       // Width in pixels
-        int IHBlocks;       // Height in blocks (blocks are made up of multiple pixels)
-        int IWBlocks;       // Width in blocks
-        int IBlockSize;     // Pixels in block
-        int IPass;          // Pass counter
+        int ImageTop;           // Tracks the top of the image frame
+        int ImageLeft;          // Tracks the left of the image frame
+        int InitialPercent;   // Initial live percentage
+        int HeightPixels;       // Height in pixels
+        int WidthPixels;       // Width in pixels
+        int HeightBlocks;       // Height in blocks (blocks are made up of multiple pixels)
+        int WidthBlocks;       // Width in blocks
+        int BlockSize;     // Pixels in block
+        int PassCount;          // Pass counter
 
-        int IBirth;         // Count of births in a pass
-        int ILive;          // Count of "stay alives" in a pass
-        int ILonely;        // Count of lonely deaths in a pass
-        int ICrowd;         // Count of crowded deaths in a pass
-        int InEmpty;        // Count of "Stay empty" cases in a pass
-        int IsLiving;       // Count of all living cells
-        int IsEmpty;        // Count of all empty cells
+        int Birth;         // Count of births in a pass
+        int Live;          // Count of "stay alives" in a pass
+        int Lonely;        // Count of lonely deaths in a pass
+        int Crowded;         // Count of crowded deaths in a pass
+        int Empty;        // Count of "Stay empty" cases in a pass
+        int LivingCount;       // Count of all living cells
+        int EmptyCount;        // Count of all empty cells
 
         int Mode;           // Color cycle mode
         int FriendCount;    // Nearby friends
@@ -53,18 +53,18 @@ namespace YALife
         string? PredefinedFile;
         bool LoadedPredefined = false;
 
-        int[,]? ILife;      // Life matrix
-        int[,]? ISave;      // Save matrix
+        int[,]? LifeShow;      // Life matrix
+        int[,]? LifeWork;      // Save matrix
 
-        DateTime StartMS;   // Start timer
-        DateTime StopMS;    // End timer
-        TimeSpan ElapsedMS; // Elapsed timer
+        DateTime StartTime;   // Start timer
+        DateTime StopTime;    // End timer
+        TimeSpan ElapsedTime; // Elapsed timer
 
         DirectBitmap Paper = new(1, 1);
         readonly Random RNG = new();    // Object to pull RNG values
-        readonly ColorHeatMap CMap = new(); // Color map for ColorHeatMap class
+        readonly ColorHeatMap ColorMap = new(); // Color map for ColorHeatMap class
         readonly string LicenseFile = "MIT_License.txt";   // MIT license file
-        readonly string NumSpec = "N0";
+        readonly string NumberFormat = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
         bool CollectStats = false; // Hooked to a checkbox.
         readonly List<StatListRecord> TheStats = [];
@@ -84,8 +84,8 @@ namespace YALife
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            ITop = Frame.Top;
-            ILeft = Frame.Left;
+            ImageTop = Frame.Top;
+            ImageLeft = Frame.Left;
             // Init and load and bind the color mode drop down list
             ColorMode colorMode = new();
             DDMode.DataSource = ColorMode.ModeList();
@@ -149,11 +149,11 @@ namespace YALife
         {
             if (CkWrap.Checked)
             {
-                BWrap = true;
+                Wrap = true;
             }
             else
             {
-                BWrap = false;
+                Wrap = false;
             }
         }
 
@@ -225,7 +225,7 @@ namespace YALife
             BStop.Focus();
             while (!Stopped)
             {
-                IPass++;
+                PassCount++;
                 DoLife();
                 if (StopIt) { Stopped = true; }
             }
@@ -290,7 +290,7 @@ namespace YALife
         private void BStep_Click(object sender, EventArgs e)
         {
             BStep.Focus();
-            IPass++;
+            PassCount++;
             DoLife();
         }
 
@@ -322,10 +322,10 @@ namespace YALife
         private void Reset()
         {
             // Get and report pixels we can draw in
-            IHPixels = Frame.Height;
-            IWPixels = Frame.Width;
-            TxHPixels.Text = IHPixels.ToString(NumSpec, Culture);
-            TxWPixels.Text = IWPixels.ToString(NumSpec, Culture);
+            HeightPixels = Frame.Height;
+            WidthPixels = Frame.Width;
+            TxHPixels.Text = HeightPixels.ToString(NumberFormat, Culture);
+            TxWPixels.Text = WidthPixels.ToString(NumberFormat, Culture);
 
             // BlockSize is very important to how I designed this program. It is
             // in effect a zoom, as it allows the cells/locations displayed to be
@@ -335,18 +335,18 @@ namespace YALife
             // exceptions in DrawLife(). And yes, 32 is very silly.
             //
             // Get the requested block size
-            IBlockSize = (int)NBlockSize.Value;
+            BlockSize = (int)NBlockSize.Value;
 
             // Calculate and report block size
-            IHBlocks = IHPixels / IBlockSize;
-            IWBlocks = IWPixels / IBlockSize;
-            TxHBlocks.Text = IHBlocks.ToString(NumSpec, Culture);
-            TxWBlocks.Text = IWBlocks.ToString(NumSpec, Culture);
+            HeightBlocks = HeightPixels / BlockSize;
+            WidthBlocks = WidthPixels / BlockSize;
+            TxHBlocks.Text = HeightBlocks.ToString(NumberFormat, Culture);
+            TxWBlocks.Text = WidthBlocks.ToString(NumberFormat, Culture);
 
             // Manage "Frame" size
-            Frame.Top = ITop;
-            Frame.Left = ILeft;
-            Frame.Width = this.ClientSize.Width - ILeft;
+            Frame.Top = ImageTop;
+            Frame.Left = ImageLeft;
+            Frame.Width = this.ClientSize.Width - ImageLeft;
             Frame.Height = this.ClientSize.Height;
 
             // Clear and prepare for a fresh bitmap
@@ -358,16 +358,17 @@ namespace YALife
 
             // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
-            Paper = new DirectBitmap(IWPixels, IHPixels);
+            Paper = new DirectBitmap(WidthPixels, HeightPixels);
 
             // Recreate life array (init to 0) and get the 
             // initial population percentage.
-            IInitPercent = (int)TxPercent.Value;
-            ILife = new int[IWBlocks, IHBlocks];
-            ISave = new int[IWBlocks, IHBlocks];
+            InitialPercent = (int)TxPercent.Value;
+            LifeShow = new int[WidthBlocks, HeightBlocks];
+            LifeWork = new int[WidthBlocks, HeightBlocks];
 
             // Initialize the life array randomly based on a desired starting
-            // percentage of live cells
+            // percentage of live cells or load a predefined pattern from a
+            // .gol file (see LifeTest.gol for details and format)
             if (UsingPredefined)
             {
                 {
@@ -391,20 +392,20 @@ namespace YALife
             {
                 // Initialize the life array randomly based on a desired starting
                 // percentage of live cells
-                Array.Clear(ISave, 0, ISave.Length);
-                for (int IW = 0; IW < IWBlocks; IW++)
+                Array.Clear(LifeWork, 0, LifeWork.Length);
+                for (int IW = 0; IW < WidthBlocks; IW++)
                 {
-                    for (int IH = 0; IH < IHBlocks; IH++)
+                    for (int IH = 0; IH < HeightBlocks; IH++)
                     {
-                        ISave[IW, IH] = 0;
+                        LifeWork[IW, IH] = 0;
                         int IRNG = RNG.Next(1, 101);
-                        if (IRNG <= IInitPercent)
+                        if (IRNG <= InitialPercent)
                         {
-                            ILife[IW, IH] = 1;
+                            LifeShow[IW, IH] = 1;
                         }
                         else
                         {
-                            ILife[IW, IH] = 0;
+                            LifeShow[IW, IH] = 0;
                         }
                     }
                 }
@@ -413,8 +414,8 @@ namespace YALife
 
             StopIt = false;
             Stopped = true;
-            IPass = 1;
-            BWrap = (CkWrap.Checked);
+            PassCount = 1;
+            Wrap = (CkWrap.Checked);
             BRun.Focus();
 
             // Update the UI
@@ -467,6 +468,8 @@ namespace YALife
             int MaxLen = 0;
             List<string> GolList = [];
 
+            // This first part reads the predefine file and parses its 
+            // contents (the predefined pattern is loaded into a list.
             Line = await Gol.ReadLineAsync();
             while (Line is not null)
             {
@@ -488,7 +491,8 @@ namespace YALife
                         // Offset header
                         Line2 = Line.Trim()[1..];
                         Got = Line2.Split(",");
-                        // This is a real weak point for the parser... I'm going to add a "+" prefix to the line
+                        // This is a real weak point for the parser... I'm going to add a
+                        // "+" prefix to the line
                         try
                         {
                             XOffset = Int32.Parse(Got[0]);
@@ -524,16 +528,17 @@ namespace YALife
             }
             Gol.Close();
 
-            // Draw the predefined object
+            // With parsing done and the pattern in a list we can
+            // prepare the predefined object to be drawn by DrawLife()
             if (KeepIt == 0)
             {
                 // Wipe everything first
-                if (ISave is not null) { Array.Clear(ISave, 0, ISave.Length); }
-                if (ILife is not null) { Array.Clear(ILife, 0, ILife.Length); }
+                if (LifeWork is not null) { Array.Clear(LifeWork, 0, LifeWork.Length); }
+                if (LifeShow is not null) { Array.Clear(LifeShow, 0, LifeShow.Length); }
             }
             // "Draw" the object (Go Row then Column to keep things simpler)
             int GRow = 0;
-            for (int IH = YOffset; IH < IHBlocks; IH++)
+            for (int IH = YOffset; IH < HeightBlocks; IH++)
             {
                 if (GRow < GolList.Count)
                 {
@@ -541,16 +546,16 @@ namespace YALife
                     string GStr = GolList[GRow].ToString();
                     int GIdx = 0;
                     int GVal;
-                    for (int IW = XOffset; IW < IWBlocks; IW++)
+                    for (int IW = XOffset; IW < WidthBlocks; IW++)
                     {
                         if (GIdx < GLen)
                         {
                             GVal = Int32.Parse(GStr.Substring(GIdx, 1));
-                            if (ILife is not null)
+                            if (LifeShow is not null)
                             {
                                 if (GVal > 0)
                                 {
-                                    ILife[IW, IH] = GVal;
+                                    LifeShow[IW, IH] = GVal;
                                 }
                             }
                             GIdx++;
@@ -574,26 +579,31 @@ namespace YALife
         /// </summary>
         private void DoLife()
         {
-            StartMS = DateTime.Now;
+            StartTime = DateTime.Now;
 
-            if (ILife == null) return;
-            if (ISave == null) return;
+            // We use dual arrays so that state changes in the new array (LifeWork)
+            // don't affect the state of the array driving the changes and display (LifeShow)
+
+            // If the arrays are null, just bail. We aren't ready yet (probably
+            // haven't called Reset() yet).
+            if (LifeShow == null) return;
+            if (LifeWork == null) return;
 
             // Update the pass counter in the UI
-            TxPass.Text = IPass.ToString(NumSpec, Culture);
+            TxPass.Text = PassCount.ToString(NumberFormat, Culture);
 
             // Zero out the detail counters
-            IBirth = 0;
-            ILive = 0;
-            ILonely = 0;
-            ICrowd = 0;
-            InEmpty = 0;
+            Birth = 0;
+            Live = 0;
+            Lonely = 0;
+            Crowded = 0;
+            Empty = 0;
 
             // Scan through the "life" array (taking the block size into
             // account as well)
-            for (int CurW = 0; CurW < IWBlocks; CurW++)
+            for (int CurrentWidth = 0; CurrentWidth < WidthBlocks; CurrentWidth++)
             {
-                for (int CurH = 0; CurH < IHBlocks; CurH++)
+                for (int CurrentHeight = 0; CurrentHeight < HeightBlocks; CurrentHeight++)
                 {
                     FriendCount = 0;
 
@@ -601,40 +611,40 @@ namespace YALife
                     // the future of the current location. Updates 
                     // FriendCount. Tried running the tasks below in parallel 
                     // but it really hurt performance, backed it out.
-                    North(CurW, CurH, BWrap);
-                    NorthEast(CurW, CurH, BWrap);
-                    East(CurW, CurH, BWrap);
-                    SouthEast(CurW, CurH, BWrap);
-                    South(CurW, CurH, BWrap);
-                    SouthWest(CurW, CurH, BWrap);
-                    West(CurW, CurH, BWrap);
-                    NorthWest(CurW, CurH, BWrap);
+                    North(CurrentWidth, CurrentHeight, Wrap);
+                    NorthEast(CurrentWidth, CurrentHeight, Wrap);
+                    East(CurrentWidth, CurrentHeight, Wrap);
+                    SouthEast(CurrentWidth, CurrentHeight, Wrap);
+                    South(CurrentWidth, CurrentHeight, Wrap);
+                    SouthWest(CurrentWidth, CurrentHeight, Wrap);
+                    West(CurrentWidth, CurrentHeight, Wrap);
+                    NorthWest(CurrentWidth, CurrentHeight, Wrap);
 
-                    if (ILife[CurW, CurH] >= 1)
+                    if (LifeShow[CurrentWidth, CurrentHeight] >= 1)
                     {
                         // Live cell rules (current cell is alive)
                         switch (FriendCount)
                         {
                             case < 2:
                                 // We have one or less neibours so we are too loney to live (/sadface)
-                                ISave[CurW, CurH] = 0;
-                                ILonely++;
+                                LifeWork[CurrentWidth, CurrentHeight] = 0;
+                                Lonely++;
                                 break;
                             case 2:
                             case 3:
                                 // We have two or three neibours, happy, we live on
-                                ISave[CurW, CurH] = (ILife[CurW, CurH] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
-                                if (ILife[CurW, CurH] >= 255)
+                                LifeWork[CurrentWidth, CurrentHeight] = (LifeShow[CurrentWidth, CurrentHeight] + 1);  // Ha ha ha ha, stay'n alive, stay'n alive...
+                                if (LifeShow[CurrentWidth, CurrentHeight] >= 255)
                                 {
-                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    LifeWork[CurrentWidth, CurrentHeight] = (Mode == 1) ? 255 : 1;
+                                    LifeShow[CurrentWidth, CurrentHeight] = (Mode == 1) ? 255 : 1;
                                 }
-                                ILive++;
+                                Live++;
                                 break;
                             case > 3:
                                 // We have more than three neibours, too many, we die (overpopulation)
-                                ISave[CurW, CurH] = 0;
-                                ICrowd++;
+                                LifeWork[CurrentWidth, CurrentHeight] = 0;
+                                Crowded++;
                                 break;
                         }
                     }
@@ -647,63 +657,63 @@ namespace YALife
                             // Less than three neibours, we stay empty
                             case > 3:
                                 // More than three neibours, stay empty
-                                ISave[CurW, CurH] = 0;
-                                InEmpty++;
+                                LifeWork[CurrentWidth, CurrentHeight] = 0;
+                                Empty++;
                                 break;
                             case 3:
                                 // Three neibours! Birth!
-                                ISave[CurW, CurH] = 1;
-                                if (ILife[CurW, CurH] >= 255)
+                                LifeWork[CurrentWidth, CurrentHeight] = 1;
+                                if (LifeShow[CurrentWidth, CurrentHeight] >= 255)
                                 {
-                                    ISave[CurW, CurH] = (Mode == 1) ? 255 : 1;
-                                    ILife[CurW, CurH] = (Mode == 1) ? 255 : 1;
+                                    LifeWork[CurrentWidth, CurrentHeight] = (Mode == 1) ? 255 : 1;
+                                    LifeShow[CurrentWidth, CurrentHeight] = (Mode == 1) ? 255 : 1;
                                 }
-                                IBirth++;
+                                Birth++;
                                 break;
                         }
                     }
                 }
             }
 
-            // Copy the cell info from the "save" array to the "life" array
+            // Copy the cell info from the "work" array to the "show" array
             // and collect raw alive/empty counts
-            IsLiving = 0;
-            IsEmpty = 0;
-            for (int CurW = 0; CurW < IWBlocks; CurW++)
+            LivingCount = 0;
+            EmptyCount = 0;
+            for (int CurrentWidth = 0; CurrentWidth < WidthBlocks; CurrentWidth++)
             {
-                for (int CurH = 0; CurH < IHBlocks; CurH++)
+                for (int CurrentHeight = 0; CurrentHeight < HeightBlocks; CurrentHeight++)
                 {
-                    ILife[CurW, CurH] = ISave[CurW, CurH];
-                    if (ILife[CurW, CurH] >= 1)
+                    LifeShow[CurrentWidth, CurrentHeight] = LifeWork[CurrentWidth, CurrentHeight];
+                    if (LifeShow[CurrentWidth, CurrentHeight] >= 1)
                     {
-                        IsLiving++;
+                        LivingCount++;
                     }
                     else
                     {
-                        IsEmpty++;
+                        EmptyCount++;
                     }
                 }
             }
 
             // Show living and empty cells
-            TxIsLiving.Text = IsLiving.ToString(NumSpec, Culture);
-            TxIsEmpty.Text = IsEmpty.ToString(NumSpec, Culture);
+            TxIsLiving.Text = LivingCount.ToString(NumberFormat, Culture);
+            TxIsEmpty.Text = EmptyCount.ToString(NumberFormat, Culture);
 
             // Show detail stats
-            TxBirth.Text = IBirth.ToString(NumSpec, Culture);
-            TxLive.Text = ILive.ToString(NumSpec, Culture);
-            TxLonely.Text = ILonely.ToString(NumSpec, Culture);
-            TxCrowd.Text = ICrowd.ToString(NumSpec, Culture);
-            TxEmpty.Text = InEmpty.ToString(NumSpec, Culture);
+            TxBirth.Text = Birth.ToString(NumberFormat, Culture);
+            TxLive.Text = Live.ToString(NumberFormat, Culture);
+            TxLonely.Text = Lonely.ToString(NumberFormat, Culture);
+            TxCrowd.Text = Crowded.ToString(NumberFormat, Culture);
+            TxEmpty.Text = Empty.ToString(NumberFormat, Culture);
             if (CollectStats)
             {
-                StatListRecord StatList = new(IsLiving, IsEmpty, IBirth, ILive, ILonely, ICrowd, InEmpty);
+                StatListRecord StatList = new(LivingCount, EmptyCount, Birth, Live, Lonely, Crowded, Empty);
 
                 TheStats.Add(StatList);
                 int Got = TheStats.Count;
                 if (Got > 0)
                 {
-                    TheStats[Got - 1].Scount = Got;
+                    TheStats[Got - 1].Counter = Got;
                 }
             }
 
@@ -714,137 +724,137 @@ namespace YALife
         /// <summary>
         /// Check North
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void North(int CurW, int CurH, bool Wrap)
+        private void North(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
 
             // North: Width, Height-1
-            int W = CurW;
-            int H = CurH - 1;
-            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth;
+            int Height = CurrentHeight - 1;
+            if (Height < 0) { if (Wrap) { Height = HeightBlocks - 1; } else { Height = 0; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check NorthEast
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void NorthEast(int CurW, int CurH, bool Wrap)
+        private void NorthEast(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
 
             // Northeast: Width+1, Height-1
-            int W = CurW + 1;
-            int H = CurH - 1;
-            if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
-            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth + 1;
+            int Height = CurrentHeight - 1;
+            if (Width == WidthBlocks) { if (Wrap) { Width = 0; } else { Width = WidthBlocks - 1; } }
+            if (Height < 0) { if (Wrap) { Height = HeightBlocks - 1; } else { Height = 0; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check East
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void East(int CurW, int CurH, bool Wrap)
+        private void East(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
 
             // East: Width+1, Height
-            int W = CurW + 1;
-            int H = CurH;
-            if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth + 1;
+            int Height = CurrentHeight;
+            if (Width == WidthBlocks) { if (Wrap) { Width = 0; } else { Width = WidthBlocks - 1; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check SouthEast
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void SouthEast(int CurW, int CurH, bool Wrap)
+        private void SouthEast(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
 
             // Southeast: Width+1, Height+1
-            int W = CurW + 1;
-            int H = CurH + 1;
-            if (W == IWBlocks) { if (Wrap) { W = 0; } else { W = IWBlocks - 1; } }
-            if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth + 1;
+            int Height = CurrentHeight + 1;
+            if (Width == WidthBlocks) { if (Wrap) { Width = 0; } else { Width = WidthBlocks - 1; } }
+            if (Height == HeightBlocks) { if (Wrap) { Height = 0; } else { Height = HeightBlocks - 1; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check South
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void South(int CurW, int CurH, bool Wrap)
+        private void South(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
             // South: Width, Height+1
-            int W = CurW;
-            int H = CurH + 1;
-            if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth;
+            int Height = CurrentHeight + 1;
+            if (Height == HeightBlocks) { if (Wrap) { Height = 0; } else { Height = HeightBlocks - 1; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check SouthWest
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void SouthWest(int CurW, int CurH, bool Wrap)
+        private void SouthWest(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
             // Southwest: Width-1, Height+1
-            int W = CurW - 1;
-            int H = CurH + 1;
-            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
-            if (H == IHBlocks) { if (Wrap) { H = 0; } else { H = IHBlocks - 1; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth - 1;
+            int Height = CurrentHeight + 1;
+            if (Width < 0) { if (Wrap) { Width = WidthBlocks - 1; } else { Width = 0; } }
+            if (Height == HeightBlocks) { if (Wrap) { Height = 0; } else { Height = HeightBlocks - 1; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check West
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void West(int CurW, int CurH, bool Wrap)
+        private void West(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
             // West: Width-1, Height
-            int W = CurW - 1;
-            int H = CurH;
-            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth - 1;
+            int Height = CurrentHeight;
+            if (Width < 0) { if (Wrap) { Width = WidthBlocks - 1; } else { Width = 0; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
         /// Check NorthWest
         /// </summary>
-        /// <param name="CurW">Current width position (X)</param>
-        /// <param name="CurH">Current height position (Y)</param>
+        /// <param name="CurrentWidth">Current width position (X)</param>
+        /// <param name="CurrentHeight">Current height position (Y)</param>
         /// <param name="Wrap">Edge wrap mode</param>
-        private void NorthWest(int CurW, int CurH, bool Wrap)
+        private void NorthWest(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (ILife == null) { return; }
+            if (LifeShow == null) { return; }
             // Northwest: Width-1, Height-1
-            int W = CurW - 1;
-            int H = CurH - 1;
-            if (W < 0) { if (Wrap) { W = IWBlocks - 1; } else { W = 0; } }
-            if (H < 0) { if (Wrap) { H = IHBlocks - 1; } else { H = 0; } }
-            if (ILife[W, H] >= 1) { FriendCount++; }
+            int Width = CurrentWidth - 1;
+            int Height = CurrentHeight - 1;
+            if (Width < 0) { if (Wrap) { Width = WidthBlocks - 1; } else { Width = 0; } }
+            if (Height < 0) { if (Wrap) { Height = HeightBlocks - 1; } else { Height = 0; } }
+            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
         }
 
         /// <summary>
@@ -854,34 +864,34 @@ namespace YALife
         /// </summary>
         private void DrawLife()
         {
-            int IWOffSet;
-            int IHOffset;
-            int IW;
-            int IH;
-            Color Clr;
+            int WidthOffset;
+            int HeightOffset;
+            int Width;
+            int Height;
+            Color RGB;
             Double ColorIndex;
 
-            if (ILife == null) return;
+            if (LifeShow == null) return;
 
             // Step through the array
-            for (int Wid = 0; Wid < IWBlocks; Wid++)
+            for (int CurrentWidth = 0; CurrentWidth < WidthBlocks; CurrentWidth++)
             {
-                for (int Hei = 0; Hei < IHBlocks; Hei++)
+                for (int CurrentHeight = 0; CurrentHeight < HeightBlocks; CurrentHeight++)
                 {
-                    IWOffSet = Wid * IBlockSize;
-                    IHOffset = Hei * IBlockSize;
+                    WidthOffset = CurrentWidth * BlockSize;
+                    HeightOffset = CurrentHeight * BlockSize;
 
-                    // Create a block of 1 to 16 pixels for each array element
-                    for (int W = 0; W < IBlockSize; W++)
+                    // Create a block of 1 to 32 pixels for each array element
+                    for (int BlockWidthIndex = 0; BlockWidthIndex < BlockSize; BlockWidthIndex++)
                     {
-                        for (int H = 0; H < IBlockSize; H++)
+                        for (int BlockHeightIndex = 0; BlockHeightIndex < BlockSize; BlockHeightIndex++)
                         {
-                            IW = W + IWOffSet;
-                            IH = H + IHOffset;
+                            Width = BlockWidthIndex + WidthOffset;
+                            Height = BlockHeightIndex + HeightOffset;
 
-                            if (IW < Paper.Width && IH < Paper.Height)
+                            if (Width < Paper.Width && Height < Paper.Height)
                             {
-                                if (ILife[Wid, Hei] >= 1)
+                                if (LifeShow[CurrentWidth, CurrentHeight] >= 1)
                                 {
                                     // ColorIndex contains a value from 1 to 255 that is actually the number
                                     // of passes this cell/location has survived. We take this value
@@ -894,29 +904,29 @@ namespace YALife
                                     // the value in the cell.
                                     if (Mode == 1 || Mode == 2)
                                     {
-                                        ColorIndex = (double)ILife[Wid, Hei];
+                                        ColorIndex = (double)LifeShow[CurrentWidth, CurrentHeight];
                                         if (ColorIndex > 255) { ColorIndex = 255; }
-                                        Clr = CMap.GetColorForValue(ColorIndex, (double)256);
+                                        RGB = ColorMap.GetColorForValue(ColorIndex, (double)256);
                                     }
                                     else
                                     {
                                         // A cool side effect of making this a simple else, this will
                                         // be the default if a mode is not yet selected. I like it!
-                                        Clr = Color.Yellow;
+                                        RGB = Color.Yellow;
                                     }
                                 }
                                 else
                                 {
                                     // Empty is always black
-                                    Clr = Color.Black;
+                                    RGB = Color.Black;
                                 }
-                                Paper.SetPixel(IW, IH, Clr);
+                                Paper.SetPixel(Width, Height, RGB);
                             }
                             else
                             {
                                 // Log if we overflow our bitmap. I may change this to just throw an exception later.
                                 // I honestly don't recall the last time I actually saw this error.
-                                TxLog.AppendText("Ovfl Err: IW:" + IW.ToString() + " IH:" + IH.ToString() + "\r\n");
+                                TxLog.AppendText("Ovfl Err: W:" + Width.ToString() + " H:" + Height.ToString() + "\r\n");
                             }
                         }
                     }
@@ -926,9 +936,9 @@ namespace YALife
             // Show the updated bitmap and update the UI
             Frame.Image = Paper.Bitmap;
             // Also calculate and show our pass timing
-            StopMS = DateTime.Now;
-            ElapsedMS = StopMS - StartMS;
-            txtPassTimer.Text = ElapsedMS.TotalSeconds.ToString("N4", Culture);
+            StopTime = DateTime.Now;
+            ElapsedTime = StopTime - StartTime;
+            txtPassTimer.Text = ElapsedTime.TotalSeconds.ToString("N4", Culture);
             Application.DoEvents();
         }
 
@@ -1081,4 +1091,6 @@ namespace YALife
     // 1.0.33.0 11/21/2022 DWR Had to rewrite LifeStat class as LifeStats and move 
     //                         the list to the main form. Still can't access the list
     //                         in LifeChart as I can't make the list static. WIP.
+    // 1.0.34.0 04/18/2024 DWR Did a wholesale rename of my program variables to
+    //                         make them more descriptive.
 }

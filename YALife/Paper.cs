@@ -55,8 +55,6 @@ namespace YALife
         /// <param name="height">Bitmap height</param>
         public DirectBitmap(int width, int height)
         {
-            Width = width;
-            Height = height;
             Bits = new Int32[width * height];
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
@@ -71,9 +69,9 @@ namespace YALife
         public void SetPixel(int x, int y, Color colour)
         {
             int index = x + (y * Width);
-            int col = colour.ToArgb();
+            int RGB = colour.ToArgb();
 
-            Bits[index] = col;
+            Bits[index] = RGB;
         }
 
         /// <summary>
@@ -85,8 +83,8 @@ namespace YALife
         public Color GetPixel(int x, int y)
         {
             int index = x + (y * Width);
-            int col = Bits[index];
-            Color result = Color.FromArgb(col);
+            int RGB = Bits[index];
+            Color result = Color.FromArgb(RGB);
 
             return result;
         }
