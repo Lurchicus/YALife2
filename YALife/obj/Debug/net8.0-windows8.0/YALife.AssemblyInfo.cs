@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Dan Rhea 2021, 2022")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Yet Another (Conway\'s Game of) Life using .NET 6 Win Forms")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.31.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c36e74ec3436916f2ed019ba23769e71c3f8dcee")]
 [assembly: System.Reflection.AssemblyProductAttribute("YALife")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YALife")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.31.0")]

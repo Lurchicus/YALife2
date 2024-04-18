@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows8.0": {
+    "net8.0-windows7.0": {
       "System.Windows.Forms.DataVisualization/1.0.0-prerelease.20110.1": {
         "type": "package",
         "compile": {
@@ -37,7 +37,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0-windows8.0": [
+    "net8.0-windows7.0": [
       "System.Windows.Forms.DataVisualization >= 1.0.0-prerelease.20110.1"
     ]
   },
@@ -63,7 +63,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0-windows8.0"
+        "net8.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -71,8 +71,8 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0-windows8.0": {
-          "targetAlias": "net8.0-windows8.0",
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows7.0",
           "projectReferences": {}
         }
       },
@@ -88,8 +88,8 @@
       }
     },
     "frameworks": {
-      "net8.0-windows8.0": {
-        "targetAlias": "net8.0-windows8.0",
+      "net8.0-windows7.0": {
+        "targetAlias": "net8.0-windows7.0",
         "dependencies": {
           "System.Windows.Forms.DataVisualization": {
             "target": "Package",
@@ -115,7 +115,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
