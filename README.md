@@ -4,7 +4,7 @@
 
 Yet Another Life Program (based on Conway's Game of Life).
 
-![YALife Screenshot 2021-11-20] (YALife_Screenshot_2021-11-20.png)
+![YALife Screenshot 2021-11-20] (YALife2/YALife_Screenshot_2021-11-20.png)
 
 (stil can't figure out why my screenshot won't display with MD.)
 
