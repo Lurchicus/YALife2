@@ -8,43 +8,55 @@ using System.Windows.Forms;
 namespace YALife
 {
     /// <summary>
+    /// 
+    /// YALife2
+    /// 
     /// Yet Another Life Program (based on Conway's Game of Life) by Dan Rhea
     /// I wrote this to try out WinForms on the VS 2022 Preview. I popped this
-    /// into my GitHub repository (public)
+    /// into my GitHub repository (public) YALife2
+    /// 
+    ///     https://github.com/Lurchicus/YALife2
     /// 
     /// I was saddened to learn that we lost Mr. Conway to Covid-19 complications
-    /// April 11th of 2020.
+    /// April 11th of 2020. I would dedicate this program to his memory but that
+    /// feels like such an empty gesture. Instead lend my thanks for myself and 
+    /// so many other programmers that have learned so much from his simple set
+    /// of rules.
     ///
+    /// I have done other very different versions of this program in Fortran 77 and 
+    /// Delphi (Pascal).
+    /// 
     /// Change history and to do is at the end of this file.
     /// 
     /// To anyone that sees this, I realize this is overkill for a game of life
     /// program that uses random data, but I wrote it specifily to try out 
     /// VS 2022 and .NET 6 WinForms. Not to mention, I find this sort of thing 
-    /// fun and I believe it helps keep my 66 year old brain plastic and able to 
-    /// learn new things.
+    /// fun and I believe it helps keep my 66 (68) year old brain plastic and 
+    /// able to learn new things.
+    /// 
     /// </summary>
     public partial class YALife : Form
     {
-        bool Wrap;         // Wrap around or bounded universe
+        bool Wrap;          // Wrap around or bounded universe
         bool StopIt;        // Stop flag
         bool Stopped;       // Stop state
-        int ImageTop;           // Tracks the top of the image frame
-        int ImageLeft;          // Tracks the left of the image frame
-        int InitialPercent;   // Initial live percentage
-        int HeightPixels;       // Height in pixels
-        int WidthPixels;       // Width in pixels
-        int HeightBlocks;       // Height in blocks (blocks are made up of multiple pixels)
-        int WidthBlocks;       // Width in blocks
-        int BlockSize;     // Pixels in block
-        int PassCount;          // Pass counter
+        int ImageTop;       // Tracks the top of the image frame
+        int ImageLeft;      // Tracks the left of the image frame
+        int InitialPercent; // Initial live percentage
+        int HeightPixels;   // Height in pixels
+        int WidthPixels;    // Width in pixels
+        int HeightBlocks;   // Height in blocks (blocks are made up of multiple pixels)
+        int WidthBlocks;    // Width in blocks
+        int BlockSize;      // Pixels in block
+        int PassCount;      // Pass counter
 
-        int Birth;         // Count of births in a pass
-        int Live;          // Count of "stay alives" in a pass
-        int Lonely;        // Count of lonely deaths in a pass
-        int Crowded;         // Count of crowded deaths in a pass
-        int Empty;        // Count of "Stay empty" cases in a pass
-        int LivingCount;       // Count of all living cells
-        int EmptyCount;        // Count of all empty cells
+        int Birth;          // Count of births in a pass
+        int Live;           // Count of "stay alives" in a pass
+        int Lonely;         // Count of lonely deaths in a pass
+        int Crowded;        // Count of crowded deaths in a pass
+        int Empty;          // Count of "Stay empty" cases in a pass
+        int LivingCount;    // Count of all living cells
+        int EmptyCount;     // Count of all empty cells
 
         int Mode;           // Color cycle mode
         int FriendCount;    // Nearby friends
@@ -53,20 +65,20 @@ namespace YALife
         string? PredefinedFile;
         bool LoadedPredefined = false;
 
-        int[,]? LifeShow;      // Life matrix
-        int[,]? LifeWork;      // Save matrix
+        int[,]? LifeShow;     // display matrix
+        int[,]? LifeWork;     // working matrix
 
         DateTime StartTime;   // Start timer
         DateTime StopTime;    // End timer
         TimeSpan ElapsedTime; // Elapsed timer
-
+        
         DirectBitmap Paper = new(1, 1);
-        readonly Random RNG = new();    // Object to pull RNG values
-        readonly ColorHeatMap ColorMap = new(); // Color map for ColorHeatMap class
-        readonly string LicenseFile = "MIT_License.txt";   // MIT license file
+        readonly Random RNG = new();                   // Object to pull RNG values
+        readonly ColorHeatMap ColorMap = new();   // Color map for ColorHeatMap class
+        readonly string LicenseFile = "MIT_License.txt";    // MIT license file
         readonly string NumberFormat = "N0";
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
-        bool CollectStats = false; // Hooked to a checkbox.
+        bool CollectStats = false;                          // Hooked to a checkbox.
         readonly List<StatListRecord> TheStats = [];
 
         /// <summary>
@@ -87,8 +99,14 @@ namespace YALife
             ImageTop = Frame.Top;
             ImageLeft = Frame.Left;
             // Init and load and bind the color mode drop down list
-            ColorMode colorMode = new();
-            DDMode.DataSource = ColorMode.ModeList();
+            DDMode.DataSource = new ColorMode[]
+            {
+                new ColorMode{ ModeValue = 0, ModeInfo = "Select" },
+                new ColorMode{ ModeValue = 1, ModeInfo = "Cycle once" },
+                new ColorMode{ ModeValue = 2, ModeInfo = "Cycle many" },
+                new ColorMode{ ModeValue = 3, ModeInfo = "Color: yellow" }
+            };
+            //DDMode.DataSource = ColorMode.ModeList();
             DDMode.DisplayMember = "ModeInfo";
             DDMode.ValueMember = "ModeValue";
             // Give the form a bit of time to draw and display
@@ -354,7 +372,10 @@ namespace YALife
 
             // Manage stats collection and reset collected stats
             CollectStats = CbxCollectStats.Checked;
-            TheStats.Clear();
+            if (TheStats.Count > 0)
+            {
+                TheStats.Clear();
+            }
 
             // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
@@ -858,7 +879,7 @@ namespace YALife
         }
 
         /// <summary>
-        /// Scan the "life" array and use it to generate a bitmap. An array element 
+        /// Scan the "Showlife" array and use it to generate a bitmap. An array element 
         /// can be scaled from 1 pixel per array element to 32 pixels per array
         /// element. This gives us an ersatz zoom (and it was a fun challange)
         /// </summary>
@@ -873,7 +894,7 @@ namespace YALife
 
             if (LifeShow == null) return;
 
-            // Step through the array
+            // Step through the "LifeShow" array
             for (int CurrentWidth = 0; CurrentWidth < WidthBlocks; CurrentWidth++)
             {
                 for (int CurrentHeight = 0; CurrentHeight < HeightBlocks; CurrentHeight++)
@@ -881,7 +902,8 @@ namespace YALife
                     WidthOffset = CurrentWidth * BlockSize;
                     HeightOffset = CurrentHeight * BlockSize;
 
-                    // Create a block of 1 to 32 pixels for each array element
+                    // Create a block of 1 to 32 pixels for each "LifeShow" array element. Note that
+                    // this only does a single "cell" of the currently selected size.
                     for (int BlockWidthIndex = 0; BlockWidthIndex < BlockSize; BlockWidthIndex++)
                     {
                         for (int BlockHeightIndex = 0; BlockHeightIndex < BlockSize; BlockHeightIndex++)

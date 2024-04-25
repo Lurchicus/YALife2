@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace YALife
 {
-    class StatListRecord
+    internal class StatListRecord
     {
         public int Counter;
         public int Living;

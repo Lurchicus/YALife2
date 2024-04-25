@@ -34,6 +34,7 @@ namespace YALife
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YALife));
             Frame = new System.Windows.Forms.PictureBox();
             panel1 = new System.Windows.Forms.Panel();
+            Predef = new System.Windows.Forms.Button();
             BtnChart = new System.Windows.Forms.Button();
             label3 = new System.Windows.Forms.Label();
             CbxCollectStats = new System.Windows.Forms.CheckBox();
@@ -79,7 +80,6 @@ namespace YALife
             LBlockSize = new System.Windows.Forms.Label();
             NBlockSize = new System.Windows.Forms.NumericUpDown();
             Timer = new System.Windows.Forms.Timer(components);
-            Predef = new System.Windows.Forms.Button();
             LBirth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)Frame).BeginInit();
             panel1.SuspendLayout();
@@ -162,6 +162,18 @@ namespace YALife
             panel1.Name = "panel1";
             panel1.Size = new System.Drawing.Size(216, 670);
             panel1.TabIndex = 1;
+            // 
+            // Predef
+            // 
+            Predef.BackColor = System.Drawing.Color.Gold;
+            Predef.ForeColor = System.Drawing.Color.Black;
+            Predef.Location = new System.Drawing.Point(144, 592);
+            Predef.Name = "Predef";
+            Predef.Size = new System.Drawing.Size(55, 23);
+            Predef.TabIndex = 46;
+            Predef.Text = "Predef";
+            Predef.UseVisualStyleBackColor = false;
+            Predef.Click += Predef_Click;
             // 
             // BtnChart
             // 
@@ -605,18 +617,6 @@ namespace YALife
             // 
             Timer.Interval = 600;
             Timer.Tick += Timer_Tick;
-            // 
-            // Predef
-            // 
-            Predef.BackColor = System.Drawing.Color.Gold;
-            Predef.ForeColor = System.Drawing.Color.Black;
-            Predef.Location = new System.Drawing.Point(144, 592);
-            Predef.Name = "Predef";
-            Predef.Size = new System.Drawing.Size(55, 23);
-            Predef.TabIndex = 46;
-            Predef.Text = "Predef";
-            Predef.UseVisualStyleBackColor = false;
-            Predef.Click += Predef_Click;
             // 
             // YALife
             // 

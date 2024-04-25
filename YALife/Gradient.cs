@@ -24,14 +24,14 @@ namespace YALife
         /// <summary>
         /// Defines key ARGB points in what can be seen as a large virtual gradient
         /// </summary>
-        public List<Color> ColorsOfMap = new List<Color>();
+        public List<Color> ColorsOfMap = new();
 
         /// <summary>
         /// Class constructor
         /// </summary>
         public ColorHeatMap()
         {
-            initColorsBlocks();
+            InitColorsBlocks();
         }
 
         /// <summary>
@@ -41,13 +41,13 @@ namespace YALife
         public ColorHeatMap(byte alpha)
         {
             this.Alpha = alpha;
-            initColorsBlocks();
+            InitColorsBlocks();
         }
 
         /// <summary>
         /// Define the color steps that define our virtual color gradient/color map
         /// </summary>
-        private void initColorsBlocks()
+        private void InitColorsBlocks()
         {
             ColorsOfMap.AddRange(new Color[] {
                 Color.FromArgb(Alpha, 0xFF, 0, 0xFF) ,  //Purple

@@ -14,12 +14,6 @@
             A description of the mode for the drop down
             </summary>
         </member>
-        <member name="M:YALife.ColorMode.ModeList">
-            <summary>
-            Create our list of color modes
-            </summary>
-            <returns>List of ColorMode</returns>
-        </member>
         <member name="T:YALife.FileReader">
             <summary>
             A form to read a supplied file
@@ -106,7 +100,7 @@
             </summary>
             <param name="alpha">byte value used to define our ARGB alpha (transparency)</param>
         </member>
-        <member name="M:YALife.ColorHeatMap.initColorsBlocks">
+        <member name="M:YALife.ColorHeatMap.InitColorsBlocks">
             <summary>
             Define the color steps that define our virtual color gradient/color map
             </summary>
@@ -150,20 +144,32 @@
         </member>
         <member name="T:YALife.YALife">
              <summary>
+             
+             YALife2
+             
              Yet Another Life Program (based on Conway's Game of Life) by Dan Rhea
              I wrote this to try out WinForms on the VS 2022 Preview. I popped this
-             into my GitHub repository (public)
+             into my GitHub repository (public) YALife2
+             
+                 https://github.com/Lurchicus/YALife2
              
              I was saddened to learn that we lost Mr. Conway to Covid-19 complications
-             April 11th of 2020.
+             April 11th of 2020. I would dedicate this program to his memory but that
+             feels like such an empty gesture. Instead lend my thanks for myself and 
+             so many other programmers that have learned so much from his simple set
+             of rules.
             
+             I have done other very different versions of this program in Fortran 77 and 
+             Delphi (Pascal).
+             
              Change history and to do is at the end of this file.
              
              To anyone that sees this, I realize this is overkill for a game of life
              program that uses random data, but I wrote it specifily to try out 
              VS 2022 and .NET 6 WinForms. Not to mention, I find this sort of thing 
-             fun and I believe it helps keep my 66 year old brain plastic and able to 
-             learn new things.
+             fun and I believe it helps keep my 66 (68) year old brain plastic and 
+             able to learn new things.
+             
              </summary>
         </member>
         <member name="M:YALife.YALife.#ctor">
@@ -380,7 +386,7 @@
         </member>
         <member name="M:YALife.YALife.DrawLife">
             <summary>
-            Scan the "life" array and use it to generate a bitmap. An array element 
+            Scan the "Showlife" array and use it to generate a bitmap. An array element 
             can be scaled from 1 pixel per array element to 32 pixels per array
             element. This gives us an ersatz zoom (and it was a fun challange)
             </summary>

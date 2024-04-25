@@ -110,6 +110,8 @@ where I prefer to keep change history. This is an overview:
 * 1.0.26.0 03/31/2022  Changed to the MIT license and started working on a file
                        format to manage pre-defined "GOL" patterns (for example a
                        glider factory). WIP.
+* 1.0.34.0 04/18/2024  Did a wholesale rename of my program variables to make 
+                       them more descriptive.
 
 ## Installation
 
