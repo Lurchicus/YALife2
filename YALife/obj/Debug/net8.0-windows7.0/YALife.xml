@@ -14,6 +14,12 @@
             A description of the mode for the drop down
             </summary>
         </member>
+        <member name="M:YALife.ColorMode.ModeList">
+            <summary>
+            Create our list of color modes
+            </summary>
+            <returns>List of ColorMode</returns>
+        </member>
         <member name="T:YALife.FileReader">
             <summary>
             A form to read a supplied file
@@ -172,6 +178,16 @@
              
              </summary>
         </member>
+        <member name="T:YALife.YALife.Rose">
+            <summary>
+            The directions of surrounding live or empty "cells" (Compass Rose)
+            </summary>
+        </member>
+        <member name="F:YALife.YALife.Compass">
+            <summary>
+            Array of the locations the current cell needs to check
+            </summary>
+        </member>
         <member name="M:YALife.YALife.#ctor">
             <summary>
             YALife constructor
@@ -320,69 +336,14 @@
             unbounded and wrap-around universe.
             </summary>
         </member>
-        <member name="M:YALife.YALife.North(System.Int32,System.Int32,System.Boolean)">
+        <member name="M:YALife.YALife.CheckNeibourhood(System.Int32,System.Int32,System.Boolean)">
             <summary>
-            Check North
+            Check all neiboring cells that drive the fate of the current cell. Unwrapped the
+            if statements as well, it takes more room, but the code is easier to read.
             </summary>
             <param name="CurrentWidth">Current width position (X)</param>
             <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.NorthEast(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check NorthEast
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.East(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check East
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.SouthEast(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check SouthEast
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.South(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check South
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.SouthWest(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check SouthWest
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.West(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check West
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
-        </member>
-        <member name="M:YALife.YALife.NorthWest(System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Check NorthWest
-            </summary>
-            <param name="CurrentWidth">Current width position (X)</param>
-            <param name="CurrentHeight">Current height position (Y)</param>
-            <param name="Wrap">Edge wrap mode</param>
+            <param name="Wrap">>Edge wrap mode</param>
         </member>
         <member name="M:YALife.YALife.DrawLife">
             <summary>

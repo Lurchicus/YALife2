@@ -71,7 +71,7 @@ namespace YALife
         DateTime StartTime;   // Start timer
         DateTime StopTime;    // End timer
         TimeSpan ElapsedTime; // Elapsed timer
-        
+
         DirectBitmap Paper = new(1, 1);
         readonly Random RNG = new();                   // Object to pull RNG values
         readonly ColorHeatMap ColorMap = new();   // Color map for ColorHeatMap class
@@ -80,6 +80,26 @@ namespace YALife
         readonly CultureInfo Culture = CultureInfo.CurrentCulture;
         bool CollectStats = false;                          // Hooked to a checkbox.
         readonly List<StatListRecord> TheStats = [];
+
+        /// <summary>
+        /// The directions of surrounding live or empty "cells" (Compass Rose)
+        /// </summary>
+        public enum Rose : int
+        {
+            North,
+            NorthEast,
+            East,
+            SouthEast,
+            South,
+            SouthWest,
+            West,
+            NorthWest
+        }
+        /// <summary>
+        /// Array of the locations the current cell needs to check
+        /// </summary>
+        public int[] Compass = [(int)Rose.North, (int)Rose.NorthEast, (int)Rose.East, (int)Rose.SouthEast,
+                                (int)Rose.South, (int)Rose.SouthWest, (int)Rose.West, (int)Rose.NorthWest];
 
         /// <summary>
         /// YALife constructor
@@ -99,14 +119,8 @@ namespace YALife
             ImageTop = Frame.Top;
             ImageLeft = Frame.Left;
             // Init and load and bind the color mode drop down list
-            DDMode.DataSource = new ColorMode[]
-            {
-                new ColorMode{ ModeValue = 0, ModeInfo = "Select" },
-                new ColorMode{ ModeValue = 1, ModeInfo = "Cycle once" },
-                new ColorMode{ ModeValue = 2, ModeInfo = "Cycle many" },
-                new ColorMode{ ModeValue = 3, ModeInfo = "Color: yellow" }
-            };
-            //DDMode.DataSource = ColorMode.ModeList();
+            ColorMode colorMode = new();
+            DDMode.DataSource = ColorMode.ModeList();
             DDMode.DisplayMember = "ModeInfo";
             DDMode.ValueMember = "ModeValue";
             // Give the form a bit of time to draw and display
@@ -380,6 +394,7 @@ namespace YALife
             // Only recreate the "fast" bitmap on a reset
             Paper.Dispose();
             Paper = new DirectBitmap(WidthPixels, HeightPixels);
+            //Paper = DirectBitmap.;
 
             // Recreate life array (init to 0) and get the 
             // initial population percentage.
@@ -630,16 +645,8 @@ namespace YALife
 
                     // Look around the current array element to determine
                     // the future of the current location. Updates 
-                    // FriendCount. Tried running the tasks below in parallel 
-                    // but it really hurt performance, backed it out.
-                    North(CurrentWidth, CurrentHeight, Wrap);
-                    NorthEast(CurrentWidth, CurrentHeight, Wrap);
-                    East(CurrentWidth, CurrentHeight, Wrap);
-                    SouthEast(CurrentWidth, CurrentHeight, Wrap);
-                    South(CurrentWidth, CurrentHeight, Wrap);
-                    SouthWest(CurrentWidth, CurrentHeight, Wrap);
-                    West(CurrentWidth, CurrentHeight, Wrap);
-                    NorthWest(CurrentWidth, CurrentHeight, Wrap);
+                    // FriendCount. 
+                    CheckNeibourhood(CurrentWidth, CurrentHeight, Wrap);
 
                     if (LifeShow[CurrentWidth, CurrentHeight] >= 1)
                     {
@@ -743,139 +750,230 @@ namespace YALife
         }
 
         /// <summary>
-        /// Check North
+        /// Check all neiboring cells that drive the fate of the current cell. Unwrapped the
+        /// if statements as well, it takes more room, but the code is easier to read.
         /// </summary>
         /// <param name="CurrentWidth">Current width position (X)</param>
         /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void North(int CurrentWidth, int CurrentHeight, bool Wrap)
+        /// <param name="Wrap">>Edge wrap mode</param>
+        public void CheckNeibourhood(int CurrentWidth, int CurrentHeight, bool Wrap)
         {
-            if (LifeShow == null) { return; }
+            int Width;
+            int Height;
 
-            // North: Width, Height-1
-            int Width = CurrentWidth;
-            int Height = CurrentHeight - 1;
-            if (Height < 0) { if (Wrap) { Height = HeightBlocks - 1; } else { Height = 0; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
+            if (LifeShow == null) 
+            {
+                // If there is no current "life" data, bail.
+                return; 
+            }
 
-        /// <summary>
-        /// Check NorthEast
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void NorthEast(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-
-            // Northeast: Width+1, Height-1
-            int Width = CurrentWidth + 1;
-            int Height = CurrentHeight - 1;
-            if (Width == WidthBlocks) { if (Wrap) { Width = 0; } else { Width = WidthBlocks - 1; } }
-            if (Height < 0) { if (Wrap) { Height = HeightBlocks - 1; } else { Height = 0; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
-
-        /// <summary>
-        /// Check East
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void East(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-
-            // East: Width+1, Height
-            int Width = CurrentWidth + 1;
-            int Height = CurrentHeight;
-            if (Width == WidthBlocks) { if (Wrap) { Width = 0; } else { Width = WidthBlocks - 1; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
-
-        /// <summary>
-        /// Check SouthEast
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void SouthEast(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-
-            // Southeast: Width+1, Height+1
-            int Width = CurrentWidth + 1;
-            int Height = CurrentHeight + 1;
-            if (Width == WidthBlocks) { if (Wrap) { Width = 0; } else { Width = WidthBlocks - 1; } }
-            if (Height == HeightBlocks) { if (Wrap) { Height = 0; } else { Height = HeightBlocks - 1; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
-
-        /// <summary>
-        /// Check South
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void South(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-            // South: Width, Height+1
-            int Width = CurrentWidth;
-            int Height = CurrentHeight + 1;
-            if (Height == HeightBlocks) { if (Wrap) { Height = 0; } else { Height = HeightBlocks - 1; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
-
-        /// <summary>
-        /// Check SouthWest
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void SouthWest(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-            // Southwest: Width-1, Height+1
-            int Width = CurrentWidth - 1;
-            int Height = CurrentHeight + 1;
-            if (Width < 0) { if (Wrap) { Width = WidthBlocks - 1; } else { Width = 0; } }
-            if (Height == HeightBlocks) { if (Wrap) { Height = 0; } else { Height = HeightBlocks - 1; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
-
-        /// <summary>
-        /// Check West
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void West(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-            // West: Width-1, Height
-            int Width = CurrentWidth - 1;
-            int Height = CurrentHeight;
-            if (Width < 0) { if (Wrap) { Width = WidthBlocks - 1; } else { Width = 0; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
-        }
-
-        /// <summary>
-        /// Check NorthWest
-        /// </summary>
-        /// <param name="CurrentWidth">Current width position (X)</param>
-        /// <param name="CurrentHeight">Current height position (Y)</param>
-        /// <param name="Wrap">Edge wrap mode</param>
-        private void NorthWest(int CurrentWidth, int CurrentHeight, bool Wrap)
-        {
-            if (LifeShow == null) { return; }
-            // Northwest: Width-1, Height-1
-            int Width = CurrentWidth - 1;
-            int Height = CurrentHeight - 1;
-            if (Width < 0) { if (Wrap) { Width = WidthBlocks - 1; } else { Width = 0; } }
-            if (Height < 0) { if (Wrap) { Height = HeightBlocks - 1; } else { Height = 0; } }
-            if (LifeShow[Width, Height] >= 1) { FriendCount++; }
+            // Check each compass direction taking wrap or no wrap into account
+            foreach (int Direction in Compass)
+            {
+                switch(Direction)
+                {
+                    case (int)Rose.North:
+                        // Width, Height-1
+                        Width = CurrentWidth;
+                        Height = CurrentHeight - 1;
+                        if (Height < 0) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Height = HeightBlocks - 1; 
+                            } 
+                            else 
+                            { 
+                                Height = 0; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                    case (int)Rose.NorthEast:
+                        // Width+1, Height-1
+                        Width = CurrentWidth + 1;
+                        Height = CurrentHeight - 1;
+                        if (Width == WidthBlocks) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Width = 0; 
+                            } 
+                            else 
+                            { 
+                                Width = WidthBlocks - 1; 
+                            } 
+                        }
+                        if (Height < 0) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Height = HeightBlocks - 1; 
+                            } 
+                            else 
+                            { 
+                                Height = 0; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                    case (int)Rose.East:
+                        // Width+1, Height
+                        Width = CurrentWidth + 1;
+                        Height = CurrentHeight;
+                        if (Width == WidthBlocks) 
+                        {
+                            if (Wrap) 
+                            { 
+                                Width = 0; 
+                            } 
+                            else 
+                            { 
+                                Width = WidthBlocks - 1; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                    case (int)Rose.SouthEast:
+                        // Width+1, Height+1
+                        Width = CurrentWidth + 1;
+                        Height = CurrentHeight + 1;
+                        if (Width == WidthBlocks) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Width = 0; 
+                            } 
+                            else 
+                            { 
+                                Width = WidthBlocks - 1; 
+                            } 
+                        }
+                        if (Height == HeightBlocks) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Height = 0; 
+                            } 
+                            else 
+                            { 
+                                Height = HeightBlocks - 1; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) { FriendCount++; }
+                        break;
+                    case (int)Rose.South:
+                        // Width, Height+1
+                        Width = CurrentWidth;
+                        Height = CurrentHeight + 1;
+                        if (Height == HeightBlocks) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Height = 0; 
+                            } 
+                            else 
+                            { 
+                                Height = HeightBlocks - 1; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                    case (int)Rose.SouthWest:
+                        // Width-1, Height+1
+                        Width = CurrentWidth - 1;
+                        Height = CurrentHeight + 1;
+                        if (Width < 0) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Width = WidthBlocks - 1; 
+                            } 
+                            else 
+                            { 
+                                Width = 0; 
+                            } 
+                        }
+                        if (Height == HeightBlocks) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Height = 0; 
+                            } 
+                            else 
+                            { 
+                                Height = HeightBlocks - 1; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                    case (int)Rose.West:
+                        // Width-1, Height
+                        Width = CurrentWidth - 1;
+                        Height = CurrentHeight;
+                        if (Width < 0) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Width = WidthBlocks - 1; 
+                            } 
+                            else 
+                            { 
+                                Width = 0; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                    case (int)Rose.NorthWest:
+                        // Northwest: Width-1, Height-1
+                        Width = CurrentWidth - 1;
+                        Height = CurrentHeight - 1;
+                        if (Width < 0) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Width = WidthBlocks - 1; 
+                            } 
+                            else 
+                            { 
+                                Width = 0; 
+                            } 
+                        }
+                        if (Height < 0) 
+                        { 
+                            if (Wrap) 
+                            { 
+                                Height = HeightBlocks - 1; 
+                            } 
+                            else 
+                            { Height = 0; 
+                            } 
+                        }
+                        if (LifeShow[Width, Height] >= 1) 
+                        { 
+                            FriendCount++; 
+                        }
+                        break;
+                }
+            } 
         }
 
         /// <summary>
@@ -1115,4 +1213,13 @@ namespace YALife
     //                         in LifeChart as I can't make the list static. WIP.
     // 1.0.34.0 04/18/2024 DWR Did a wholesale rename of my program variables to
     //                         make them more descriptive.
+    // 1.0.35.0 05/08/2024 DWR Continuing to try and find out why the DirectBitmap class 
+    //                         is broken (the class creates a properly sized bitmap but
+    //                         when it's returned to LifeForm.Setup(), it's empty.
+    //                         - Why initializing the dropdown for the color mode
+    //                         has stopped working properly as well (class ColorModes). 
+    //                         - Redid the code that checks surrounding cells to use
+    //                         a single procedure for all eight compass directions. I
+    //                         also unwound the if statements... they take up a lot
+    //                         more room but are easer to read and follow. 
 }

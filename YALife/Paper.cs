@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 
 namespace YALife
@@ -55,9 +56,10 @@ namespace YALife
         /// <param name="height">Bitmap height</param>
         public DirectBitmap(int width, int height)
         {
-            Bits = new Int32[width * height];
+            Bits = new int[width * height];
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
+            //YALife.Paper = Bitmap;
         }
 
         /// <summary>

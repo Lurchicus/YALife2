@@ -112,6 +112,15 @@ where I prefer to keep change history. This is an overview:
                        glider factory). WIP.
 * 1.0.34.0 04/18/2024  Did a wholesale rename of my program variables to make 
                        them more descriptive.
+* 1.0.35.0 05/08/2024  Continuing to try and find out why the DirectBitmap class 
+                       is broken (the class creates a properly sized bitmap but
+                       when it's returned to LifeForm.Setup(), it's empty.
+                       - Why initializing the dropdown for the color mode
+                       has stopped working properly as well (class ColorModes). 
+                       - Redid the code that checks surrounding cells to use
+                       a single procedure for all eight compass directions. I
+                       also unwound the if statements... they take up a lot
+                       more room but are easer to read and follow.
 
 ## Installation
 
