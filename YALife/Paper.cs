@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 
 namespace YALife
@@ -59,7 +58,6 @@ namespace YALife
             Bits = new int[width * height];
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
-            //YALife.Paper = Bitmap;
         }
 
         /// <summary>
@@ -94,11 +92,12 @@ namespace YALife
         /// <summary>
         /// Dispose of our bitmap
         /// </summary>
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             if (Disposed) return;
             Disposed = true;
-            Bitmap.Dispose();
+            GC.SuppressFinalize(this);
+            //Bitmap.Dispose();
             BitsHandle.Free();
         }
     }

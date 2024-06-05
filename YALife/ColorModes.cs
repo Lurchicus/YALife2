@@ -20,13 +20,13 @@ namespace YALife
         /// <returns>List of ColorMode</returns>
         public static List<ColorMode> ModeList()
         {
-            return new List<ColorMode>
-            {
-                new ColorMode{ ModeValue = "", ModeInfo = "Select" },
-                new ColorMode{ ModeValue = "1", ModeInfo = "Cycle once" },
-                new ColorMode{ ModeValue = "2", ModeInfo = "Cycle many" },
-                new ColorMode{ ModeValue = "3", ModeInfo = "Color: Yellow" }
-            };
+            return
+            [
+                new() { ModeValue = "", ModeInfo = "Select" },
+                new() { ModeValue = "1", ModeInfo = "Cycle once" },
+                new() { ModeValue = "2", ModeInfo = "Cycle many" },
+                new() { ModeValue = "3", ModeInfo = "Color: Yellow" }
+            ];
         }
     }
 }

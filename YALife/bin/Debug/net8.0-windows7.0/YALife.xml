@@ -435,7 +435,7 @@
             <param name="y">Pixel row of interest</param>
             <returns>32 bit argb color</returns>
         </member>
-        <member name="M:YALife.DirectBitmap.Dispose">
+        <member name="M:YALife.DirectBitmap.System#IDisposable#Dispose">
             <summary>
             Dispose of our bitmap
             </summary>

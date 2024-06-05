@@ -121,6 +121,8 @@ where I prefer to keep change history. This is an overview:
                        a single procedure for all eight compass directions. I
                        also unwound the if statements... they take up a lot
                        more room but are easer to read and follow.
+* 1.0.35.0 06/05/2024  Added an exception to catch when an empty bitmap is
+                       created. A "changeless" regression. The fun never ends.
 
 ## Installation
 

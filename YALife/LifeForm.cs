@@ -119,7 +119,7 @@ namespace YALife
             ImageTop = Frame.Top;
             ImageLeft = Frame.Left;
             // Init and load and bind the color mode drop down list
-            ColorMode colorMode = new();
+            //ColorMode colorMode; // = new();
             DDMode.DataSource = ColorMode.ModeList();
             DDMode.DisplayMember = "ModeInfo";
             DDMode.ValueMember = "ModeValue";
@@ -310,7 +310,7 @@ namespace YALife
             }
             Reset();
             // Dispose of our "fast" bitmap
-            Paper.Dispose();
+            ((IDisposable)Paper).Dispose();
             Application.Exit();
         }
 
@@ -392,9 +392,17 @@ namespace YALife
             }
 
             // Only recreate the "fast" bitmap on a reset
-            Paper.Dispose();
+            ((IDisposable)Paper).Dispose();
             Paper = new DirectBitmap(WidthPixels, HeightPixels);
-            //Paper = DirectBitmap.;
+            // This used to return our bitmap, but of late, it is returning a 0x0 bitmap.
+            // The code hasn't changed so I'm not sure why it has started failing. In any
+            // case, I want to catch the condition and throw an exception as this is a 
+            // fatal condition for the program.
+            if (Paper.Height * Paper.Width <= 0)
+            {
+                throw new Exception("Reset: Paper bitmap not created.");
+            }
+            //DirectBitmap Paper = DirectBitmap.Bitmap;
 
             // Recreate life array (init to 0) and get the 
             // initial population percentage.
