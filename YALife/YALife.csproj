@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>YALife.Program</StartupObject>
-    <FileVersion>1.0.34.0</FileVersion>
-    <AssemblyVersion>1.0.34.0</AssemblyVersion>
+    <FileVersion>1.0.36.0</FileVersion>
+    <AssemblyVersion>1.0.36.0</AssemblyVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Dan Rhea 2021-2024</Copyright>
     <Description>Yet Another (Conway's Game of) Life using .NET 6 Win Forms</Description>
