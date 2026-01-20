@@ -55,6 +55,8 @@ namespace YALife
         /// <param name="height">Bitmap height</param>
         public DirectBitmap(int width, int height)
         {
+            Width = width;
+            Height = height;
             Bits = new int[width * height];
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
@@ -96,8 +98,7 @@ namespace YALife
         {
             if (Disposed) return;
             Disposed = true;
-            GC.SuppressFinalize(this);
-            //Bitmap.Dispose();
+            Bitmap.Dispose();
             BitsHandle.Free();
         }
     }
