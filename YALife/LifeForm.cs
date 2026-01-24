@@ -1230,4 +1230,5 @@ namespace YALife
     //                         a single procedure for all eight compass directions. I
     //                         also unwound the if statements... they take up a lot
     //                         more room but are easer to read and follow. 
+    // 1.0.36.0 01/24/2026 DWR It's working again. Going to try packaging next release.
 }

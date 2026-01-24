@@ -123,8 +123,8 @@ where I prefer to keep change history. This is an overview:
                        more room but are easer to read and follow.
 * 1.0.35.0 06/05/2024  Added an exception to catch when an empty bitmap is
                        created. A "changeless" regression. The fun never ends.
-* 1.0.36.0 01/19/2026  Got the fast bitmap class (Paper) running again. Oddly
-*                      on my Ubuntu 25.10 system via WinBoat.
+* 1.0.36.0 01/19/2026  Got the fast bitmap class (Paper) running again. Oddly 
+                       on my Ubuntu 25.10 system via WinBoat.
 
 ## Installation
 

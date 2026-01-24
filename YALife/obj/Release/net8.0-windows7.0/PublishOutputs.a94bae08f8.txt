@@ -1,0 +1,13 @@
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\TGOL.ico
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\Glider01sm.png
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\Life.gol
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\LifeTest.gol
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\YALife.exe
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\MIT_License.txt
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\YALife.dll
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\YALife.deps.json
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\YALife.runtimeconfig.json
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\YALife.pdb
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\Newtonsoft.Json.dll
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\System.Windows.Forms.DataVisualization.dll
+C:\Users\darhea\Source\Repos\YALife2\YALife\bin\Release\net8.0-windows7.0\app.publish\YALife.xml
