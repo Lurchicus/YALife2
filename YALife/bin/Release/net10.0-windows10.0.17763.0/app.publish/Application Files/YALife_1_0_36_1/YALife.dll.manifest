@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="YALife.exe" version="1.0.36.1" publicKeyToken="2490e566b26bdf90" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="TGOL.ico" xmlns="urn:schemas-microsoft-com:asm.v1">Yet Another (Conway's Game of) Life using .NET 6 Win Forms</description>
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Launcher" version="8.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Launcher.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Launcher.exe" size="17368">
+      <assemblyIdentity name="Launcher" version="8.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>fGQWcOJXQ7reLlL/SD12xpTx562hu1Od6jk9NMTKwsw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Microsoft.Windows.SDK.NET.dll" size="23637048">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Q7EvGQ0i8lgDnfVn70BzM9xB3JWseyMtv5SqsGnGW7s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Newtonsoft.Json.dll" size="723368">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>oowlHf422IHp4kYuFxRBuLDsFW/j9FJgLJFJsbnv4Fs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="System.Windows.Forms.DataVisualization.dll" size="1696640">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>iQsdYFPbBEgOvEN+Da18lAVZOA9oo7SxIR1Au2q2pRI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="TGOL.ico" size="21630">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hS7xm9fbz8Y3NS+JDTPjOz44mkARrZoJLC3K7kgO/A8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="WinRT.Runtime.dll" size="528944">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vPOhTocSqQg3/FwNjIokaWryvX906XZ1l+yB7e37I9s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="YALife.deps.json" size="2454">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>j0nFTBDLiJ6wSb7yWlTW+J34BN1UR40dbQbIQJHMf+o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="YALife.dll" size="427992">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>oAaUfU9tWEeVIofu+jhLHC2bUK7V9orM50lIoSJuMm8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="YALife.exe" size="185304">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ryC39uD2+NmUJaDaSMFowbHM5vM3tZmQaRT0HjYVzXc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="YALife.runtimeconfig.json" size="519">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lrwpRt/4eQQA1lLsf43nuwQ+lUmA1ZRwwRJ4i2ih+9M=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=CALADAN-PEAKS\darhea" issuerKeyHash="79b7c271227f24c747256832116a823e907c9d4e" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>qujPeMRqV+tAOMSiNRRS0li9QWM19CQFy4s8NRrv8+o=</DigestValue></Reference></SignedInfo><SignatureValue>f1919qn1x5B3j7VfZMjT4ZgiAX8qhVEH9+ybQrxq8Qnb4aAy4Ve4xN3lK5CdlsXNzLzGKagiN6MDm3ZK462VrwaqJ7CfFz2YhRNDRi2K9is/4pD9537+aoCh90SgaZuE+b4W6sppq2rmM5WyNLPNbm6KUpeA5a3WOXIsksJwmi0=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>su/FK/DQzb8z95xBZy6wZAbDBUSD+pDA8ugid5SjiKMOhWze24XXVKXmS2lQZQ01xSDv+3jnjd+wP+6Ri3QKDEew7grpOpIIlqYq8sg1POYlbCN+y72MibSTRTZgdNBdTRJlT34mcFDuJgQfime7yAfLT3m3PmYz5ALQ8ODnYGE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="eaf3ef1a353c8bcb0524f4356341bd58d2521435a2c43840eb576ac478cfe8aa" Description="" Url=""><as:assemblyIdentity name="YALife.exe" version="1.0.36.1" publicKeyToken="2490e566b26bdf90" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=CALADAN-PEAKS\darhea</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>APcagaG6Lm/IL2budt5xrhSVCWLW08sJfaSt4VPHoPM=</DigestValue></Reference></SignedInfo><SignatureValue>Su85iEIjpz9OvWxoh1zfbQGb9WcL9glgQ6JPGahEClQ4IZ86RTBnKkL8EwQRh12G+BKAjWTL90K294wHh70oJ9w0VWbV8DT0G4Y8ZkasC+OulNLFXUDbjfcoSXVqGjBXYtGq81V1ZT21cawx4yq+hK/SKJdTwh7/66rDUm7IRZI=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>su/FK/DQzb8z95xBZy6wZAbDBUSD+pDA8ugid5SjiKMOhWze24XXVKXmS2lQZQ01xSDv+3jnjd+wP+6Ri3QKDEew7grpOpIIlqYq8sg1POYlbCN+y72MibSTRTZgdNBdTRJlT34mcFDuJgQfime7yAfLT3m3PmYz5ALQ8ODnYGE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB6TCCAVKgAwIBAgIQGXCSmlU7/5JJm9GFy36vsjANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDHigAQwBBAEwAQQBEAEEATgAtAFAARQBBAEsAUwBcAGQAYQByAGgAZQBhMB4XDTI2MDEyNDA3NTk0NFoXDTI3MDEyNDEzNTk0NFowMzExMC8GA1UEAx4oAEMAQQBMAEEARABBAE4ALQBQAEUAQQBLAFMAXABkAGEAcgBoAGUAYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAsu/FK/DQzb8z95xBZy6wZAbDBUSD+pDA8ugid5SjiKMOhWze24XXVKXmS2lQZQ01xSDv+3jnjd+wP+6Ri3QKDEew7grpOpIIlqYq8sg1POYlbCN+y72MibSTRTZgdNBdTRJlT34mcFDuJgQfime7yAfLT3m3PmYz5ALQ8ODnYGECAwEAATANBgkqhkiG9w0BAQsFAAOBgQCcbpJveZ6OFf7EE5rBEVV3HzcJRWapEZL9qccrwG+S9nyPXsx+14J/jyN4mqpFTXUs5rKVw6ypLanw3DstJYRHCBToQsna5CfxAV7gpRTEOznVgFZ62MOgpVRgNr6+eu+X5fdoykEd8VBnXhoVLYXlv45H0tZk3+sW/MYmZ9gTLQ==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

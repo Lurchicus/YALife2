@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "jJRXLCZ+tCc=",
+  "dgSpecHash": "EmjGSn1gR10=",
   "success": true,
   "projectFilePath": "C:\\Users\\darhea\\Source\\Repos\\YALife2\\YALife\\YALife.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\darhea\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
-    "C:\\Users\\darhea\\.nuget\\packages\\system.windows.forms.datavisualization\\1.0.0-prerelease.20110.1\\system.windows.forms.datavisualization.1.0.0-prerelease.20110.1.nupkg.sha512"
+    "C:\\Users\\darhea\\.nuget\\packages\\system.windows.forms.datavisualization\\1.0.0-prerelease.20110.1\\system.windows.forms.datavisualization.1.0.0-prerelease.20110.1.nupkg.sha512",
+    "C:\\Users\\darhea\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.17763.57\\microsoft.windows.sdk.net.ref.10.0.17763.57.nupkg.sha512"
   ],
   "logs": []
 }
