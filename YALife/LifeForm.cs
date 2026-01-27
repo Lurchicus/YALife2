@@ -391,13 +391,9 @@ namespace YALife
                 TheStats.Clear();
             }
 
-            // Only recreate the "fast" bitmap on a reset
+            // Only recreate the "fast" bitmap on a reset (working properly again)
             ((IDisposable)Paper).Dispose();
             Paper = new DirectBitmap(WidthPixels, HeightPixels);
-            // This used to return our bitmap, but of late, it is returning a 0x0 bitmap.
-            // The code hasn't changed so I'm not sure why it has started failing. In any
-            // case, I want to catch the condition and throw an exception as this is a 
-            // fatal condition for the program.
             if (Paper.Height * Paper.Width <= 0)
             {
                 throw new Exception("Reset: Paper bitmap not created.");

@@ -1,0 +1,75 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "YALife/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.4",
+          "System.Windows.Forms.DataVisualization": "1.0.0-prerelease.20110.1",
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.17763.57"
+        },
+        "runtime": {
+          "YALife.dll": {}
+        }
+      },
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.57": {
+        "runtime": {
+          "Microsoft.Windows.SDK.NET.dll": {
+            "assemblyVersion": "10.0.17763.38",
+            "fileVersion": "10.0.17763.55"
+          },
+          "WinRT.Runtime.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.48161"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.4": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.4.30916"
+          }
+        }
+      },
+      "System.Windows.Forms.DataVisualization/1.0.0-prerelease.20110.1": {
+        "runtime": {
+          "lib/netcoreapp3.0/System.Windows.Forms.DataVisualization.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.20.11001"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "YALife/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.57": {
+      "type": "runtimepack",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/13.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
+      "path": "newtonsoft.json/13.0.4",
+      "hashPath": "newtonsoft.json.13.0.4.nupkg.sha512"
+    },
+    "System.Windows.Forms.DataVisualization/1.0.0-prerelease.20110.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1EdLFl/I5QobO4shpqUNslDGWTeRbpt3pLMSkiLQYzdWBDqf44/8TM5hXMtkA8ktHU80aVZYVEuxr8vJqcB1Ig==",
+      "path": "system.windows.forms.datavisualization/1.0.0-prerelease.20110.1",
+      "hashPath": "system.windows.forms.datavisualization.1.0.0-prerelease.20110.1.nupkg.sha512"
+    }
+  }
+}

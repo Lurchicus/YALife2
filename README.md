@@ -128,7 +128,5 @@ where I prefer to keep change history. This is an overview:
 
 ## Installation
 
-I do not (currently) have a package and install for this program. For now,
-it needs to be loaded into Visual Studio 2022 and run. I find it difficult
-to pay for an expensive code signing license for what is in effect a free
-program I wrote as a hobby/fun/learning/testing project. 
+I have set up a package with Viaual Studio 2026 using a test certificate. I'm
+still working on this.
